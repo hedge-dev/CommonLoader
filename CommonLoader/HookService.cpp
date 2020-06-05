@@ -25,7 +25,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 
 	AssemblerResult* compiledCode = AssemblerService::CompileAssembly(source);
 
-	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + 5, 4);
+	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + MIN_HOOK_LENGTH, 4);
 	size_t pos = (size_t)hookPtr;
 
 	switch (behavior)
@@ -62,7 +62,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	*((char*)pos + 3) = 0x00;
 	*((char*)pos + 4) = 0x00;
 	*((char*)pos + 5) = 0x00;
-	*((size_t*)pos + 6) = address + hookLen;
+	*((size_t*)(char*)pos + 6) = address + hookLen;
 #endif
 
 	unsigned long oldProtect;
@@ -83,7 +83,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	*((char*)address + 3) = 0x00;
 	*((char*)address + 4) = 0x00;
 	*((char*)address + 5) = 0x00;
-	*((size_t*)address + 6) = (size_t)hookPtr;
+	*((size_t*)(char*)address + 6) = (size_t)hookPtr;
 #endif
 	
 	VirtualProtect((void*)address, hookLen, oldProtect, &oldProtect);
