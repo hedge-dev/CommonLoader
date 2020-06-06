@@ -53,8 +53,8 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 #ifndef WIN64
 	*((char*)pos) = 0xE9;
 	pos++;
-	*((size_t*)pos) = CALCULATE_JUMP(pos, address + hookLen);
-	pos += sizeof(size_t);
+	*((unsigned int*)pos) = CALCULATE_JUMP(pos, address + hookLen);
+	pos += sizeof(unsigned int);
 #else
 	*((char*)pos) = 0xFF;
 	*((char*)pos + 1) = 0x25;
@@ -62,7 +62,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	*((char*)pos + 3) = 0x00;
 	*((char*)pos + 4) = 0x00;
 	*((char*)pos + 5) = 0x00;
-	*((size_t*)(char*)pos + 6) = address + hookLen;
+	*((size_t*)((char*)pos + 6)) = address + hookLen;
 #endif
 
 	unsigned long oldProtect;
@@ -75,7 +75,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 
 #ifndef WIN64
 	* ((char*)address) = 0xE9;
-	*((size_t*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
+	*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
 #else
 	*((char*)address) = 0xFF;
 	*((char*)address + 1) = 0x25;
@@ -83,7 +83,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	*((char*)address + 3) = 0x00;
 	*((char*)address + 4) = 0x00;
 	*((char*)address + 5) = 0x00;
-	*((size_t*)(char*)address + 6) = (size_t)hookPtr;
+	*((size_t*)((char*)address + 6)) = (size_t)hookPtr;
 #endif
 	
 	VirtualProtect((void*)address, hookLen, oldProtect, &oldProtect);
