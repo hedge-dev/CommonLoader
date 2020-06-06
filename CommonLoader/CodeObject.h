@@ -10,28 +10,30 @@ namespace CommonLoader
 	protected:
 		Type^ baseType;
 		Object^ baseObject;
-		MethodInfo^ initMethod;
-		MethodInfo^ frameMethod;
+		Action^ initMethod;
+		Action^ frameMethod;
 
 	public:
 		CodeObject(Type^ base) 
 		{
 			baseType = base;
 			baseObject = Activator::CreateInstance(base);
-			initMethod = baseType->GetMethod("Init");
-			frameMethod = baseType->GetMethod("OnFrame");
+			MethodInfo^ init = baseType->GetMethod("Init");
+			MethodInfo^ onFrame = baseType->GetMethod("OnFrame");
+			initMethod = (Action^)Delegate::CreateDelegate(Action::typeid, baseObject, init);
+			frameMethod = (Action^)Delegate::CreateDelegate(Action::typeid, baseObject, onFrame);
 		}
 
 		void Init() 
 		{
 			if (initMethod)
-				initMethod->Invoke(baseObject, nullptr);
+				initMethod();
 		}
 
 		void Update() 
 		{
 			if (frameMethod)
-				frameMethod->Invoke(baseObject, nullptr);
+				frameMethod();
 		}
 	};
 
