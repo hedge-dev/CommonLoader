@@ -20,8 +20,12 @@ namespace CommonLoader
 			baseObject = Activator::CreateInstance(base);
 			MethodInfo^ init = baseType->GetMethod("Init");
 			MethodInfo^ onFrame = baseType->GetMethod("OnFrame");
-			initMethod = (Action^)Delegate::CreateDelegate(Action::typeid, baseObject, init);
-			frameMethod = (Action^)Delegate::CreateDelegate(Action::typeid, baseObject, onFrame);
+
+			if (init)
+				initMethod = (Action^)Delegate::CreateDelegate(Action::typeid, baseObject, init);
+			
+			if (onFrame)
+				frameMethod = (Action^)Delegate::CreateDelegate(Action::typeid, baseObject, onFrame);
 		}
 
 		void Init() 
