@@ -29,7 +29,7 @@ namespace CommonLoader
 			if (!File::Exists(fullPath))
 				return;
 
-			loadedAssembly = Assembly::LoadFile(fullPath);
+			loadedAssembly = Assembly::Load(File::ReadAllBytes(fullPath));
 
 			for each (Type ^ type in loadedAssembly->GetExportedTypes())
 			{
