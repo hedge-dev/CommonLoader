@@ -27,7 +27,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 
 	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + MIN_HOOK_LENGTH, 4);
 	size_t pos = (size_t)hookPtr;
-
+	
 	switch (behavior)
 	{
 	case HookBehavior::Before:
@@ -87,6 +87,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 #endif
 	
 	VirtualProtect((void*)address, hookLen, oldProtect, &oldProtect);
-
+	VirtualProtect(hookPtr, compiledCode->length, PAGE_EXECUTE_READWRITE, &oldProtect);
+	
 	delete compiledCode;
 }
