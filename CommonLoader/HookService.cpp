@@ -5,7 +5,7 @@
 
 #define CALCULATE_JUMP(destination, target) (size_t)target - (size_t)(destination + 4)
 
-void CommonLoader::HookService::WriteASMHook(const char* source, size_t address, int behavior)
+void CommonLoader::HookService::WriteASMHook(const char* source, size_t address, int behavior, bool iscall)
 {
 	csh disasm = AssemblerService::GetDisassembler();
 	cs_insn* insn;
@@ -51,7 +51,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 
 #ifndef WIN64
-	*((char*)pos) = 0xE9;
+	*((char*)pos) = iscall ? 0xE8 : 0xE9;
 	pos++;
 	*((unsigned int*)pos) = CALCULATE_JUMP(pos, address + hookLen);
 	pos += sizeof(unsigned int);
@@ -74,8 +74,15 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 
 #ifndef WIN64
-	* ((char*)address) = 0xE9;
-	*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
+	if (iscall)
+	{
+		* ((char*)address) = 0xC3;
+	}
+	else
+	{
+		* ((char*)address) = 0xE9;
+		*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
+	}
 #else
 	*((char*)address) = 0xFF;
 	*((char*)address + 1) = 0x25;
