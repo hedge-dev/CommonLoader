@@ -4,7 +4,6 @@
 #define MIN_HOOK_LENGTH 5
 #else
 #define MIN_HOOK_LENGTH 14
-#define MIN_HOOK_LENGTH_CALL_64 2
 #endif
 
 
