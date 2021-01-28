@@ -51,10 +51,17 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 
 #ifndef WIN64
-	*((char*)pos) = iscall ? 0xE8 : 0xE9;
-	pos++;
-	*((unsigned int*)pos) = CALCULATE_JUMP(pos, address + hookLen);
-	pos += sizeof(unsigned int);
+	if (iscall)
+	{
+		*((char*)pos) = 0xC3;
+	}
+	else
+	{
+		*((char*)pos) = 0xE9;
+		pos++;
+		*((unsigned int*)pos) = CALCULATE_JUMP(pos, address + hookLen);
+		pos += sizeof(unsigned int);
+	}
 #else
 	*((char*)pos) = 0xFF;
 	*((char*)pos + 1) = 0x25;
@@ -74,15 +81,8 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 
 #ifndef WIN64
-	if (iscall)
-	{
-		* ((char*)address) = 0xC3;
-	}
-	else
-	{
-		* ((char*)address) = 0xE9;
-		*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
-	}
+	* ((char*)address) = iscall ? 0xE8 : 0xE9;
+	*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
 #else
 	*((char*)address) = 0xFF;
 	*((char*)address + 1) = 0x25;
