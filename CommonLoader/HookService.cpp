@@ -102,7 +102,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 		*((char*)address + 6) = 0xEB;
 		*((char*)address + 7) = 0x08;
 	}
-	*((size_t*)((char*)address + 6 + (parameter == HookParameter::Call ? 0x02 : 0x00))) = (size_t)hookPtr;
+	*((size_t*)((char*)address + 6 + (parameter == HookParameter::Call ? 2 : 0))) = (size_t)hookPtr;
 #endif
 	
 	VirtualProtect((void*)address, hookLen, oldProtect, &oldProtect);
