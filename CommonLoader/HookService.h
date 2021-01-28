@@ -15,6 +15,12 @@ namespace CommonLoader
 		After,
 		Replace
 	};
+	
+	enum HookParameter
+	{
+		Call,
+		Jump
+	};
 
 	class HookService
 	{
