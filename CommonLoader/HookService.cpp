@@ -13,7 +13,49 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	size_t count = cs_disasm(disasm, (uint8_t*)address, 64, address, 0, &insn);
 	
 	size_t hookLen = 0;
+	
+	size_t extraLen = 0;
+	
+#ifdef WIN64
+	extraLen = parameter == HookParameter::Call ? 2 : 0;
 
+	for (size_t i = 0; i < count; i++)
+	{
+		hookLen += insn[i].size;
+
+		if (hookLen >= MIN_HOOK_LENGTH + extraLen)
+			break;
+	}
+	cs_free(insn, count);
+
+	AssemblerResult* compiledCode = AssemblerService::CompileAssembly(source);
+
+	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + MIN_HOOK_LENGTH + extraLen, 4);
+	size_t pos = (size_t)hookPtr;
+	
+	switch (behavior)
+	{
+	case HookBehavior::Before:
+		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		pos += compiledCode->length;
+		memcpy_s((void*)pos, hookLen, (void*)address, hookLen);
+		pos += hookLen;
+		break;
+
+	case HookBehavior::After:
+		memcpy_s((void*)pos, hookLen, (void*)address, hookLen);
+		pos += hookLen;
+		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		pos += compiledCode->length;
+		break;
+
+	case HookBehavior::Replace:
+		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		pos += compiledCode->length;
+		break;
+	}
+	
+#else
 	for (size_t i = 0; i < count; i++)
 	{
 		hookLen += insn[i].size;
