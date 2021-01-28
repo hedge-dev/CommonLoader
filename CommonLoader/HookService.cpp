@@ -91,6 +91,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 		pos += compiledCode->length;
 		break;
 	}
+#endif
 
 #ifndef WIN64
 	*((char*)pos) = parameter == HookParameter::Call ? 0xE8 : 0xE9;
