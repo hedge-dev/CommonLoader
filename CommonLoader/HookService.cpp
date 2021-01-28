@@ -93,32 +93,23 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 
 #ifndef WIN64
-	if (parameter == HookParameter::Call)
-	{
-		*((char*)pos) = 0xC3;
-	}
-	else
-	{
-		*((char*)pos) = 0xE9;
-		pos++;
-		*((unsigned int*)pos) = CALCULATE_JUMP(pos, address + hookLen);
-		pos += sizeof(unsigned int);
-	}
+	*((char*)pos) = parameter == HookParameter::Call ? 0xE8 : 0xE9;
+	pos++;
+	*((unsigned int*)pos) = CALCULATE_JUMP(pos, address + hookLen);
+	pos += sizeof(unsigned int);
 #else
+	*((char*)pos) = 0xFF;
+	*((char*)pos + 1) = parameter == HookParameter::Call ? 0x15 : 0x25;
+	*((char*)pos + 2) = parameter == HookParameter::Call ? 0x02 : 0x00;
+	*((char*)pos + 3) = 0x00;
+	*((char*)pos + 4) = 0x00;
+	*((char*)pos + 5) = 0x00;
 	if (parameter == HookParameter::Call)
 	{
-		*((char*)pos) = 0xC3;
+		*((char*)pos + 6) = 0xEB;
+		*((char*)pos + 7) = 0x08;
 	}
-	else
-	{
-		*((char*)pos) = 0xFF;
-		*((char*)pos + 1) = 0x25;
-		*((char*)pos + 2) = 0x00;
-		*((char*)pos + 3) = 0x00;
-		*((char*)pos + 4) = 0x00;
-		*((char*)pos + 5) = 0x00;
-		*((size_t*)((char*)pos + 6)) = address + hookLen;
-	}
+	*((size_t*)((char*)pos + 6 + (parameter == HookParameter::Call ? 2 : 0))) = address + hookLen;
 #endif
 
 	unsigned long oldProtect;
@@ -130,21 +121,32 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 
 #ifndef WIN64
-	* ((char*)address) = parameter == HookParameter::Call ? 0xE8 : 0xE9;
-	*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
-#else
-	*((char*)address) = 0xFF;
-	*((char*)address + 1) = parameter == HookParameter::Call ? 0x15 : 0x25;
-	*((char*)address + 2) = parameter == HookParameter::Call ? 0x02 : 0x00;
-	*((char*)address + 3) = 0x00;
-	*((char*)address + 4) = 0x00;
-	*((char*)address + 5) = 0x00;
 	if (parameter == HookParameter::Call)
 	{
-		*((char*)address + 6) = 0xEB;
-		*((char*)address + 7) = 0x08;
+		* ((char*)address) = 0xC3;
 	}
-	*((size_t*)((char*)address + 6 + (parameter == HookParameter::Call ? 2 : 0))) = (size_t)hookPtr;
+	
+	else
+	{
+		* ((char*)address) = 0xE9;
+		*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
+	}
+#else
+	if (parameter == HookParameter::Call)
+	{
+		* ((char*)address) = 0xC3;
+	}
+	
+	else
+	{
+		*((char*)address) = 0xFF;
+		*((char*)address + 1) = 0x25;
+		*((char*)address + 2) = 0x00;
+		*((char*)address + 3) = 0x00;
+		*((char*)address + 4) = 0x00;
+		*((char*)address + 5) = 0x00;
+		*((size_t*)((char*)address + 6)) = (size_t)hookPtr;
+	}
 #endif
 	
 	VirtualProtect((void*)address, hookLen, oldProtect, &oldProtect);
