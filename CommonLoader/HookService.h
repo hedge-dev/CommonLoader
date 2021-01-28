@@ -25,6 +25,6 @@ namespace CommonLoader
 	class HookService
 	{
 	public:
-		static void WriteASMHook(const char* source, size_t address, int behavior = HookBehavior::After);
+		static void WriteASMHook(const char* source, size_t address, int behavior = HookBehavior::After, int parameter = HookParameter::Jump);
 	};
 }
