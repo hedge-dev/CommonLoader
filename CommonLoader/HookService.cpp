@@ -5,7 +5,7 @@
 
 #define CALCULATE_JUMP(destination, target) (size_t)target - (size_t)(destination + 4)
 
-void CommonLoader::HookService::WriteASMHook(const char* source, size_t address, int behavior)
+void CommonLoader::HookService::WriteASMHook(const char* source, size_t address, int behavior, int parameter)
 {
 	csh disasm = AssemblerService::GetDisassembler();
 	cs_insn* insn;
@@ -13,7 +13,49 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	size_t count = cs_disasm(disasm, (uint8_t*)address, 64, address, 0, &insn);
 	
 	size_t hookLen = 0;
+	
+	size_t extraLen = 0;
+	
+#ifdef WIN64
+	extraLen = parameter == HookParameter::Call ? 2 : 0;
 
+	for (size_t i = 0; i < count; i++)
+	{
+		hookLen += insn[i].size;
+
+		if (hookLen >= MIN_HOOK_LENGTH + extraLen)
+			break;
+	}
+	cs_free(insn, count);
+
+	AssemblerResult* compiledCode = AssemblerService::CompileAssembly(source);
+
+	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + MIN_HOOK_LENGTH + extraLen, 4);
+	size_t pos = (size_t)hookPtr;
+	
+	switch (behavior)
+	{
+	case HookBehavior::Before:
+		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		pos += compiledCode->length;
+		memcpy_s((void*)pos, hookLen, (void*)address, hookLen);
+		pos += hookLen;
+		break;
+
+	case HookBehavior::After:
+		memcpy_s((void*)pos, hookLen, (void*)address, hookLen);
+		pos += hookLen;
+		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		pos += compiledCode->length;
+		break;
+
+	case HookBehavior::Replace:
+		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		pos += compiledCode->length;
+		break;
+	}
+	
+#else
 	for (size_t i = 0; i < count; i++)
 	{
 		hookLen += insn[i].size;
@@ -49,20 +91,26 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 		pos += compiledCode->length;
 		break;
 	}
+#endif
 
 #ifndef WIN64
-	*((char*)pos) = 0xE9;
+	*((char*)pos) = parameter == HookParameter::Call ? 0xE8 : 0xE9;
 	pos++;
 	*((unsigned int*)pos) = CALCULATE_JUMP(pos, address + hookLen);
 	pos += sizeof(unsigned int);
 #else
 	*((char*)pos) = 0xFF;
-	*((char*)pos + 1) = 0x25;
-	*((char*)pos + 2) = 0x00;
+	*((char*)pos + 1) = parameter == HookParameter::Call ? 0x15 : 0x25;
+	*((char*)pos + 2) = parameter == HookParameter::Call ? 0x02 : 0x00;
 	*((char*)pos + 3) = 0x00;
 	*((char*)pos + 4) = 0x00;
 	*((char*)pos + 5) = 0x00;
-	*((size_t*)((char*)pos + 6)) = address + hookLen;
+	if (parameter == HookParameter::Call)
+	{
+		*((char*)pos + 6) = 0xEB;
+		*((char*)pos + 7) = 0x08;
+	}
+	*((size_t*)((char*)pos + 6 + (parameter == HookParameter::Call ? 2 : 0))) = address + hookLen;
 #endif
 
 	unsigned long oldProtect;
@@ -74,16 +122,32 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 
 #ifndef WIN64
-	* ((char*)address) = 0xE9;
-	*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
+	if (parameter == HookParameter::Call)
+	{
+		* ((char*)address) = 0xC3;
+	}
+	
+	else
+	{
+		* ((char*)address) = 0xE9;
+		*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
+	}
 #else
-	*((char*)address) = 0xFF;
-	*((char*)address + 1) = 0x25;
-	*((char*)address + 2) = 0x00;
-	*((char*)address + 3) = 0x00;
-	*((char*)address + 4) = 0x00;
-	*((char*)address + 5) = 0x00;
-	*((size_t*)((char*)address + 6)) = (size_t)hookPtr;
+	if (parameter == HookParameter::Call)
+	{
+		* ((char*)address) = 0xC3;
+	}
+	
+	else
+	{
+		*((char*)address) = 0xFF;
+		*((char*)address + 1) = 0x25;
+		*((char*)address + 2) = 0x00;
+		*((char*)address + 3) = 0x00;
+		*((char*)address + 4) = 0x00;
+		*((char*)address + 5) = 0x00;
+		*((size_t*)((char*)address + 6)) = (size_t)hookPtr;
+	}
 #endif
 	
 	VirtualProtect((void*)address, hookLen, oldProtect, &oldProtect);
