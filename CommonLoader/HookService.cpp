@@ -8,54 +8,12 @@
 void CommonLoader::HookService::WriteASMHook(const char* source, size_t address, int behavior, int parameter)
 {
 	csh disasm = AssemblerService::GetDisassembler();
-	cs_insn* insn;
+	cs_insn* insn = nullptr;
 
-	size_t count = cs_disasm(disasm, (uint8_t*)address, 64, address, 0, &insn);
-	
+	const size_t count = cs_disasm(disasm, reinterpret_cast<uint8_t*>(address), 64, address, 0, &insn);
+
 	size_t hookLen = 0;
-	
-	size_t extraLen = 0;
-	
-#ifdef WIN64
-	extraLen = parameter == HookParameter::Call ? 2 : 0;
 
-	for (size_t i = 0; i < count; i++)
-	{
-		hookLen += insn[i].size;
-
-		if (hookLen >= MIN_HOOK_LENGTH + extraLen)
-			break;
-	}
-	cs_free(insn, count);
-
-	AssemblerResult* compiledCode = AssemblerService::CompileAssembly(source);
-
-	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + MIN_HOOK_LENGTH + extraLen, 4);
-	size_t pos = (size_t)hookPtr;
-	
-	switch (behavior)
-	{
-	case HookBehavior::Before:
-		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
-		pos += compiledCode->length;
-		memcpy_s((void*)pos, hookLen, (void*)address, hookLen);
-		pos += hookLen;
-		break;
-
-	case HookBehavior::After:
-		memcpy_s((void*)pos, hookLen, (void*)address, hookLen);
-		pos += hookLen;
-		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
-		pos += compiledCode->length;
-		break;
-
-	case HookBehavior::Replace:
-		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
-		pos += compiledCode->length;
-		break;
-	}
-	
-#else
 	for (size_t i = 0; i < count; i++)
 	{
 		hookLen += insn[i].size;
@@ -63,95 +21,95 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 		if (hookLen >= MIN_HOOK_LENGTH)
 			break;
 	}
+
 	cs_free(insn, count);
 
 	AssemblerResult* compiledCode = AssemblerService::CompileAssembly(source);
 
-	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + MIN_HOOK_LENGTH, 4);
-	size_t pos = (size_t)hookPtr;
-	
+	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + MIN_HOOK_LENGTH, alignof(void*));
+	size_t pos = reinterpret_cast<size_t>(hookPtr);
+
 	switch (behavior)
 	{
 	case HookBehavior::Before:
-		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		memcpy_s(reinterpret_cast<void*>(pos), compiledCode->length, compiledCode->data, compiledCode->length);
 		pos += compiledCode->length;
-		memcpy_s((void*)pos, hookLen, (void*)address, hookLen);
+		memcpy_s(reinterpret_cast<void*>(pos), hookLen, reinterpret_cast<void*>(address), hookLen);
 		pos += hookLen;
 		break;
 
 	case HookBehavior::After:
-		memcpy_s((void*)pos, hookLen, (void*)address, hookLen);
+		memcpy_s(reinterpret_cast<void*>(pos), hookLen, reinterpret_cast<void*>(address), hookLen);
 		pos += hookLen;
-		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		memcpy_s(reinterpret_cast<void*>(pos), compiledCode->length, compiledCode->data, compiledCode->length);
 		pos += compiledCode->length;
 		break;
 
 	case HookBehavior::Replace:
-		memcpy_s((void*)pos, compiledCode->length, compiledCode->data, compiledCode->length);
+		memcpy_s(reinterpret_cast<void*>(pos), compiledCode->length, compiledCode->data, compiledCode->length);
 		pos += compiledCode->length;
 		break;
+
+	default:
+	{
+		_aligned_free(hookPtr);
+		return;
 	}
-#endif
+}
 
 #ifndef WIN64
-	*((char*)pos) = parameter == HookParameter::Call ? 0xE8 : 0xE9;
-	pos++;
-	*((unsigned int*)pos) = CALCULATE_JUMP(pos, address + hookLen);
-	pos += sizeof(unsigned int);
-#else
-	*((char*)pos) = 0xFF;
-	*((char*)pos + 1) = parameter == HookParameter::Call ? 0x15 : 0x25;
-	*((char*)pos + 2) = parameter == HookParameter::Call ? 0x02 : 0x00;
-	*((char*)pos + 3) = 0x00;
-	*((char*)pos + 4) = 0x00;
-	*((char*)pos + 5) = 0x00;
-	if (parameter == HookParameter::Call)
+	if (parameter == Jump)
 	{
-		*((char*)pos + 6) = 0xEB;
-		*((char*)pos + 7) = 0x08;
+		*reinterpret_cast<char*>(pos) = 0xE9;
+		pos++;
+		*reinterpret_cast<size_t*>(pos) = CALCULATE_JUMP(pos, address + hookLen);
+		pos += sizeof(size_t);
 	}
-	*((size_t*)((char*)pos + 6 + (parameter == HookParameter::Call ? 2 : 0))) = address + hookLen;
+	else
+	{
+		*reinterpret_cast<char*>(pos) = 0xC3;
+		pos += sizeof(size_t) + 1;
+	}
+#else
+	if (parameter == Jump)
+	{
+		*reinterpret_cast<char*>(pos) = 0xFF;
+		*(reinterpret_cast<char*>(pos) + 1) = 0x25;
+		*(reinterpret_cast<char*>(pos) + 2) = 0x00;
+		*(reinterpret_cast<char*>(pos) + 3) = 0x00;
+		*(reinterpret_cast<char*>(pos) + 4) = 0x00;
+		*(reinterpret_cast<char*>(pos) + 5) = 0x00;
+		*reinterpret_cast<size_t*>(reinterpret_cast<char*>(pos) + 6) = address + hookLen;
+	}
+	else
+	{
+		*reinterpret_cast<char*>(address) = 0xC3;
+	}
 #endif
 
 	unsigned long oldProtect;
-	VirtualProtect((void*)address, hookLen, PAGE_READWRITE, &oldProtect);
-	
-	for (char* ptr = (char*)address; ptr < (char*)(address + hookLen); ptr++)
+	VirtualProtect(reinterpret_cast<void*>(address), hookLen, PAGE_READWRITE, &oldProtect);
+
+	for (char* ptr = reinterpret_cast<char*>(address); ptr < reinterpret_cast<char*>(address + hookLen); ptr++)
 	{
 		*ptr = 0x90;
 	}
 
 #ifndef WIN64
-	if (parameter == HookParameter::Call)
-	{
-		* ((char*)address) = 0xC3;
-	}
-	
-	else
-	{
-		* ((char*)address) = 0xE9;
-		*((unsigned int*)((char*)address + 1)) = CALCULATE_JUMP((char*)address + 1, hookPtr);
-	}
+	*reinterpret_cast<char*>(address) = parameter == Jump ? 0xE9 : 0xE8;
+	*reinterpret_cast<unsigned*>(reinterpret_cast<char*>(address) + 1) = CALCULATE_JUMP(reinterpret_cast<char*>(address) + 1, hookPtr);
 #else
-	if (parameter == HookParameter::Call)
-	{
-		* ((char*)address) = 0xC3;
-	}
-	
-	else
-	{
-		*((char*)address) = 0xFF;
-		*((char*)address + 1) = 0x25;
-		*((char*)address + 2) = 0x00;
-		*((char*)address + 3) = 0x00;
-		*((char*)address + 4) = 0x00;
-		*((char*)address + 5) = 0x00;
-		*((size_t*)((char*)address + 6)) = (size_t)hookPtr;
-	}
+	* reinterpret_cast<char*>(address) = 0xFF;
+	*(reinterpret_cast<char*>(address) + 1) = parameter == Jump ? 0x25 : 0x15;
+	*(reinterpret_cast<char*>(address) + 2) = 0x00;
+	*(reinterpret_cast<char*>(address) + 3) = 0x00;
+	*(reinterpret_cast<char*>(address) + 4) = 0x00;
+	*(reinterpret_cast<char*>(address) + 5) = 0x00;
+	*reinterpret_cast<size_t*>(reinterpret_cast<char*>(address) + 6) = reinterpret_cast<size_t>(hookPtr);
 #endif
-	
-	VirtualProtect((void*)address, hookLen, oldProtect, &oldProtect);
+
+	VirtualProtect(reinterpret_cast<void*>(address), hookLen, oldProtect, &oldProtect);
 	VirtualProtect(hookPtr, compiledCode->length, PAGE_EXECUTE_READWRITE, &oldProtect);
-	
+
 	delete compiledCode;
 }

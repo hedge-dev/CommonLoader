@@ -69,11 +69,16 @@ namespace CommonLoader
 			return bytes;
 		}
 
-		void WriteASMHook(String^ instructions, IntPtr address, int behavior) 
+		void WriteASMHook(String^ instructions, IntPtr address, int behavior, int parameter)
 		{
 			const char* source = (char*)Marshal::StringToHGlobalAnsi(instructions).ToPointer();
-			HookService::WriteASMHook(source, (size_t)address.ToPointer(), behavior);
+			HookService::WriteASMHook(source, (size_t)address.ToPointer(), behavior, parameter);
 			Marshal::FreeHGlobal((IntPtr)(void*)source);
+		}
+		
+		void WriteASMHook(String^ instructions, IntPtr address, int behavior)
+		{
+			WriteASMHook(instructions, address, behavior, Jump);
 		}
 	};
 }

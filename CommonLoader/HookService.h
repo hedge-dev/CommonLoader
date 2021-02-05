@@ -18,8 +18,8 @@ namespace CommonLoader
 	
 	enum HookParameter
 	{
-		Call,
-		Jump
+		Jump = 0,
+		Call = 1,
 	};
 
 	class HookService
