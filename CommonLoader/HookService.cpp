@@ -83,7 +83,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 	else
 	{
-		*reinterpret_cast<char*>(address) = 0xC3;
+		*reinterpret_cast<char*>(pos) = 0xC3;
 	}
 #endif
 
