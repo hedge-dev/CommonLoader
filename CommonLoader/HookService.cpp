@@ -113,3 +113,31 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 
 	delete compiledCode;
 }
+
+unsigned int CommonLoader::HookService::NopInstructions(size_t address, unsigned int count)
+{
+	csh disasm = AssemblerService::GetDisassembler();
+	cs_insn* insn = nullptr;
+
+	const size_t dcCount = cs_disasm(disasm, reinterpret_cast<uint8_t*>(address), 16 * count, address, 0, &insn);
+
+	size_t nopLen = 0;
+
+	for (size_t i = 0; i < count; i++)
+	{
+		nopLen += insn[i].size;
+	}
+
+	DWORD oldProtect;
+	VirtualProtect(reinterpret_cast<void*>(address), nopLen, PAGE_READWRITE, &oldProtect);
+
+	for (size_t i = 0; i < nopLen; i++)
+	{
+		reinterpret_cast<uint8_t*>(address)[i] = 0x90;
+	}
+	VirtualProtect(reinterpret_cast<void*>(address), nopLen, oldProtect, &oldProtect);
+	
+	cs_free(insn, dcCount);
+
+	return nopLen;
+}

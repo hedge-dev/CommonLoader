@@ -57,7 +57,7 @@ namespace CommonLoader
 
 		array<Byte>^ AssembleInstructions(String^ instructions)
 		{
-			const char* source = (char*)Marshal::StringToHGlobalAnsi(instructions).ToPointer();
+			char* source = static_cast<char*>(Marshal::StringToHGlobalAnsi(instructions).ToPointer());
 			AssemblerResult* result = AssemblerService::CompileAssembly(source);
 			
 			array<Byte>^ bytes = gcnew array<Byte>(result->length);
@@ -65,20 +65,28 @@ namespace CommonLoader
 			memcpy(ptr, result->data, result->length);
 
 			delete result;
-			Marshal::FreeHGlobal((IntPtr)(void*)source);
+			Marshal::FreeHGlobal(static_cast<IntPtr>(static_cast<void*>(source)));
 			return bytes;
 		}
 
 		void WriteASMHook(String^ instructions, IntPtr address, int behavior, int parameter)
 		{
-			const char* source = (char*)Marshal::StringToHGlobalAnsi(instructions).ToPointer();
-			HookService::WriteASMHook(source, (size_t)address.ToPointer(), behavior, parameter);
-			Marshal::FreeHGlobal((IntPtr)(void*)source);
+			char* source = static_cast<char*>(Marshal::StringToHGlobalAnsi(instructions).ToPointer());
+			HookService::WriteASMHook(source, reinterpret_cast<size_t>(address.ToPointer()), behavior, parameter);
+			Marshal::FreeHGlobal(static_cast<IntPtr>(source));
 		}
 		
 		void WriteASMHook(String^ instructions, IntPtr address, int behavior)
 		{
 			WriteASMHook(instructions, address, behavior, Jump);
+		}
+
+		unsigned int NopInstructions(IntPtr address, uint32_t count)
+		{
+			if (count == 0)
+				return 0;
+			
+			return HookService::NopInstructions(reinterpret_cast<size_t>(address.ToPointer()), count);
 		}
 	};
 }

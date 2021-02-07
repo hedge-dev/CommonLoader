@@ -26,5 +26,6 @@ namespace CommonLoader
 	{
 	public:
 		static void WriteASMHook(const char* source, size_t address, int behavior = HookBehavior::After, int parameter = HookParameter::Jump);
+		static unsigned int NopInstructions(size_t address, unsigned int count);
 	};
 }
