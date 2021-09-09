@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\arch\AArch64\AArch64BaseInfo.c" />
+    <ClCompile Include="src\arch\AArch64\AArch64Disassembler.c" />
+    <ClCompile Include="src\arch\AArch64\AArch64InstPrinter.c" />
+    <ClCompile Include="src\arch\AArch64\AArch64Mapping.c" />
+    <ClCompile Include="src\arch\AArch64\AArch64Module.c" />
+    <ClCompile Include="src\arch\ARM\ARMDisassembler.c" />
+    <ClCompile Include="src\arch\ARM\ARMInstPrinter.c" />
+    <ClCompile Include="src\arch\ARM\ARMMapping.c" />
+    <ClCompile Include="src\arch\ARM\ARMModule.c" />
+    <ClCompile Include="src\arch\EVM\EVMDisassembler.c" />
+    <ClCompile Include="src\arch\EVM\EVMInstPrinter.c" />
+    <ClCompile Include="src\arch\EVM\EVMMapping.c" />
+    <ClCompile Include="src\arch\EVM\EVMModule.c" />
+    <ClCompile Include="src\arch\M68K\M68KDisassembler.c" />
+    <ClCompile Include="src\arch\M68K\M68KInstPrinter.c" />
+    <ClCompile Include="src\arch\M68K\M68KModule.c" />
+    <ClCompile Include="src\arch\M680X\M680XDisassembler.c" />
+    <ClCompile Include="src\arch\M680X\M680XInstPrinter.c" />
+    <ClCompile Include="src\arch\M680X\M680XModule.c" />
+    <ClCompile Include="src\arch\Mips\MipsDisassembler.c" />
+    <ClCompile Include="src\arch\Mips\MipsInstPrinter.c" />
+    <ClCompile Include="src\arch\Mips\MipsMapping.c" />
+    <ClCompile Include="src\arch\Mips\MipsModule.c" />
+    <ClCompile Include="src\arch\PowerPC\PPCDisassembler.c" />
+    <ClCompile Include="src\arch\PowerPC\PPCInstPrinter.c" />
+    <ClCompile Include="src\arch\PowerPC\PPCMapping.c" />
+    <ClCompile Include="src\arch\PowerPC\PPCModule.c" />
+    <ClCompile Include="src\arch\Sparc\SparcDisassembler.c" />
+    <ClCompile Include="src\arch\Sparc\SparcInstPrinter.c" />
+    <ClCompile Include="src\arch\Sparc\SparcMapping.c" />
+    <ClCompile Include="src\arch\Sparc\SparcModule.c" />
+    <ClCompile Include="src\arch\SystemZ\SystemZDisassembler.c" />
+    <ClCompile Include="src\arch\SystemZ\SystemZInstPrinter.c" />
+    <ClCompile Include="src\arch\SystemZ\SystemZMapping.c" />
+    <ClCompile Include="src\arch\SystemZ\SystemZMCTargetDesc.c" />
+    <ClCompile Include="src\arch\SystemZ\SystemZModule.c" />
+    <ClCompile Include="src\arch\TMS320C64x\TMS320C64xDisassembler.c" />
+    <ClCompile Include="src\arch\TMS320C64x\TMS320C64xInstPrinter.c" />
+    <ClCompile Include="src\arch\TMS320C64x\TMS320C64xMapping.c" />
+    <ClCompile Include="src\arch\TMS320C64x\TMS320C64xModule.c" />
+    <ClCompile Include="src\arch\X86\X86ATTInstPrinter.c" />
+    <ClCompile Include="src\arch\X86\X86Disassembler.c" />
+    <ClCompile Include="src\arch\X86\X86DisassemblerDecoder.c" />
+    <ClCompile Include="src\arch\X86\X86IntelInstPrinter.c" />
+    <ClCompile Include="src\arch\X86\X86Mapping.c" />
+    <ClCompile Include="src\arch\X86\X86Module.c" />
+    <ClCompile Include="src\arch\XCore\XCoreInstPrinter.c" />
+    <ClCompile Include="src\arch\XCore\XCoreDisassembler.c" />
+    <ClCompile Include="src\arch\XCore\XCoreMapping.c" />
+    <ClCompile Include="src\arch\XCore\XCoreModule.c" />
+    <ClCompile Include="src\cs.c" />
+    <ClCompile Include="src\MCInst.c" />
+    <ClCompile Include="src\MCInstrDesc.c" />
+    <ClCompile Include="src\MCRegisterInfo.c" />
+    <ClCompile Include="src\SStream.c" />
+    <ClCompile Include="src\utils.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5B01D900-2359-44CA-9914-6B0C6AFB7BE7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>capstonewin32</RootNamespace>
+    <ProjectName>capstone</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>capstone</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>capstone</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>capstone</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>capstone</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>CAPSTONE_X86_ATT_DISABLE_NO;CAPSTONE_DIET_NO;CAPSTONE_X86_REDUCE_NO;CAPSTONE_HAS_X86;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>CAPSTONE_X86_ATT_DISABLE_NO;CAPSTONE_DIET_NO;CAPSTONE_X86_REDUCE_NO;CAPSTONE_HAS_X86;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>CAPSTONE_X86_ATT_DISABLE_NO;CAPSTONE_DIET_NO;CAPSTONE_X86_REDUCE_NO;CAPSTONE_HAS_X86;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>CAPSTONE_X86_ATT_DISABLE_NO;CAPSTONE_DIET_NO;CAPSTONE_X86_REDUCE_NO;CAPSTONE_HAS_X86;WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

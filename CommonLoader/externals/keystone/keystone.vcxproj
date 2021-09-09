@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C6D21248-1E8A-3624-B048-A3EF5B5A42C3}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>keystone</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">keystone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">keystone</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">keystone</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">keystone</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>llvm\lib\Target\X86\;include\;llvm\keystone;llvm\include;../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) -w14062 /Zc:strictStrings /Zc:sizedDealloc-</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4141;4146;4180;4244;4258;4267;4291;4345;4351;4355;4456;4457;4458;4459;4503;4624;4722;4800;4100;4127;4512;4505;4610;4510;4702;4245;4706;4310;4701;4703;4389;4611;4805;4204;4577;4091;4592;4324</DisableSpecificWarnings>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatSpecificWarningsAsErrors>4238</TreatSpecificWarningsAsErrors>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;__STDC_LIMIT_MACROS;LLVM_ENABLE_ARCH_X86;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;__STDC_LIMIT_MACROS;LLVM_ENABLE_ARCH_X86;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>build_x64\llvm\keystone;llvm\keystone;build_x64\llvm\include;llvm\include;llvm\keystone\..\..\include;llvm\keystone\..\lib\Target\AArch64;llvm\keystone\..\lib\Target\ARM;llvm\keystone\..\lib\Target\Hexagon;llvm\keystone\..\lib\Target\Mips;llvm\keystone\..\lib\Target\PowerPC;llvm\keystone\..\lib\Target\Sparc;llvm\keystone\..\lib\Target\SystemZ;llvm\keystone\..\lib\Target\X86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>build_x64\llvm\keystone;llvm\keystone;build_x64\llvm\include;llvm\include;llvm\keystone\..\..\include;llvm\keystone\..\lib\Target\AArch64;llvm\keystone\..\lib\Target\ARM;llvm\keystone\..\lib\Target\Hexagon;llvm\keystone\..\lib\Target\Mips;llvm\keystone\..\lib\Target\PowerPC;llvm\keystone\..\lib\Target\Sparc;llvm\keystone\..\lib\Target\SystemZ;llvm\keystone\..\lib\Target\X86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>llvm\lib\Target\X86\;include\;llvm\keystone;llvm\include;../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) -w14062 /Zc:strictStrings /Zc:sizedDealloc-</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4141;4146;4180;4244;4258;4267;4291;4345;4351;4355;4456;4457;4458;4459;4503;4624;4722;4800;4100;4127;4512;4505;4610;4510;4702;4245;4706;4310;4701;4703;4389;4611;4805;4204;4577;4091;4592;4324</DisableSpecificWarnings>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatSpecificWarningsAsErrors>4238</TreatSpecificWarningsAsErrors>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;__STDC_LIMIT_MACROS;LLVM_ENABLE_ARCH_X86;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;__STDC_LIMIT_MACROS;LLVM_ENABLE_ARCH_X86;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>build_x64\llvm\keystone;llvm\keystone;build_x64\llvm\include;llvm\include;llvm\keystone\..\..\include;llvm\keystone\..\lib\Target\AArch64;llvm\keystone\..\lib\Target\ARM;llvm\keystone\..\lib\Target\Hexagon;llvm\keystone\..\lib\Target\Mips;llvm\keystone\..\lib\Target\PowerPC;llvm\keystone\..\lib\Target\Sparc;llvm\keystone\..\lib\Target\SystemZ;llvm\keystone\..\lib\Target\X86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>build_x64\llvm\keystone;llvm\keystone;build_x64\llvm\include;llvm\include;llvm\keystone\..\..\include;llvm\keystone\..\lib\Target\AArch64;llvm\keystone\..\lib\Target\ARM;llvm\keystone\..\lib\Target\Hexagon;llvm\keystone\..\lib\Target\Mips;llvm\keystone\..\lib\Target\PowerPC;llvm\keystone\..\lib\Target\Sparc;llvm\keystone\..\lib\Target\SystemZ;llvm\keystone\..\lib\Target\X86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>llvm\lib\Target\X86\;include\;llvm\keystone;llvm\include;../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) -w14062 /Zc:strictStrings /Zc:sizedDealloc-</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4141;4146;4180;4244;4258;4267;4291;4345;4351;4355;4456;4457;4458;4459;4503;4624;4722;4800;4100;4127;4512;4505;4610;4510;4702;4245;4706;4310;4701;4703;4389;4611;4805;4204;4577;4091;4592;4324</DisableSpecificWarnings>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatSpecificWarningsAsErrors>4238</TreatSpecificWarningsAsErrors>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;__STDC_LIMIT_MACROS;LLVM_ENABLE_ARCH_X86;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;__STDC_LIMIT_MACROS;LLVM_ENABLE_ARCH_X86;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>build_x64\llvm\keystone;llvm\keystone;build_x64\llvm\include;llvm\include;llvm\keystone\..\..\include;llvm\keystone\..\lib\Target\AArch64;llvm\keystone\..\lib\Target\ARM;llvm\keystone\..\lib\Target\Hexagon;llvm\keystone\..\lib\Target\Mips;llvm\keystone\..\lib\Target\PowerPC;llvm\keystone\..\lib\Target\Sparc;llvm\keystone\..\lib\Target\SystemZ;llvm\keystone\..\lib\Target\X86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>build_x64\llvm\keystone;llvm\keystone;build_x64\llvm\include;llvm\include;llvm\keystone\..\..\include;llvm\keystone\..\lib\Target\AArch64;llvm\keystone\..\lib\Target\ARM;llvm\keystone\..\lib\Target\Hexagon;llvm\keystone\..\lib\Target\Mips;llvm\keystone\..\lib\Target\PowerPC;llvm\keystone\..\lib\Target\Sparc;llvm\keystone\..\lib\Target\SystemZ;llvm\keystone\..\lib\Target\X86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>llvm\lib\Target\X86\;include\;llvm\keystone;llvm\include;../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) -w14062 /Zc:strictStrings /Zc:sizedDealloc-</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4141;4146;4180;4244;4258;4267;4291;4345;4351;4355;4456;4457;4458;4459;4503;4624;4722;4800;4100;4127;4512;4505;4610;4510;4702;4245;4706;4310;4701;4703;4389;4611;4805;4204;4577;4091;4592;4324</DisableSpecificWarnings>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatSpecificWarningsAsErrors>4238</TreatSpecificWarningsAsErrors>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;__STDC_LIMIT_MACROS;LLVM_ENABLE_ARCH_X86;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;_CRT_NONSTDC_NO_WARNINGS;_SCL_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;__STDC_CONSTANT_MACROS;__STDC_FORMAT_MACROS;__STDC_LIMIT_MACROS;LLVM_ENABLE_ARCH_X86;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>build_x64\llvm\keystone;llvm\keystone;build_x64\llvm\include;llvm\include;llvm\keystone\..\..\include;llvm\keystone\..\lib\Target\AArch64;llvm\keystone\..\lib\Target\ARM;llvm\keystone\..\lib\Target\Hexagon;llvm\keystone\..\lib\Target\Mips;llvm\keystone\..\lib\Target\PowerPC;llvm\keystone\..\lib\Target\Sparc;llvm\keystone\..\lib\Target\SystemZ;llvm\keystone\..\lib\Target\X86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>build_x64\llvm\keystone;llvm\keystone;build_x64\llvm\include;llvm\include;llvm\keystone\..\..\include;llvm\keystone\..\lib\Target\AArch64;llvm\keystone\..\lib\Target\ARM;llvm\keystone\..\lib\Target\Hexagon;llvm\keystone\..\lib\Target\Mips;llvm\keystone\..\lib\Target\PowerPC;llvm\keystone\..\lib\Target\Sparc;llvm\keystone\..\lib\Target\SystemZ;llvm\keystone\..\lib\Target\X86;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="llvm\keystone\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule E:/Downloads/keystone-0.9.1/llvm/keystone/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule E:/Downloads/keystone-0.9.1/llvm/keystone/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/Downloads/keystone-0.9.1 -BE:/Downloads/keystone-0.9.1/build_x64 --check-stamp-file E:/Downloads/keystone-0.9.1/build_x64/llvm/keystone/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/Downloads/keystone-0.9.1 -BE:/Downloads/keystone-0.9.1/build_x64 --check-stamp-file E:/Downloads/keystone-0.9.1/build_x64/llvm/keystone/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">build_x64\llvm\keystone\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">build_x64\llvm\keystone\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule E:/Downloads/keystone-0.9.1/llvm/keystone/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule E:/Downloads/keystone-0.9.1/llvm/keystone/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/Downloads/keystone-0.9.1 -BE:/Downloads/keystone-0.9.1/build_x64 --check-stamp-file E:/Downloads/keystone-0.9.1/build_x64/llvm/keystone/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/Downloads/keystone-0.9.1 -BE:/Downloads/keystone-0.9.1/build_x64 --check-stamp-file E:/Downloads/keystone-0.9.1/build_x64/llvm/keystone/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">build_x64\llvm\keystone\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">build_x64\llvm\keystone\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="llvm\lib\MC\ConstantPools.cpp" />
+    <ClCompile Include="llvm\lib\MC\ELFObjectWriter.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCAsmBackend.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCAsmInfo.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCAsmInfoCOFF.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCAsmInfoDarwin.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCAsmInfoELF.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCAssembler.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCCodeEmitter.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCContext.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCELFObjectTargetWriter.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCELFStreamer.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCExpr.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCFragment.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCInst.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCInstrDesc.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCLabel.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCObjectFileInfo.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCObjectStreamer.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCObjectWriter.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\AsmLexer.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\AsmParser.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\COFFAsmParser.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\DarwinAsmParser.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\ELFAsmParser.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\MCAsmLexer.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\MCAsmParser.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\MCAsmParserExtension.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCParser\MCTargetAsmParser.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCRegisterInfo.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCSection.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCSectionCOFF.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCSectionELF.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCSectionMachO.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCStreamer.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCSubtargetInfo.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCSymbol.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCSymbolELF.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCTargetOptions.cpp" />
+    <ClCompile Include="llvm\lib\MC\MCValue.cpp" />
+    <ClCompile Include="llvm\lib\MC\StringTableBuilder.cpp" />
+    <ClCompile Include="llvm\lib\MC\SubtargetFeature.cpp" />
+    <ClCompile Include="llvm\lib\Support\APFloat.cpp" />
+    <ClCompile Include="llvm\lib\Support\APInt.cpp" />
+    <ClCompile Include="llvm\lib\Support\APSInt.cpp" />
+    <ClCompile Include="llvm\lib\Support\ARMBuildAttrs.cpp" />
+    <ClCompile Include="llvm\lib\Support\ErrorHandling.cpp" />
+    <ClCompile Include="llvm\lib\Support\Hashing.cpp" />
+    <ClCompile Include="llvm\lib\Support\IntEqClasses.cpp" />
+    <ClCompile Include="llvm\lib\Support\LEB128.cpp" />
+    <ClCompile Include="llvm\lib\Support\Memory.cpp" />
+    <ClCompile Include="llvm\lib\Support\MemoryBuffer.cpp" />
+    <ClCompile Include="llvm\lib\Support\Path.cpp" />
+    <ClCompile Include="llvm\lib\Support\Regex.cpp" />
+    <ClCompile Include="llvm\lib\Support\ScaledNumber.cpp" />
+    <ClCompile Include="llvm\lib\Support\SmallPtrSet.cpp" />
+    <ClCompile Include="llvm\lib\Support\SmallVector.cpp" />
+    <ClCompile Include="llvm\lib\Support\SourceMgr.cpp" />
+    <ClCompile Include="llvm\lib\Support\StringExtras.cpp" />
+    <ClCompile Include="llvm\lib\Support\StringMap.cpp" />
+    <ClCompile Include="llvm\lib\Support\StringPool.cpp" />
+    <ClCompile Include="llvm\lib\Support\StringRef.cpp" />
+    <ClCompile Include="llvm\lib\Support\StringSaver.cpp" />
+    <ClCompile Include="llvm\lib\Support\TargetParser.cpp" />
+    <ClCompile Include="llvm\lib\Support\TargetRegistry.cpp" />
+    <ClCompile Include="llvm\lib\Support\Triple.cpp" />
+    <ClCompile Include="llvm\lib\Support\Twine.cpp" />
+    <ClCompile Include="llvm\lib\Support\raw_ostream.cpp" />
+    <ClCompile Include="llvm\lib\Support\regcomp.c" />
+    <ClCompile Include="llvm\lib\Support\regerror.c" />
+    <ClCompile Include="llvm\lib\Support\regexec.c" />
+    <ClCompile Include="llvm\lib\Support\regfree.c" />
+    <ClCompile Include="llvm\lib\Support\regstrlcpy.c" />
+    <ClCompile Include="llvm\lib\Target\X86\AsmParser\X86AsmInstrumentation.cpp" />
+    <ClCompile Include="llvm\lib\Target\X86\AsmParser\X86AsmParser.cpp" />
+    <ClCompile Include="llvm\lib\Target\X86\MCTargetDesc\X86AsmBackend.cpp" />
+    <ClCompile Include="llvm\lib\Target\X86\MCTargetDesc\X86ELFObjectWriter.cpp" />
+    <ClCompile Include="llvm\lib\Target\X86\MCTargetDesc\X86MCAsmInfo.cpp" />
+    <ClCompile Include="llvm\lib\Target\X86\MCTargetDesc\X86MCCodeEmitter.cpp" />
+    <ClCompile Include="llvm\lib\Target\X86\MCTargetDesc\X86MCTargetDesc.cpp" />
+    <ClCompile Include="llvm\lib\Target\X86\TargetInfo\X86TargetInfo.cpp" />
+    <ClCompile Include="llvm\keystone\ks.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="build_x64\ZERO_CHECK.vcxproj">
+      <Project>{96CE38F8-6AE7-3150-9A78-E5FF55D4EBF6}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
