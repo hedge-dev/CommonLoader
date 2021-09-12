@@ -3,6 +3,7 @@
 #include "memory.h"
 #include "AssemblerService.h"
 #include "HookService.h"
+#include "SigScanner.h"
 
 using namespace System::Runtime::InteropServices;
 
@@ -87,6 +88,18 @@ namespace CommonLoader
 				return 0;
 			
 			return HookService::NopInstructions(reinterpret_cast<size_t>(address.ToPointer()), count);
+		}
+
+		IntPtr ScanSignature(array<Byte>^ pattern, String^ mask)
+		{
+			if (pattern->Length != mask->Length)
+				return IntPtr::Zero;
+
+			array<Byte>^ maskBytes = Text::Encoding::ASCII->GetBytes(mask);
+			const pin_ptr<Byte> patPtr = &pattern[0];
+			const pin_ptr<Byte> maskPtr = &maskBytes[0];
+			
+			return IntPtr(Scan(reinterpret_cast<char*>(patPtr), reinterpret_cast<char*>(maskPtr)));
 		}
 	};
 }

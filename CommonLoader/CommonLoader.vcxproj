@@ -75,10 +75,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>include/;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IncludePath>include/;$(IncludePath)</IncludePath>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>include;$(IncludePath)</IncludePath>
@@ -176,6 +179,7 @@
     <ClInclude Include="MemoryProvider.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SigScanner.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblerService.cpp" />
@@ -188,6 +192,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SigScanner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />
