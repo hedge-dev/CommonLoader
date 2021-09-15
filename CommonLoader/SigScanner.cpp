@@ -19,7 +19,7 @@ const MODULEINFO& get_module()
 void* CommonLoader::Scan(const char* p_pattern, const char* p_mask)
 {
     const MODULEINFO& moduleInfo = get_module();
-    const size_t length = strlen(p_pattern);
+    const size_t length = strlen(p_mask);
 
     for (size_t i = 0; i < moduleInfo.SizeOfImage; i++)
     {
