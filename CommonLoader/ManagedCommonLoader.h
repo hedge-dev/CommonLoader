@@ -1,6 +1,7 @@
 #pragma once
 #include "AssemblyLoader.h"
 #include "AssemblerService.h"
+#include "ApplicationStore.h"
 
 namespace CommonLoader {
 	public ref class ManagedCommonLoader
@@ -9,9 +10,12 @@ namespace CommonLoader {
 		static AssemblyLoader^ assemblyLoader;
 
 	public:
-		static void InitializeLoader(const char* path) {
-			assemblyLoader = gcnew AssemblyLoader(path);
+		static bool InitializeLoader(const char* path) {
+			ApplicationStore::Init();
+			assemblyLoader = gcnew AssemblyLoader();
+			bool result = assemblyLoader->Init(path);
 			AssemblerService::Init();
+			return result;
 		}
 
 		static void RaiseInitializers() {

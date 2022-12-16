@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "AssemblerService.h"
 #include <keystone/keystone.h>
 #include <capstone/capstone.h>

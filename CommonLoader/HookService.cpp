@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "HookService.h"
 #include "AssemblerService.h"
 #include <Windows.h>

@@ -19,7 +19,7 @@ namespace CommonLoader
 		List<CodeObject^>^ codes;
 
 	public:
-		AssemblyLoader(const char* path) 
+		bool Init(const char* path)
 		{
 			String^ fullPath = Path::GetFullPath(gcnew String(path));
 			String^ baseDir = Path::GetDirectoryName(fullPath);
@@ -27,7 +27,7 @@ namespace CommonLoader
 			codes = gcnew List<CodeObject^>();
 
 			if (!File::Exists(fullPath))
-				return;
+				return false;
 
 			loadedAssembly = Assembly::Load(File::ReadAllBytes(fullPath));
 
@@ -54,6 +54,8 @@ namespace CommonLoader
 					}
 				}
 			}
+
+			return true;
 		}
 
 		void raiseInitializers() 

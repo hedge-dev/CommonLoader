@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "ManagedCommonLoader.h"
 #include "AssemblyLoader.h"
 #include "CommonLoader.h"
