@@ -48,9 +48,6 @@
     <ClInclude Include="SigScanner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ini.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationStore.h">
       <Filter>Header Files</Filter>
     </ClInclude>

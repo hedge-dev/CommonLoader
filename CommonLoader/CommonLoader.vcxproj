@@ -179,7 +179,6 @@
     <ClInclude Include="AssemblyLoader.h" />
     <ClInclude Include="CommonLoader.h" />
     <ClInclude Include="HookService.h" />
-    <ClInclude Include="ini.h" />
     <ClInclude Include="ManagedCommonLoader.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="MemoryProvider.h" />
