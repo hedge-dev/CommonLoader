@@ -75,13 +75,11 @@ void* CommonLoader::Scan(const char* p_pattern, const char* p_mask, size_t patte
     MakePatternHash(p_pattern, p_mask, pattern_length, key);
 
 	void* cachedResult = SearchSignatureCache(key, p_begin, size);
-    if (cachedResult && ScanUncached(p_pattern, p_mask, pattern_length, cachedResult, pattern_length) == cachedResult)
+    if (cachedResult)
     {
-        printf("Found from cache\n");
-        return cachedResult;
+        return ScanUncached(p_pattern, p_mask, pattern_length, cachedResult, pattern_length);
     }
-
-    printf("Searching uncached\n");
+    
     void* address = ScanUncached(p_pattern, p_mask, pattern_length, p_begin, size);
 	CommitSignatureCache(key, address);
     return address;
@@ -138,8 +136,6 @@ void CommitSignatureCache(const SignatureKey& key, void* p_memory)
     sig_lookup_cache.insert_or_assign(key, p_memory);
 	CommonLoader::ApplicationStore::SetOption(ScannerSection, hashKey, buf);
     CommonLoader::ApplicationStore::Save();
-
-    printf("Saved cache to disk\n");
 }
 
 void MakePatternHash(const char* p_pattern, const char* p_mask, size_t pattern_length, SignatureKey& out)
