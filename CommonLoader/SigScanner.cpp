@@ -39,7 +39,7 @@ namespace std
 
 std::unordered_map<SignatureKey, void*> sig_lookup_cache{};
 
-void MakePatterHash(const char* p_pattern, const char* p_mask, size_t pattern_length, SignatureKey& out);
+void MakePatternHash(const char* p_pattern, const char* p_mask, size_t pattern_length, SignatureKey& out);
 void* SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size);
 void CommitSignatureCache(const SignatureKey& key, void* p_memory);
 
@@ -72,7 +72,7 @@ void* CommonLoader::Scan(const char* p_pattern, const char* p_mask)
 void* CommonLoader::Scan(const char* p_pattern, const char* p_mask, size_t pattern_length, void* p_begin, size_t size)
 {
     SignatureKey key{};
-	MakePatterHash(p_pattern, p_mask, pattern_length, key);
+    MakePatternHash(p_pattern, p_mask, pattern_length, key);
 
 	void* cachedResult = SearchSignatureCache(key, p_begin, size);
     if (cachedResult && ScanUncached(p_pattern, p_mask, pattern_length, cachedResult, pattern_length) == cachedResult)
@@ -142,7 +142,7 @@ void CommitSignatureCache(const SignatureKey& key, void* p_memory)
     printf("Saved cache to disk\n");
 }
 
-void MakePatterHash(const char* p_pattern, const char* p_mask, size_t pattern_length, SignatureKey& out)
+void MakePatternHash(const char* p_pattern, const char* p_mask, size_t pattern_length, SignatureKey& out)
 {
 	out.pattern = XXH32(p_pattern, pattern_length, 0);
 	out.mask = XXH32(p_mask, pattern_length, 0);
