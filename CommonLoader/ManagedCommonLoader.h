@@ -12,6 +12,8 @@ namespace CommonLoader {
 	public:
 		static bool InitializeLoader(const char* path) {
 			ApplicationStore::Init();
+			InitSigScanner();
+
 			assemblyLoader = gcnew AssemblyLoader();
 			bool result = assemblyLoader->Init(path);
 			AssemblerService::Init();

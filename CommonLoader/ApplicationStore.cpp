@@ -172,6 +172,23 @@ namespace CommonLoader
 		return true;
 	}
 
+	bool ApplicationStore::GetOptions(const std::string& section, std::vector<std::pair<const char*, const char*>>& values)
+	{
+		if (app_config.find(section) == app_config.end())
+		{
+			return false;
+		}
+
+		const auto& s = app_config[section];
+		values.reserve(s.size());
+		for (const auto& item : s)
+		{
+			values.emplace_back(item.first.c_str(), item.second.c_str());
+		}
+
+		return true;
+	}
+
 	void ApplicationStore::SetOption(const std::string& key, const std::string& value)
 	{
 		SetOption("Application", key, value);

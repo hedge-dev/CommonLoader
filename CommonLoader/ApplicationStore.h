@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 struct _MODULEINFO;
 
@@ -18,6 +19,7 @@ namespace CommonLoader
 
 		static bool GetOption(const std::string& key, std::string& out);
 		static bool GetOption(const std::string& section, const std::string& key, std::string& out);
+		static bool GetOptions(const std::string& section, std::vector<std::pair<const char*, const char*>>& values);
 
 		static void SetOption(const std::string& key, const std::string& value);
 		static void SetOption(const std::string& section, const std::string& key, const std::string& value);
