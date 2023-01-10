@@ -2,17 +2,17 @@
 #include "AssemblyLoader.h"
 #include "CommonLoader.h"
 
-bool CommonLoader::CommonLoader::InitializeAssemblyLoader(const char* path)
+bool CommonLoader::InitializeAssemblyLoader(const char* path)
 {
 	return ManagedCommonLoader::InitializeLoader(path);
 }
 
-void CommonLoader::CommonLoader::RaiseInitializers()
+void CommonLoader::RaiseInitializers()
 {
 	ManagedCommonLoader::RaiseInitializers();
 }
 
-void CommonLoader::CommonLoader::RaiseUpdates()
+void CommonLoader::RaiseUpdates()
 {
 	ManagedCommonLoader::RaiseUpdates();
 }
