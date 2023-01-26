@@ -1,25 +1,28 @@
+#pragma unmanaged
+
 #include "ApplicationStore.h"
 #include <string>
 #include <shlwapi.h>
 #include <ShlObj.h>
 #include <filesystem>
-#include <map>
+#include <unordered_map>
 #include <Psapi.h>
 
-MODULEINFO module_info{ nullptr, 0, nullptr };
+ModuleInfo module_info{ nullptr, 0, nullptr };
 uint32_t app_uid;
-std::wstring app_storage_path;
-std::map<std::string, std::map<std::string, std::string>> app_config;
+std::wstring app_storage_path{};
+std::unordered_map<std::string, std::unordered_map<std::string, std::string>> app_config{};
 
 namespace CommonLoader
 {
 	void ApplicationStore::Init()
 	{
+		app_config = {};
 		wchar_t szPath[2048];
 		const auto& module = GetModule();
 
-		const size_t headerSize = ((IMAGE_DOS_HEADER*)module.lpBaseOfDll)->e_lfanew + sizeof(IMAGE_NT_HEADERS);
-		app_uid = XXH32(module.lpBaseOfDll, headerSize, 0);
+		const size_t headerSize = ((IMAGE_DOS_HEADER*)module.base)->e_lfanew + sizeof(IMAGE_NT_HEADERS);
+		app_uid = XXH32(module.base, headerSize, 0);
 		if (SUCCEEDED(SHGetFolderPathW(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, szPath)))
 		{
 			PathAppendW(szPath, L"\\NeverFinishAnything\\CommonLoader\\.storage\\");
@@ -41,13 +44,13 @@ namespace CommonLoader
 		}
 	}
 
-	const _MODULEINFO& ApplicationStore::GetModule()
+	const ModuleInfo& ApplicationStore::GetModule()
 	{
-		if (module_info.SizeOfImage)
+		if (module_info.size)
 			return module_info;
 
 		ZeroMemory(&module_info, sizeof(MODULEINFO));
-		GetModuleInformation(GetCurrentProcess(), GetModuleHandle(nullptr), &module_info, sizeof(MODULEINFO));
+		GetModuleInformation(GetCurrentProcess(), GetModuleHandle(nullptr), reinterpret_cast<MODULEINFO*>(&module_info), sizeof(MODULEINFO));
 
 		return module_info;
 	}
@@ -94,7 +97,7 @@ namespace CommonLoader
 		for (size_t i = 0; i < ini_section_count(ini); i++)
 		{
 			const char* section = ini_section_name(ini, i);
-			std::map<std::string, std::string> section_map;
+			std::unordered_map<std::string, std::string> section_map{};
 			for (size_t j = 0; j < ini_property_count(ini, i); j++)
 			{
 				const char* key = ini_property_name(ini, i, j);
@@ -152,7 +155,7 @@ namespace CommonLoader
 
 	bool ApplicationStore::GetOption(const std::string& key, std::string& out)
 	{
-		return GetOption("Application", key, out);
+		return GetOption(DEFAULT_SECTION, key, out);
 	}
 
 	bool ApplicationStore::GetOption(const std::string& section, const std::string& key, std::string& out)
@@ -198,7 +201,7 @@ namespace CommonLoader
 	{
 		if (app_config.find(section) == app_config.end())
 		{
-			app_config.insert({ section, std::map<std::string, std::string>() });
+			app_config.insert({ section, std::unordered_map<std::string, std::string>() });
 		}
 
 		app_config[section].insert_or_assign(key, value);

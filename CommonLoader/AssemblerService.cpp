@@ -1,40 +1,67 @@
 #include "AssemblerService.h"
-#include <keystone/keystone.h>
-#include <capstone/capstone.h>
+#include "AssemblerService_In.h"
 
 using namespace CommonLoader;
 
-ks_engine* CommonLoader::AssemblerService::assembler_instance = nullptr;
-csh CommonLoader::AssemblerService::disassembler_instance = 0;
-cs_err CommonLoader::AssemblerService::disassembler_error = cs_err::CS_ERR_OK;
+ks_engine* AssemblerServiceImpl::assembler_instance = nullptr;
+csh AssemblerServiceImpl::disassembler_instance = 0;
+cs_err AssemblerServiceImpl::disassembler_error = CS_ERR_OK;
+std::unordered_map<std::string_view, uint64_t> AssemblerServiceImpl::symbol_map = {};
 
-void CommonLoader::AssemblerService::Init()
+void AssemblerService::Init()
 {
-	ks_open(KS_ARCH_X86, ASSEMBLER_MODE, (ks_engine**)&assembler_instance);
-
-	cs_opt_mem setup;
-
-	setup.malloc = malloc;
-	setup.calloc = calloc;
-	setup.realloc = realloc;
-	setup.free = free;
-	setup.vsnprintf = vsnprintf;
-
-	cs_option(disassembler_instance, CS_OPT_MEM, (size_t)&setup);
-
-	disassembler_error = cs_open(CS_ARCH_X86, DISASSEMBLER_MODE, &disassembler_instance);
+	AssemblerServiceImpl::Init();
 }
 
-AssemblerResult* CommonLoader::AssemblerService::CompileAssembly(const char* source)
+csh AssemblerService::GetDisassembler()
+{
+	return AssemblerServiceImpl::disassembler_instance;
+}
+
+void AssemblerService::RemoveSymbol(const char* name)
+{
+	AssemblerServiceImpl::symbol_map.erase(name);
+}
+
+void AssemblerService::SetSymbol(const char* name, uint64_t value)
+{
+	AssemblerServiceImpl::symbol_map.insert_or_assign({ name }, value);
+}
+
+bool AssemblerService::GetSymbol(const char* name, uint64_t& value)
+{
+	return AssemblerServiceImpl::ResolveSymbol(name, &value);
+}
+
+AssemblerResult* AssemblerService::CompileAssembly(const char* source, uint64_t base)
 {
 	AssemblerResult* result = new AssemblerResult();
 
-	ks_asm(assembler_instance, source, 0, &result->data, &result->length, &result->instruction_count);
+	if (ks_asm(AssemblerServiceImpl::assembler_instance, source, base, &result->data, &result->length, &result->instruction_count) == -1)
+	{
+		result->error_string = ks_strerror(ks_errno(AssemblerServiceImpl::assembler_instance));
+	}
 
 	return result;
 }
 
-CommonLoader::AssemblerResult::~AssemblerResult()
+bool AssemblerServiceImpl::ResolveSymbol(const char* symbol, uint64_t* value)
 {
-	ks_free(data);
+	const auto& it = symbol_map.find(symbol);
+	if (it != symbol_map.end())
+	{
+		*value = it->second;
+		return true;
+	}
+	
+	return false;
+}
+
+
+AssemblerResult::~AssemblerResult()
+{
+	if (data != nullptr)
+	{
+		ks_free(data);
+	}
 }

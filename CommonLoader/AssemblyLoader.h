@@ -19,12 +19,14 @@ namespace CommonLoader
 		List<CodeObject^>^ codes;
 
 	public:
-		bool Init(const char* path)
+		bool Load(const char* path)
 		{
 			String^ fullPath = Path::GetFullPath(gcnew String(path));
-			String^ baseDir = Path::GetDirectoryName(fullPath);
 
-			codes = gcnew List<CodeObject^>();
+			if (codes == nullptr)
+			{
+				codes = gcnew List<CodeObject^>();
+			}
 
 			if (!File::Exists(fullPath))
 				return false;

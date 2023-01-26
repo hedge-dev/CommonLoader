@@ -96,6 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -116,6 +117,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -138,6 +140,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -159,6 +162,7 @@
       <PreprocessorDefinitions>WIN64;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies />
@@ -175,12 +179,13 @@
   <ItemGroup>
     <ClInclude Include="ApplicationStore.h" />
     <ClInclude Include="AssemblerService.h" />
+    <ClInclude Include="AssemblerService_In.h" />
     <ClInclude Include="CodeObject.h" />
     <ClInclude Include="AssemblyLoader.h" />
     <ClInclude Include="CommonLoader.h" />
+    <ClInclude Include="CommonLoaderAPI.h" />
     <ClInclude Include="HookService.h" />
     <ClInclude Include="ManagedCommonLoader.h" />
-    <ClInclude Include="memory.h" />
     <ClInclude Include="MemoryProvider.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
@@ -191,6 +196,7 @@
     <ClCompile Include="AssemblerService.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CommonLoader.cpp" />
+    <ClCompile Include="CommonLoaderAPI.cpp" />
     <ClCompile Include="externals\ini.cpp" />
     <ClCompile Include="externals\xxhash.cpp" />
     <ClCompile Include="HookService.cpp" />

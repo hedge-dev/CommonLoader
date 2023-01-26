@@ -1,5 +1,6 @@
+#pragma unmanaged
+
 #include "SigScanner.h"
-#include <Psapi.h>
 #include "ApplicationStore.h"
 #include <unordered_map>
 
@@ -56,7 +57,7 @@ void CommonLoader::InitSigScanner()
             uint64_t address;
             if (sscanf_s(v.second, "%llx", &address) == 1)
             {
-				address += reinterpret_cast<intptr_t>(ApplicationStore::GetModule().lpBaseOfDll);
+				address += reinterpret_cast<intptr_t>(ApplicationStore::GetModule().base);
 				sig_lookup_cache[key] = reinterpret_cast<void*>(address);
             }
 		}
@@ -65,8 +66,8 @@ void CommonLoader::InitSigScanner()
 
 void* CommonLoader::Scan(const char* p_pattern, const char* p_mask)
 {
-    const MODULEINFO& moduleInfo = ApplicationStore::GetModule();
-	return Scan(p_pattern, p_mask, strlen(p_mask), moduleInfo.lpBaseOfDll, moduleInfo.SizeOfImage);
+    const auto& moduleInfo = ApplicationStore::GetModule();
+	return Scan(p_pattern, p_mask, strlen(p_mask), moduleInfo.base, moduleInfo.size);
 }
 
 void* CommonLoader::Scan(const char* p_pattern, const char* p_mask, size_t pattern_length, void* p_begin, size_t size)
@@ -124,7 +125,7 @@ void* SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size)
 
 void CommitSignatureCache(const SignatureKey& key, void* p_memory)
 {
-    void* addressUnBased = static_cast<char*>(p_memory) - reinterpret_cast<size_t>(CommonLoader::ApplicationStore::GetModule().lpBaseOfDll);
+    void* addressUnBased = static_cast<char*>(p_memory) - reinterpret_cast<size_t>(CommonLoader::ApplicationStore::GetModule().base);
 
 	char buf[32];
     key.MakeString(buf, sizeof(buf));

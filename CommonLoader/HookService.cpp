@@ -1,10 +1,13 @@
 #include "HookService.h"
 #include "AssemblerService.h"
-#include <Windows.h>
+#include "AssemblerService_In.h"
+#include "ApplicationStore.h"
+#include <memory>
+#include <sstream>
 
 #define CALCULATE_JUMP(destination, target) (size_t)target - (size_t)(destination + 4)
 
-void CommonLoader::HookService::WriteASMHook(const char* source, size_t address, int behavior, int parameter)
+bool CommonLoader::HookService::WriteASMHook(const char* source, size_t address, int behavior, int parameter)
 {
 	csh disasm = AssemblerService::GetDisassembler();
 	cs_insn* insn = nullptr;
@@ -23,41 +26,51 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 
 	cs_free(insn, count);
 
-	AssemblerResult* compiledCode = AssemblerService::CompileAssembly(source);
+	std::unique_ptr<AssemblerResult> compiled_code{ AssemblerService::CompileAssembly(source, reinterpret_cast<uint64_t>(ApplicationStore::GetModule().base)) };
+	if (compiled_code->error_string)
+	{
+		std::stringstream err_stream{};
+		err_stream << "Failed to compile assembly:" << std::endl;
+		err_stream << "\t" << compiled_code->error_string << std::endl;
+		err_stream << "\tNear instruction" << compiled_code->instruction_count << std::endl;
 
-	void* hookPtr = _aligned_malloc(compiledCode->length + hookLen + MIN_HOOK_LENGTH, alignof(void*));
+		MessageBoxA(nullptr, err_stream.str().c_str(), "Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
+
+	void* hookPtr = _aligned_malloc(compiled_code->length + hookLen + MIN_HOOK_LENGTH, alignof(void*));
 	size_t pos = reinterpret_cast<size_t>(hookPtr);
 
 	switch (behavior)
 	{
-	case HookBehavior::Before:
-		memcpy_s(reinterpret_cast<void*>(pos), compiledCode->length, compiledCode->data, compiledCode->length);
-		pos += compiledCode->length;
+	case eHookBehavior_Before:
+		memcpy_s(reinterpret_cast<void*>(pos), compiled_code->length, compiled_code->data, compiled_code->length);
+		pos += compiled_code->length;
 		memcpy_s(reinterpret_cast<void*>(pos), hookLen, reinterpret_cast<void*>(address), hookLen);
 		pos += hookLen;
 		break;
 
-	case HookBehavior::After:
+	case eHookBehavior_After:
 		memcpy_s(reinterpret_cast<void*>(pos), hookLen, reinterpret_cast<void*>(address), hookLen);
 		pos += hookLen;
-		memcpy_s(reinterpret_cast<void*>(pos), compiledCode->length, compiledCode->data, compiledCode->length);
-		pos += compiledCode->length;
+		memcpy_s(reinterpret_cast<void*>(pos), compiled_code->length, compiled_code->data, compiled_code->length);
+		pos += compiled_code->length;
 		break;
 
-	case HookBehavior::Replace:
-		memcpy_s(reinterpret_cast<void*>(pos), compiledCode->length, compiledCode->data, compiledCode->length);
-		pos += compiledCode->length;
+	case eHookBehavior_Replace:
+		memcpy_s(reinterpret_cast<void*>(pos), compiled_code->length, compiled_code->data, compiled_code->length);
+		pos += compiled_code->length;
 		break;
 
 	default:
 	{
 		_aligned_free(hookPtr);
-		return;
+		return false;
 	}
 }
 
 #ifndef WIN64
-	if (parameter == Jump)
+	if (parameter == eHookParameter_Jump)
 	{
 		*reinterpret_cast<char*>(pos) = 0xE9;
 		pos++;
@@ -70,7 +83,7 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 		pos += sizeof(size_t) + 1;
 	}
 #else
-	if (parameter == Jump)
+	if (parameter == eHookParameter_Jump)
 	{
 		*reinterpret_cast<char*>(pos) = 0xFF;
 		*(reinterpret_cast<char*>(pos) + 1) = 0x25;
@@ -95,11 +108,11 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	}
 
 #ifndef WIN64
-	*reinterpret_cast<char*>(address) = parameter == Jump ? 0xE9 : 0xE8;
+	*reinterpret_cast<char*>(address) = parameter == eHookParameter_Jump ? 0xE9 : 0xE8;
 	*reinterpret_cast<unsigned*>(reinterpret_cast<char*>(address) + 1) = CALCULATE_JUMP(reinterpret_cast<char*>(address) + 1, hookPtr);
 #else
 	* reinterpret_cast<char*>(address) = 0xFF;
-	*(reinterpret_cast<char*>(address) + 1) = parameter == Jump ? 0x25 : 0x15;
+	*(reinterpret_cast<char*>(address) + 1) = parameter == eHookParameter_Jump ? 0x25 : 0x15;
 	*(reinterpret_cast<char*>(address) + 2) = 0x00;
 	*(reinterpret_cast<char*>(address) + 3) = 0x00;
 	*(reinterpret_cast<char*>(address) + 4) = 0x00;
@@ -108,9 +121,9 @@ void CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 #endif
 
 	VirtualProtect(reinterpret_cast<void*>(address), hookLen, oldProtect, &oldProtect);
-	VirtualProtect(hookPtr, compiledCode->length, PAGE_EXECUTE_READWRITE, &oldProtect);
+	VirtualProtect(hookPtr, compiled_code->length, PAGE_EXECUTE_READWRITE, &oldProtect);
 
-	delete compiledCode;
+	return true;
 }
 
 unsigned int CommonLoader::HookService::NopInstructions(size_t address, unsigned int count)

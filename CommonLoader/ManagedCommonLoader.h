@@ -10,21 +10,23 @@ namespace CommonLoader {
 		static AssemblyLoader^ assemblyLoader;
 
 	public:
-		static bool InitializeLoader(const char* path) {
-			ApplicationStore::Init();
-			InitSigScanner();
+		static bool LoadAssembly(const char* path)
+		{
+			if (assemblyLoader != nullptr)
+			{
+				assemblyLoader = gcnew AssemblyLoader();
+			}
 
-			assemblyLoader = gcnew AssemblyLoader();
-			bool result = assemblyLoader->Init(path);
-			AssemblerService::Init();
-			return result;
+			return assemblyLoader->Load(path);
 		}
 
-		static void RaiseInitializers() {
+		static void RaiseInitializers()
+		{
 			assemblyLoader->raiseInitializers();
 		}
 
-		static void RaiseUpdates() {
+		static void RaiseUpdates()
+		{
 			assemblyLoader->raiseUpdates();
 		}
 	};

@@ -1,10 +1,26 @@
-#include "ManagedCommonLoader.h"
-#include "AssemblyLoader.h"
 #include "CommonLoader.h"
+#include "ManagedCommonLoader.h"
 
-bool CommonLoader::InitializeAssemblyLoader(const char* path)
+#pragma unmanaged
+bool is_init{};
+void CommonLoader::Init()
 {
-	return ManagedCommonLoader::InitializeLoader(path);
+	if (is_init)
+	{
+		return;
+	}
+
+	is_init = true;
+	ApplicationStore::Init();
+	AssemblerService::Init();
+	InitSigScanner();
+}
+#pragma managed
+
+bool CommonLoader::LoadAssembly(const char* path)
+{
+	Init();
+	return ManagedCommonLoader::LoadAssembly(path);
 }
 
 void CommonLoader::RaiseInitializers()

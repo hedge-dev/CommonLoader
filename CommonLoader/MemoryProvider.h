@@ -1,11 +1,10 @@
 #pragma once
 
-#include "memory.h"
 #include "AssemblerService.h"
 #include "HookService.h"
 #include "SigScanner.h"
 
-using namespace System::Runtime::InteropServices;
+using namespace Runtime::InteropServices;
 
 namespace CommonLoader
 {
@@ -79,7 +78,7 @@ namespace CommonLoader
 		
 		void WriteASMHook(String^ instructions, IntPtr address, int behavior)
 		{
-			WriteASMHook(instructions, address, behavior, Jump);
+			WriteASMHook(instructions, address, behavior, eHookParameter_Jump);
 		}
 
 		unsigned int NopInstructions(IntPtr address, uint32_t count)

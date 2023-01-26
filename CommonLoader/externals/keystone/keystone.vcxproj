@@ -332,6 +332,16 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="llvm\lib\Support\regengine.inc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="llvm\lib\Support\regcclass.h" />
+    <ClInclude Include="llvm\lib\Support\regcname.h" />
+    <ClInclude Include="llvm\lib\Support\regex2.h" />
+    <ClInclude Include="llvm\lib\Support\regex_impl.h" />
+    <ClInclude Include="llvm\lib\Support\regutils.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

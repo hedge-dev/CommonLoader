@@ -2,7 +2,8 @@
 
 namespace CommonLoader 
 {
-	static bool InitializeAssemblyLoader(const char* path);
-	static void RaiseInitializers();
-	static void RaiseUpdates();
+	void Init();
+	bool LoadAssembly(const char* path);
+	void RaiseInitializers();
+	void RaiseUpdates();
 }

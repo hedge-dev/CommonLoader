@@ -1,85 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CodeObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AssemblyLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommonLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ManagedCommonLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MemoryProvider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AssemblerService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HookService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SigScanner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationStore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="ApplicationStore.h" />
+    <ClInclude Include="AssemblerService.h" />
+    <ClInclude Include="AssemblerService_In.h" />
+    <ClInclude Include="AssemblyLoader.h" />
+    <ClInclude Include="CodeObject.h" />
+    <ClInclude Include="CommonLoader.h" />
+    <ClInclude Include="HookService.h" />
+    <ClInclude Include="ManagedCommonLoader.h" />
+    <ClInclude Include="MemoryProvider.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SigScanner.h" />
+    <ClInclude Include="CommonLoaderAPI.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AssemblyInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommonLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AssemblerService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HookService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SigScanner.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationStore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="externals\xxhash.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="externals\ini.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="ApplicationStore.cpp" />
+    <ClCompile Include="AssemblerService.cpp" />
+    <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="CommonLoader.cpp" />
+    <ClCompile Include="HookService.cpp" />
+    <ClCompile Include="externals\ini.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="SigScanner.cpp" />
+    <ClCompile Include="externals\xxhash.cpp" />
+    <ClCompile Include="CommonLoaderAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">

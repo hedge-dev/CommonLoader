@@ -7,6 +7,8 @@
 #pragma once
 #ifndef PCH_H
 #define PCH_H
+#define CMN_LOADER_IMPL
+#define NOMINMAX
 #include <Windows.h>
 #include "externals/ini.h"
 #include "externals/xxhash.h"

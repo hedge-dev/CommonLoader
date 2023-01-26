@@ -9,23 +9,23 @@
 
 namespace CommonLoader
 {
-	enum HookBehavior
+	enum EHookBehavior
 	{
-		Before,
-		After,
-		Replace
+		eHookBehavior_Before,
+		eHookBehavior_After,
+		eHookBehavior_Replace
 	};
 	
-	enum HookParameter
+	enum EHookParameter
 	{
-		Jump = 0,
-		Call = 1,
+		eHookParameter_Jump = 0,
+		eHookParameter_Call = 1,
 	};
 
 	class HookService
 	{
 	public:
-		static void WriteASMHook(const char* source, size_t address, int behavior = HookBehavior::After, int parameter = HookParameter::Jump);
+		static bool WriteASMHook(const char* source, size_t address, int behavior = eHookBehavior_After, int parameter = eHookParameter_Jump);
 		static unsigned int NopInstructions(size_t address, unsigned int count);
 	};
 }
