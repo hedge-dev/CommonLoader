@@ -12,7 +12,7 @@ namespace CommonLoader {
 	public:
 		static bool LoadAssembly(const char* path)
 		{
-			if (assemblyLoader != nullptr)
+			if (assemblyLoader == nullptr)
 			{
 				assemblyLoader = gcnew AssemblyLoader();
 			}
