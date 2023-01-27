@@ -41,7 +41,7 @@ namespace std
 std::unordered_map<SignatureKey, void*> sig_lookup_cache{};
 
 void MakePatternHash(const char* p_pattern, const char* p_mask, size_t pattern_length, SignatureKey& out);
-void* SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size);
+bool SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size, void*& out);
 void CommitSignatureCache(const SignatureKey& key, void* p_memory);
 
 void CommonLoader::InitSigScanner()
@@ -57,7 +57,11 @@ void CommonLoader::InitSigScanner()
             uint64_t address;
             if (sscanf_s(v.second, "%llx", &address) == 1)
             {
-				address += reinterpret_cast<intptr_t>(ApplicationStore::GetModule().base);
+				if (address != 0)
+				{
+                    address += reinterpret_cast<intptr_t>(ApplicationStore::GetModule().base);
+				}
+
 				sig_lookup_cache[key] = reinterpret_cast<void*>(address);
             }
 		}
@@ -75,8 +79,8 @@ void* CommonLoader::Scan(const char* p_pattern, const char* p_mask, size_t patte
     SignatureKey key{};
     MakePatternHash(p_pattern, p_mask, pattern_length, key);
 
-	void* cachedResult = SearchSignatureCache(key, p_begin, size);
-    if (cachedResult)
+	void* cachedResult{};
+    if (SearchSignatureCache(key, p_begin, size, cachedResult))
     {
         return ScanUncached(p_pattern, p_mask, pattern_length, cachedResult, pattern_length);
     }
@@ -88,6 +92,11 @@ void* CommonLoader::Scan(const char* p_pattern, const char* p_mask, size_t patte
 
 void* CommonLoader::ScanUncached(const char* p_pattern, const char* p_mask, size_t pattern_length, void* p_begin, size_t size)
 {
+    if (p_begin == nullptr)
+    {
+        return nullptr;
+    }
+
     for (size_t i = 0; i < size; i++)
     {
         char* memory = (char*)p_begin + i;
@@ -105,7 +114,7 @@ void* CommonLoader::ScanUncached(const char* p_pattern, const char* p_mask, size
     return nullptr;
 }
 
-void* SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size)
+bool SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size, void*& out)
 {
     const auto& result = sig_lookup_cache.find(key);
     if (result == sig_lookup_cache.end())
@@ -114,18 +123,23 @@ void* SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size)
     }
 
     char* address = static_cast<char*>(result->second);
-    if (address >= p_begin && address < static_cast<char*>(p_begin) + size)
+    if ((address >= p_begin && address < static_cast<char*>(p_begin) + size) || address == nullptr)
     {
-        return address;
+		out = address;
+        return true;
     }
 
-    return nullptr;
+    return false;
 }
 
 
 void CommitSignatureCache(const SignatureKey& key, void* p_memory)
 {
     void* addressUnBased = static_cast<char*>(p_memory) - reinterpret_cast<size_t>(CommonLoader::ApplicationStore::GetModule().base);
+    if (p_memory == nullptr)
+    {
+        addressUnBased = nullptr;
+    }
 
 	char buf[32];
     key.MakeString(buf, sizeof(buf));
