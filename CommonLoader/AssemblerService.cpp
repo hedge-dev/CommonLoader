@@ -6,7 +6,17 @@ using namespace CommonLoader;
 ks_engine* AssemblerServiceImpl::assembler_instance = nullptr;
 csh AssemblerServiceImpl::disassembler_instance = 0;
 cs_err AssemblerServiceImpl::disassembler_error = CS_ERR_OK;
-std::unordered_map<std::string_view, uint64_t> AssemblerServiceImpl::symbol_map = {};
+std::unordered_map<uint32_t, uint64_t> AssemblerServiceImpl::symbol_map = {};
+
+uint32_t MakeStringHash(const char* str)
+{
+	if (str == nullptr)
+	{
+		return 0;
+	}
+
+	return XXH32(str, strlen(str), 0);
+}
 
 void AssemblerService::Init()
 {
@@ -18,14 +28,14 @@ csh AssemblerService::GetDisassembler()
 	return AssemblerServiceImpl::disassembler_instance;
 }
 
-void AssemblerService::RemoveSymbol(const char* name)
+bool AssemblerService::RemoveSymbol(const char* name)
 {
-	AssemblerServiceImpl::symbol_map.erase(name);
+	return AssemblerServiceImpl::symbol_map.erase(MakeStringHash(name));;
 }
 
 void AssemblerService::SetSymbol(const char* name, uint64_t value)
 {
-	AssemblerServiceImpl::symbol_map.insert_or_assign({ name }, value);
+	AssemblerServiceImpl::symbol_map.insert_or_assign(MakeStringHash(name), value);
 }
 
 bool AssemblerService::GetSymbol(const char* name, uint64_t& value)
@@ -47,7 +57,7 @@ AssemblerResult* AssemblerService::CompileAssembly(const char* source, uint64_t 
 
 bool AssemblerServiceImpl::ResolveSymbol(const char* symbol, uint64_t* value)
 {
-	const auto& it = symbol_map.find(symbol);
+	const auto& it = symbol_map.find(MakeStringHash(symbol));
 	if (it != symbol_map.end())
 	{
 		*value = it->second;

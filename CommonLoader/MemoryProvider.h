@@ -8,6 +8,26 @@ using namespace Runtime::InteropServices;
 
 namespace CommonLoader
 {
+	public struct ManagedStringANSI
+	{
+		char* ptr{};
+
+		ManagedStringANSI(String^ str)
+		{
+			ptr = static_cast<char*>(Marshal::StringToHGlobalAnsi(str).ToPointer());
+		}
+
+		~ManagedStringANSI()
+		{
+			Marshal::FreeHGlobal(safe_cast<IntPtr>(ptr));
+		}
+
+		operator const char*() const
+		{
+			return ptr;
+		}
+	};
+
 	public ref class MemoryProvider
 	{
 	public:
@@ -55,25 +75,45 @@ namespace CommonLoader
 			return def;
 		}
 
+		void SetAssemblerSymbol(String^ name, unsigned long value)
+		{
+			const ManagedStringANSI str{ name };
+			AssemblerService::SetSymbol(str, value);
+		}
+
+		bool GetAssemblerSymbol(String^ name, [Runtime::InteropServices::Out] unsigned long% value)
+		{
+			ManagedStringANSI str{ name };
+			uint64_t v{};
+			const bool result = AssemblerService::GetSymbol(str, v);
+			
+			value = v;
+			return result;
+		}
+
+		bool RemoveAssemblerSymbol(String^ name)
+		{
+			ManagedStringANSI str{ name };
+			return AssemblerService::RemoveSymbol(str);
+		}
+
 		array<Byte>^ AssembleInstructions(String^ instructions)
 		{
-			char* source = static_cast<char*>(Marshal::StringToHGlobalAnsi(instructions).ToPointer());
-			AssemblerResult* result = AssemblerService::CompileAssembly(source);
+			const ManagedStringANSI source{ instructions };
+			const AssemblerResult* result = AssemblerService::CompileAssembly(source);
 			
 			array<Byte>^ bytes = gcnew array<Byte>(result->length);
 			pin_ptr<Byte> ptr = &bytes[0];
 			memcpy(ptr, result->data, result->length);
 
 			delete result;
-			Marshal::FreeHGlobal(static_cast<IntPtr>(static_cast<void*>(source)));
 			return bytes;
 		}
 
 		void WriteASMHook(String^ instructions, IntPtr address, int behavior, int parameter)
 		{
-			char* source = static_cast<char*>(Marshal::StringToHGlobalAnsi(instructions).ToPointer());
+			ManagedStringANSI source{ instructions };
 			HookService::WriteASMHook(source, reinterpret_cast<size_t>(address.ToPointer()), behavior, parameter);
-			Marshal::FreeHGlobal(static_cast<IntPtr>(source));
 		}
 		
 		void WriteASMHook(String^ instructions, IntPtr address, int behavior)

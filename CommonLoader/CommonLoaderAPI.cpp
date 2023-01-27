@@ -93,6 +93,15 @@ bool CMN_LOADER_API GetAssemblerSymbolImpl(const char* name, uint64_t* out)
 	return CommonLoader::AssemblerService::GetSymbol(name, *out);
 }
 
+bool CMN_LOADER_API RemoveAssemblerSymbolImpl(const char* name)
+{
+	if (name == nullptr)
+	{
+		return false;
+	}
+
+	return CommonLoader::AssemblerService::RemoveSymbol(name);
+}
 
 const CommonLoaderAPI api_table
 {
@@ -105,5 +114,6 @@ const CommonLoaderAPI api_table
 	CompileAssemblyImpl,
 	FreeAssemblerObjectImpl,
 	SetAssemblerSymbolImpl,
-	GetAssemblerSymbolImpl
+	GetAssemblerSymbolImpl,
+	RemoveAssemblerSymbolImpl
 };

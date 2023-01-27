@@ -30,6 +30,7 @@ struct CommonLoaderAPI
 	DECLARE_API_FUNC(void, FreeAssemblerObject, AssemblerResult*);
 	DECLARE_API_FUNC(void, SetAssemblerSymbol, const char* name, uint64_t value);
 	DECLARE_API_FUNC(bool, GetAssemblerSymbol, const char* name, uint64_t* out);
+	DECLARE_API_FUNC(bool, RemoveAssemblerSymbol, const char* name);
 };
 
 extern const CommonLoaderAPI api_table;

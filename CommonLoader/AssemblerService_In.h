@@ -21,7 +21,7 @@ namespace CommonLoader
 		static ks_engine* assembler_instance;
 		static csh disassembler_instance;
 		static cs_err disassembler_error;
-		static std::unordered_map<std::string_view, uint64_t> symbol_map;
+		static std::unordered_map<uint32_t, uint64_t> symbol_map;
 
 		static csh GetDisassembler() {
 			return disassembler_instance;
