@@ -16,7 +16,7 @@ void* CMN_LOADER_API ScanSignatureImpl(const char* pattern, const char* mask)
 	return CommonLoader::Scan(pattern, mask);
 }
 
-void* CMN_LOADER_API ScanSignature1Impl(const char* pattern, const char* mask, void* begin, size_t size)
+void* CMN_LOADER_API ScanSignatureExImpl(const char* pattern, const char* mask, void* begin, size_t size)
 {
 	return CommonLoader::Scan(pattern, mask, strlen(mask), begin, size);
 }
@@ -98,7 +98,7 @@ const CommonLoaderAPI api_table
 {
 	GetVersionImpl,
 	ScanSignatureImpl,
-	ScanSignature1Impl,
+	ScanSignatureExImpl,
 	GetApplicationOptionImpl,
 	GetApplicationOptionExImpl,
 	SaveApplicationOptionsImpl,

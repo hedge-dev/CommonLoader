@@ -22,7 +22,7 @@ struct CommonLoaderAPI
 {
 	DECLARE_API_FUNC(int, GetVersion);
 	DECLARE_API_FUNC(void*, ScanSignature, const char* pattern, const char* mask);
-	DECLARE_API_FUNC(void*, ScanSignature1, const char* pattern, const char* mask, void* begin, size_t size);
+	DECLARE_API_FUNC(void*, ScanSignatureEx, const char* pattern, const char* mask, void* begin, size_t size);
 	DECLARE_API_FUNC(int, GetApplicationOption, const char* key, char* out, size_t out_size);
 	DECLARE_API_FUNC(int, GetApplicationOptionEx, const char* section, const char* key, char* out, size_t out_size);
 	DECLARE_API_FUNC(void, SaveApplicationOptions);
