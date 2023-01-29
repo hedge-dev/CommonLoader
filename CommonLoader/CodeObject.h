@@ -22,10 +22,10 @@ namespace CommonLoader
 			MethodInfo^ onFrame = baseType->GetMethod("OnFrame");
 
 			if (init)
-				initMethod = (Action^)Delegate::CreateDelegate(Action::typeid, baseObject, init);
+				initMethod = safe_cast<Action^>(Delegate::CreateDelegate(Action::typeid, baseObject, init));
 			
 			if (onFrame)
-				frameMethod = (Action^)Delegate::CreateDelegate(Action::typeid, baseObject, onFrame);
+				frameMethod = safe_cast<Action^>(Delegate::CreateDelegate(Action::typeid, baseObject, onFrame));
 		}
 
 		void Init() 

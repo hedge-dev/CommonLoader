@@ -1,6 +1,7 @@
 #pragma unmanaged
 
 #include "ApplicationStore.h"
+#include "CommonLoaderAPI.h"
 #include <string>
 #include <shlwapi.h>
 #include <ShlObj.h>
@@ -12,9 +13,41 @@ ModuleInfo module_info{ nullptr, 0, nullptr };
 uint32_t app_uid;
 std::wstring app_storage_path{};
 std::unordered_map<std::string, std::unordered_map<std::string, std::string>> app_config{};
+size_t states[CMN_LOADER_STATE_MAX + 1]{};
 
 namespace CommonLoader
 {
+	void ApplicationStore::SetState(size_t state, size_t value)
+	{
+		if (state > CMN_LOADER_STATE_MAX)
+			return;
+
+		states[state] = value;
+	}
+
+	void ApplicationStore::SetStateFlag(size_t state, size_t flag, bool set)
+	{
+		if (state > CMN_LOADER_STATE_MAX)
+			return;
+
+		if (set)
+		{
+			states[state] |= flag;
+		}
+		else
+		{
+			states[state] &= ~flag;
+		}
+	}
+
+	size_t ApplicationStore::GetState(size_t state)
+	{
+		if (state > CMN_LOADER_STATE_MAX)
+			return CMN_LOADER_STATE_INVALID;
+
+		return states[state];
+	}
+
 	void ApplicationStore::Init()
 	{
 		app_config = {};

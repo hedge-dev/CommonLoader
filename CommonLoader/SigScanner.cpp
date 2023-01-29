@@ -2,6 +2,7 @@
 
 #include "SigScanner.h"
 #include "ApplicationStore.h"
+#include "CommonLoaderAPI.h"
 #include <unordered_map>
 
 constexpr const char* ScannerSection = "SigScanner";
@@ -82,7 +83,8 @@ void* CommonLoader::Scan(const char* p_pattern, const char* p_mask, size_t patte
 	void* cachedResult{};
     if (SearchSignatureCache(key, p_begin, size, cachedResult))
     {
-        return ScanUncached(p_pattern, p_mask, pattern_length, cachedResult, pattern_length);
+        return ApplicationStore::GetState(CMN_LOADER_STATE_SKIP_SIG_VALIDATION) ? cachedResult :
+    		ScanUncached(p_pattern, p_mask, pattern_length, cachedResult, pattern_length);
     }
     
     void* address = ScanUncached(p_pattern, p_mask, pattern_length, p_begin, size);

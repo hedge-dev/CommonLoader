@@ -16,7 +16,10 @@ namespace CommonLoader
 	{
 	public:
 		static constexpr const char* DEFAULT_SECTION = "Application";
-
+		
+		static void SetState(size_t state, size_t value);
+		static void SetStateFlag(size_t state, size_t flag, bool set);
+		static size_t GetState(size_t state);
 		static void Init();
 		static const ModuleInfo& GetModule();
 		static uint32_t GetUID();

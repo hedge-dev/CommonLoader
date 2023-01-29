@@ -104,6 +104,21 @@ bool CMN_LOADER_API RemoveAssemblerSymbolImpl(const char* name)
 	return CommonLoader::AssemblerService::RemoveSymbol(name);
 }
 
+void CMN_LOADER_API SetStateImpl(size_t state, size_t value)
+{
+	CommonLoader::ApplicationStore::SetState(state, value);
+}
+
+void CMN_LOADER_API SetStateFlagImpl(size_t state, size_t flag, bool set)
+{
+	CommonLoader::ApplicationStore::SetStateFlag(state, flag, set);
+}
+
+size_t CMN_LOADER_API GetStateImpl(size_t state)
+{
+	return CommonLoader::ApplicationStore::GetState(state);
+}
+
 namespace CommonLoader
 {
 	const CommonLoaderAPI api_table
@@ -118,6 +133,9 @@ namespace CommonLoader
 		FreeAssemblerObjectImpl,
 		SetAssemblerSymbolImpl,
 		GetAssemblerSymbolImpl,
-		RemoveAssemblerSymbolImpl
+		RemoveAssemblerSymbolImpl,
+		SetStateImpl,
+		SetStateFlagImpl,
+		GetStateImpl
 	};
 }
