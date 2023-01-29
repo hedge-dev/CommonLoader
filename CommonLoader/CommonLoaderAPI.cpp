@@ -2,6 +2,7 @@
 
 #include "pch.h"
 #include "CommonLoaderAPI.h"
+#include "CommonLoader.h"
 #include "SigScanner.h"
 #include "ApplicationStore.h"
 #include "AssemblerService.h"
@@ -103,17 +104,20 @@ bool CMN_LOADER_API RemoveAssemblerSymbolImpl(const char* name)
 	return CommonLoader::AssemblerService::RemoveSymbol(name);
 }
 
-const CommonLoaderAPI api_table
+namespace CommonLoader
 {
-	GetVersionImpl,
-	ScanSignatureImpl,
-	ScanSignatureExImpl,
-	GetApplicationOptionImpl,
-	GetApplicationOptionExImpl,
-	SaveApplicationOptionsImpl,
-	CompileAssemblyImpl,
-	FreeAssemblerObjectImpl,
-	SetAssemblerSymbolImpl,
-	GetAssemblerSymbolImpl,
-	RemoveAssemblerSymbolImpl
-};
+	const CommonLoaderAPI api_table
+	{
+		GetVersionImpl,
+		ScanSignatureImpl,
+		ScanSignatureExImpl,
+		GetApplicationOptionImpl,
+		GetApplicationOptionExImpl,
+		SaveApplicationOptionsImpl,
+		CompileAssemblyImpl,
+		FreeAssemblerObjectImpl,
+		SetAssemblerSymbolImpl,
+		GetAssemblerSymbolImpl,
+		RemoveAssemblerSymbolImpl
+	};
+}

@@ -33,10 +33,4 @@ struct CommonLoaderAPI
 	DECLARE_API_FUNC(bool, RemoveAssemblerSymbol, const char* name);
 };
 
-extern const CommonLoaderAPI api_table;
-inline const CommonLoaderAPI* GetCommonLoaderAPI()
-{
-	return &api_table;
-}
-
 #undef DECLARE_API_FUNC

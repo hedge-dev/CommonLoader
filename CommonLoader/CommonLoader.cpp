@@ -32,3 +32,8 @@ void CommonLoader::RaiseUpdates()
 {
 	ManagedCommonLoader::RaiseUpdates();
 }
+
+const CommonLoaderAPI* CommonLoader::GetAPI()
+{
+	return &api_table;
+}
