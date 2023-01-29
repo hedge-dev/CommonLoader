@@ -83,7 +83,7 @@ namespace CommonLoader
 
 		bool GetAssemblerSymbol(String^ name, [Runtime::InteropServices::Out] unsigned long% value)
 		{
-			ManagedStringANSI str{ name };
+			const ManagedStringANSI str{ name };
 			uint64_t v{};
 			const bool result = AssemblerService::GetSymbol(str, v);
 			
@@ -93,7 +93,7 @@ namespace CommonLoader
 
 		bool RemoveAssemblerSymbol(String^ name)
 		{
-			ManagedStringANSI str{ name };
+			const ManagedStringANSI str{ name };
 			return AssemblerService::RemoveSymbol(str);
 		}
 
@@ -112,7 +112,7 @@ namespace CommonLoader
 
 		void WriteASMHook(String^ instructions, IntPtr address, int behavior, int parameter)
 		{
-			ManagedStringANSI source{ instructions };
+			const ManagedStringANSI source{ instructions };
 			HookService::WriteASMHook(source, reinterpret_cast<size_t>(address.ToPointer()), behavior, parameter);
 		}
 		
