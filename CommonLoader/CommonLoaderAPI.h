@@ -2,6 +2,13 @@
 
 #define CMN_LOADER_API __cdecl
 #define CMN_LOADER_API_VERSION 1
+#define CMN_LOADER_API_EXPORT_NAME CommonLoader_GetAPIPointer
+#define CMN_LOADER_STRINGIFY(X) #X
+#define CMN_LOADER_XSTRINGIFY(X) CMN_LOADER_STRINGIFY(X)
+
+#ifndef CMN_LOADER_HOST_MODULES
+#define CMN_LOADER_HOST_MODULES "d3d9.dll", "d3d11.dll"
+#endif
 
 #define CMN_LOADER_STATE_SKIP_SIG_VALIDATION 0
 #define CMN_LOADER_STATE_MAX 1
@@ -38,6 +45,35 @@ struct CommonLoaderAPI
 	DECLARE_API_FUNC(void, SetState, size_t state, size_t value);
 	DECLARE_API_FUNC(void, SetStateFlag, size_t state, size_t flag, bool set);
 	DECLARE_API_FUNC(size_t, GetState, size_t state);
+};
+
+typedef const CommonLoaderAPI* (CommonLoader_GetAPI_t)();
+inline const CommonLoaderAPI* CommonLoader_GetAPI()
+{
+	static const CommonLoaderAPI* api = nullptr;
+	if (api != nullptr)
+	{
+		return api;
+	}
+
+	const char* hosts[] = { CMN_LOADER_HOST_MODULES };
+
+	for (int i = 0; i < sizeof(hosts) / sizeof(hosts[0]); i++)
+	{
+		HMODULE module = GetModuleHandleA(hosts[i]);
+		if (module == nullptr)
+		{
+			continue;
+		}
+
+		CommonLoader_GetAPI_t* getAPI = (CommonLoader_GetAPI_t*)GetProcAddress(module, CMN_LOADER_XSTRINGIFY(CMN_LOADER_API_EXPORT_NAME));
+		if (getAPI)
+		{
+			return api = getAPI();
+		}
+	}
+
+	return api;
 };
 
 #undef DECLARE_API_FUNC
