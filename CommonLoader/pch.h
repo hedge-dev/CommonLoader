@@ -10,6 +10,9 @@
 #define CMN_LOADER_IMPL
 #define NOMINMAX
 #include <Windows.h>
+#include "CommonLoader.h"
+#include "ApplicationStore.h"
+#include "SigScanner.h"
 #include "externals/ini.h"
 #include "externals/xxhash.h"
 
