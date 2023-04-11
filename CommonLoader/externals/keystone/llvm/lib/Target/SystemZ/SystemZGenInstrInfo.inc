@@ -9,7 +9,7 @@
 
 #ifdef GET_INSTRINFO_ENUM
 #undef GET_INSTRINFO_ENUM
-namespace llvm_ks {
+namespace llvm {
 
 namespace SystemZ {
   enum {
@@ -1392,7 +1392,7 @@ namespace Sched {
 
 #ifdef GET_INSTRINFO_MC_DESC
 #undef GET_INSTRINFO_MC_DESC
-namespace llvm_ks {
+namespace llvm {
 
 static const MCPhysReg ImplicitList1[] = { SystemZ::CC, 0 };
 static const MCPhysReg ImplicitList2[] = { SystemZ::R0L, 0 };
@@ -2974,7 +2974,7 @@ static inline void InitSystemZMCInstrInfo(MCInstrInfo *II) {
 
 #ifdef GET_INSTRINFO_HEADER
 #undef GET_INSTRINFO_HEADER
-namespace llvm_ks {
+namespace llvm {
 struct SystemZGenInstrInfo : public TargetInstrInfo {
   explicit SystemZGenInstrInfo(int CFSetupOpcode = -1, int CFDestroyOpcode = -1, int CatchRetOpcode = -1);
   ~SystemZGenInstrInfo() override {}
@@ -2985,7 +2985,7 @@ struct SystemZGenInstrInfo : public TargetInstrInfo {
 
 #ifdef GET_INSTRINFO_OPERAND_ENUM
 #undef GET_INSTRINFO_OPERAND_ENUM
-namespace llvm_ks {
+namespace llvm {
 namespace SystemZ {
 namespace OpName { 
 enum {
@@ -2993,23 +2993,23 @@ OPERAND_LAST
 };
 } // end namespace OpName
 } // end namespace SystemZ
-} // end namespace llvm_ks
+} // end namespace llvm
 #endif //GET_INSTRINFO_OPERAND_ENUM
 #ifdef GET_INSTRINFO_NAMED_OPS
 #undef GET_INSTRINFO_NAMED_OPS
-namespace llvm_ks {
+namespace llvm {
 namespace SystemZ {
 LLVM_READONLY
 int16_t getNamedOperandIdx(uint16_t Opcode, uint16_t NamedIdx) {
   return -1;
 }
 } // end namespace SystemZ
-} // end namespace llvm_ks
+} // end namespace llvm
 #endif //GET_INSTRINFO_NAMED_OPS
 
 #ifdef GET_INSTRINFO_OPERAND_TYPES_ENUM
 #undef GET_INSTRINFO_OPERAND_TYPES_ENUM
-namespace llvm_ks {
+namespace llvm {
 namespace SystemZ {
 namespace OpTypes { 
 enum OperandType {
@@ -3093,11 +3093,11 @@ enum OperandType {
 };
 } // end namespace OpTypes
 } // end namespace SystemZ
-} // end namespace llvm_ks
+} // end namespace llvm
 #endif // GET_INSTRINFO_OPERAND_TYPES_ENUM
 #ifdef GET_INSTRMAP_INFO
 #undef GET_INSTRMAP_INFO
-namespace llvm_ks {
+namespace llvm {
 
 namespace SystemZ {
 

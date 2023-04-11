@@ -17,7 +17,7 @@
 #include "llvm/MC/MCRegisterInfo.h"
 #include "llvm/MC/MCStreamer.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 struct MipsABIFlagsSection;
 
@@ -113,7 +113,7 @@ public:
   }
 
 protected:
-  llvm_ks::Optional<MipsABIInfo> ABI;
+  llvm::Optional<MipsABIInfo> ABI;
   MipsABIFlagsSection ABIFlagsSection;
 
   bool GPRInfoSet;

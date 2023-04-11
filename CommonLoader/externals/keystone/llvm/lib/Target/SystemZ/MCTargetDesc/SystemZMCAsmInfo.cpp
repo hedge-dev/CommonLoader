@@ -11,7 +11,7 @@
 #include "llvm/MC/MCContext.h"
 #include "llvm/MC/MCSectionELF.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 SystemZMCAsmInfo::SystemZMCAsmInfo(const Triple &TT) {
   PointerSize = 8;

@@ -32,7 +32,7 @@
 
 #include "keystone/keystone.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 #define DEBUG_TYPE "assembler"
 
@@ -210,19 +210,20 @@ bool MCAssembler::evaluateFixup(const MCAsmLayout &Layout,
                 // resolver handled this symbol
                 Value = imm;
                 IsResolved = true;
-            } else {
+            }
+            else {
                 // resolver did not handle this symbol
                 KsError = KS_ERR_ASM_SYMBOL_MISSING;
                 return false;
             }
-        } else {
+        }
+        else {
             // no resolver registered
             KsError = KS_ERR_ASM_SYMBOL_MISSING;
             return false;
         }
     }
   }
-
   if (const MCSymbolRefExpr *B = Target.getSymB()) {
     const MCSymbol &Sym = B->getSymbol();
     bool valid;
@@ -685,14 +686,13 @@ std::pair<uint64_t, bool> MCAssembler::handleFixup(const MCAsmLayout &Layout,
     getWriter().recordRelocation(*this, Layout, &F, Fixup, Target, IsPCRel,
                                  FixedValue);
   }
-
   return std::make_pair(FixedValue, IsPCRel);
 }
 
 void MCAssembler::layout(MCAsmLayout &Layout, unsigned int &KsError)
 {
   DEBUG_WITH_TYPE("mc-dump", {
-      llvm_ks::errs() << "assembler backend - pre-layout\n--\n";
+      llvm::errs() << "assembler backend - pre-layout\n--\n";
       dump(); });
 
   // Create dummy fragments and assign section ordinals.
@@ -721,14 +721,14 @@ void MCAssembler::layout(MCAsmLayout &Layout, unsigned int &KsError)
     continue;
 
   DEBUG_WITH_TYPE("mc-dump", {
-      llvm_ks::errs() << "assembler backend - post-relaxation\n--\n";
+      llvm::errs() << "assembler backend - post-relaxation\n--\n";
       dump(); });
 
   // Finalize the layout, including fragment lowering.
   finishLayout(Layout);
 
   DEBUG_WITH_TYPE("mc-dump", {
-      llvm_ks::errs() << "assembler backend - final-layout\n--\n";
+      llvm::errs() << "assembler backend - final-layout\n--\n";
       dump(); });
 
   // Allow the object writer a chance to perform post-layout binding (for

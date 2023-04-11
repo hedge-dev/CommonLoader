@@ -18,7 +18,7 @@
 #include "llvm/Object/ELFTypes.h"
 #include "llvm/Support/MemoryBuffer.h"
 
-namespace llvm_ks {
+namespace llvm {
 namespace object {
 
 StringRef getELFRelocationTypeName(uint32_t Machine, uint32_t Type);
@@ -537,6 +537,6 @@ static inline unsigned elf_hash(StringRef &symbolName) {
   return h;
 }
 } // end namespace object
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

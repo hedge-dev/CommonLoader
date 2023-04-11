@@ -17,7 +17,7 @@
 
 #include "MCTargetDesc/HexagonShuffler.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class MCInst;
 

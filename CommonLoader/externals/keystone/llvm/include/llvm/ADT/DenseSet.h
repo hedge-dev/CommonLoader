@@ -16,7 +16,7 @@
 
 #include "llvm/ADT/DenseMap.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 namespace detail {
 struct DenseSetEmpty {};
@@ -160,6 +160,6 @@ public:
   }
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

@@ -13,7 +13,7 @@
 #include "llvm/Support/raw_ostream.h"
 #include <cassert>
 #include <vector>
-using namespace llvm_ks;
+using namespace llvm;
 
 // Clients are responsible for avoid race conditions in registration.
 static Target *FirstTarget = nullptr;

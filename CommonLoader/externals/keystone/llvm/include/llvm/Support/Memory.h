@@ -7,7 +7,7 @@
 //
 //===----------------------------------------------------------------------===//
 //
-// This file declares the llvm_ks::sys::Memory class.
+// This file declares the llvm::sys::Memory class.
 //
 //===----------------------------------------------------------------------===//
 
@@ -18,7 +18,7 @@
 #include <string>
 #include <system_error>
 
-namespace llvm_ks {
+namespace llvm {
 namespace sys {
 
   /// This class encapsulates the notion of a memory block which has an address

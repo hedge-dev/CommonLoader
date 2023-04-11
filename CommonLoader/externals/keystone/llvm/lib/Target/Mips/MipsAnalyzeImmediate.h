@@ -12,7 +12,7 @@
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/Support/DataTypes.h"
 
-namespace llvm_ks {
+namespace llvm {
 
   class MipsAnalyzeImmediate {
   public:

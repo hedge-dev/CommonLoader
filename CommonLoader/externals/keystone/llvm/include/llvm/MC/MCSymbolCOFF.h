@@ -11,7 +11,7 @@
 
 #include "llvm/MC/MCSymbol.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCSymbolCOFF : public MCSymbol {
 
   /// This corresponds to the e_type field of the COFF symbol.

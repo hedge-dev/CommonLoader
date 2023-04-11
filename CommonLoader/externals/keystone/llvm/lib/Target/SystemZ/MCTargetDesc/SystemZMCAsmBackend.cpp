@@ -17,7 +17,7 @@
 
 #include <keystone/keystone.h>
 
-using namespace llvm_ks;
+using namespace llvm;
 
 // Value is a fully-resolved relocation value: Symbol + Addend [- Pivot].
 // Return the bits that should be installed in a relocation field for
@@ -115,7 +115,7 @@ bool SystemZMCAsmBackend::writeNopData(uint64_t Count,
   return true;
 }
 
-MCAsmBackend *llvm_ks::createSystemZMCAsmBackend(const Target &T,
+MCAsmBackend *llvm::createSystemZMCAsmBackend(const Target &T,
                                               const MCRegisterInfo &MRI,
                                               const Triple &TT, StringRef CPU) {
   uint8_t OSABI = MCELFObjectTargetWriter::getOSABI(TT.getOS());

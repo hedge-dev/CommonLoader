@@ -15,7 +15,7 @@
 #include "llvm/Support/ELF.h"
 #include <vector>
 
-namespace llvm_ks {
+namespace llvm {
 class MCAssembler;
 class MCContext;
 class MCFixup;

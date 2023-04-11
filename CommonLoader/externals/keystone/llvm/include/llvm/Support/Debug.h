@@ -28,7 +28,7 @@
 #ifndef LLVM_SUPPORT_DEBUG_H
 #define LLVM_SUPPORT_DEBUG_H
 
-namespace llvm_ks {
+namespace llvm {
 class raw_ostream;
 
 #ifndef NDEBUG

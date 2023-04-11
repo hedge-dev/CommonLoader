@@ -12,7 +12,7 @@
 
 #include "llvm/MC/MCExpr.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class ARMMCExpr : public MCTargetExpr {
 public:
@@ -74,6 +74,6 @@ public:
     return E->getKind() == MCExpr::Target;
   }
 };
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

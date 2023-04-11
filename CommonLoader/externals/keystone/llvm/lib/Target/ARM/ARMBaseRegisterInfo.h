@@ -19,7 +19,7 @@
 #define GET_REGINFO_HEADER
 #include "ARMGenRegisterInfo.inc"
 
-namespace llvm_ks {
+namespace llvm {
 /// Register allocation hints.
 namespace ARMRI {
   enum {
@@ -194,6 +194,6 @@ public:
                       const TargetRegisterClass *NewRC) const override;
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

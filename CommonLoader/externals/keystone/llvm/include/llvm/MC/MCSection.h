@@ -22,7 +22,7 @@
 #include "llvm/MC/SectionKind.h"
 #include "llvm/Support/Compiler.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCAsmInfo;
 class MCAssembler;
 class MCContext;
@@ -198,6 +198,6 @@ public:
   virtual bool isVirtualSection() const = 0;
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

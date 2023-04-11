@@ -18,7 +18,7 @@
 #include "SparcFixupKinds.h"
 #include "llvm/MC/MCExpr.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class StringRef;
 class SparcMCExpr : public MCTargetExpr {
@@ -107,6 +107,6 @@ public:
   static Sparc::Fixups getFixupKind(VariantKind Kind);
 };
 
-} // end namespace llvm_ks.
+} // end namespace llvm.
 
 #endif

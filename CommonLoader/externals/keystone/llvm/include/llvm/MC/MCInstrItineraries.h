@@ -19,7 +19,7 @@
 #include "llvm/MC/MCSchedule.h"
 #include <algorithm>
 
-namespace llvm_ks {
+namespace llvm {
 
 //===----------------------------------------------------------------------===//
 /// These values represent a non-pipelined step in

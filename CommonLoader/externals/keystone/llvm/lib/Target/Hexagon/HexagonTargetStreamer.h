@@ -12,7 +12,7 @@
 
 #include "llvm/MC/MCStreamer.h"
 
-namespace llvm_ks {
+namespace llvm {
 class HexagonTargetStreamer : public MCTargetStreamer {
 public:
   HexagonTargetStreamer(MCStreamer &S) : MCTargetStreamer(S) {}

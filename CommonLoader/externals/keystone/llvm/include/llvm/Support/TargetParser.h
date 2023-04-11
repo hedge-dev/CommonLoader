@@ -19,7 +19,7 @@
 // lists, but SmallVector would probably be better
 #include <vector>
 
-namespace llvm_ks {
+namespace llvm {
 class StringRef;
 
 // Target specific information into their own namespaces. These should be
@@ -140,6 +140,6 @@ unsigned parseArchProfile(StringRef Arch);
 unsigned parseArchVersion(StringRef Arch);
 
 } // namespace ARM
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif

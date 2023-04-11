@@ -13,7 +13,7 @@
 #include "llvm/ADT/StringRef.h"
 #include "llvm/Support/DataTypes.h"
 
-namespace llvm_ks {
+namespace llvm {
 class DataExtractor {
   StringRef Data;
   uint8_t IsLittleEndian;
@@ -360,6 +360,6 @@ public:
   }
 };
 
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif

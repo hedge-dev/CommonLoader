@@ -21,7 +21,7 @@
 #include "llvm/Support/ELF.h"
 #include "llvm/Support/raw_ostream.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class MCSymbol;
 
@@ -92,6 +92,6 @@ public:
   }
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

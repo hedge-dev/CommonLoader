@@ -9,10 +9,10 @@
 
 #include "MCTargetDesc/MipsMCTargetDesc.h"
 #include "llvm/Support/TargetRegistry.h"
-using namespace llvm_ks;
+using namespace llvm;
 
-Target llvm_ks::TheMipsTarget, llvm_ks::TheMipselTarget;
-Target llvm_ks::TheMips64Target, llvm_ks::TheMips64elTarget;
+Target llvm::TheMipsTarget, llvm::TheMipselTarget;
+Target llvm::TheMips64Target, llvm::TheMips64elTarget;
 
 extern "C" void LLVMInitializeMipsTargetInfo() {
   RegisterTarget<Triple::mips> X(TheMipsTarget, "mips", "Mips");

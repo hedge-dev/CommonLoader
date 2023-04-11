@@ -19,7 +19,7 @@
 #ifndef LLVM_SUPPORT_ARMBUILDATTRIBUTES_H
 #define LLVM_SUPPORT_ARMBUILDATTRIBUTES_H
 
-namespace llvm_ks {
+namespace llvm {
 class StringRef;
 
 namespace ARMBuildAttrs {
@@ -228,6 +228,6 @@ enum {
 };
 
 } // namespace ARMBuildAttrs
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif

@@ -16,7 +16,7 @@
 
 #include "MCTargetDesc/ARMMCTargetDesc.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 template<typename InstrType> // could be MachineInstr or MCInst
 bool IsCPSRDead(InstrType *Instr);

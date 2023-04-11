@@ -31,7 +31,7 @@
 #include <cstddef>
 #include <cstdlib>
 
-namespace llvm_ks {
+namespace llvm {
 
 /// \brief CRTP base class providing obvious overloads for the core \c
 /// Allocate() methods of LLVM-style allocators.
@@ -408,11 +408,11 @@ public:
   T *Allocate(size_t num = 1) { return Allocator.Allocate<T>(num); }
 };
 
-}  // end namespace llvm_ks
+}  // end namespace llvm
 
 template <typename AllocatorT, size_t SlabSize, size_t SizeThreshold>
 void *operator new(size_t Size,
-                   llvm_ks::BumpPtrAllocatorImpl<AllocatorT, SlabSize,
+                   llvm::BumpPtrAllocatorImpl<AllocatorT, SlabSize,
                                               SizeThreshold> &Allocator) {
   struct S {
     char c;
@@ -424,12 +424,12 @@ void *operator new(size_t Size,
     } x;
   };
   return Allocator.Allocate(
-      Size, std::min((size_t)llvm_ks::NextPowerOf2(Size), offsetof(S, x)));
+      Size, std::min((size_t)llvm::NextPowerOf2(Size), offsetof(S, x)));
 }
 
 template <typename AllocatorT, size_t SlabSize, size_t SizeThreshold>
 void operator delete(
-    void *, llvm_ks::BumpPtrAllocatorImpl<AllocatorT, SlabSize, SizeThreshold> &) {
+    void *, llvm::BumpPtrAllocatorImpl<AllocatorT, SlabSize, SizeThreshold> &) {
 }
 
 #endif // LLVM_SUPPORT_ALLOCATOR_H

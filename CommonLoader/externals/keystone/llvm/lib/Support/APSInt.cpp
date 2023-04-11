@@ -15,7 +15,7 @@
 #include "llvm/ADT/APSInt.h"
 #include "llvm/ADT/FoldingSet.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 APSInt::APSInt(StringRef Str) {
   assert(!Str.empty() && "Invalid string length");

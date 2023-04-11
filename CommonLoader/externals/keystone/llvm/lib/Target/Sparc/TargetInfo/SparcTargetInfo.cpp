@@ -9,11 +9,11 @@
 
 #include "MCTargetDesc/SparcMCTargetDesc.h"
 #include "llvm/Support/TargetRegistry.h"
-using namespace llvm_ks;
+using namespace llvm;
 
-Target llvm_ks::TheSparcTarget;
-Target llvm_ks::TheSparcV9Target;
-Target llvm_ks::TheSparcelTarget;
+Target llvm::TheSparcTarget;
+Target llvm::TheSparcV9Target;
+Target llvm::TheSparcelTarget;
 
 extern "C" void LLVMInitializeSparcTargetInfo() {
   RegisterTarget<Triple::sparc> X(TheSparcTarget, "sparc",

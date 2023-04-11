@@ -13,7 +13,7 @@
 #include "llvm/MC/MCContext.h"
 #include "llvm/MC/MCSymbol.h"
 #include "llvm/Support/raw_ostream.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 //===----------------------------------------------------------------------===//
 // MCSection
@@ -87,7 +87,7 @@ MCSection::getSubsectionInsertionPoint(unsigned Subsection) {
 
 #if !defined(NDEBUG) || defined(LLVM_ENABLE_DUMP)
 LLVM_DUMP_METHOD void MCSection::dump() {
-  raw_ostream &OS = llvm_ks::errs();
+  raw_ostream &OS = llvm::errs();
 
   OS << "<MCSection";
   OS << " Fragments:[\n      ";

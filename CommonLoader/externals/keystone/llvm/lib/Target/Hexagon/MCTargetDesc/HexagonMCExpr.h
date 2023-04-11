@@ -12,7 +12,7 @@
 
 #include "llvm/MC/MCExpr.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCInst;
 class HexagonNoExtendOperand : public MCTargetExpr {
 public:
@@ -30,6 +30,6 @@ private:
   HexagonNoExtendOperand(MCExpr const *Expr);
   MCExpr const *Expr;
 };
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif // LLVM_LIB_TARGET_HEXAGON_HEXAGONMCEXPR_H

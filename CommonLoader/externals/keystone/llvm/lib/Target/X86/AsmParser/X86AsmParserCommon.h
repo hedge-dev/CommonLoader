@@ -12,7 +12,7 @@
 
 #include "llvm/Support/MathExtras.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 inline bool isImmSExti16i8Value(uint64_t Value) {
   return isInt<8>(Value) ||
@@ -36,6 +36,6 @@ inline bool isImmUnsignedi8Value(uint64_t Value) {
   return isUInt<8>(Value) || isInt<8>(Value);
 }
 
-} // End of namespace llvm_ks
+} // End of namespace llvm
 
 #endif

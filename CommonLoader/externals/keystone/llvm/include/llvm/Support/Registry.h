@@ -19,7 +19,7 @@
 #include "llvm/Support/Compiler.h"
 #include <memory>
 
-namespace llvm_ks {
+namespace llvm {
   /// A simple registry entry which provides only a name, description, and
   /// no-argument constructor.
   template <typename T>
@@ -124,6 +124,6 @@ namespace llvm_ks {
 
   template <typename T>
   typename Registry<T>::node *Registry<T>::Tail;
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif // LLVM_SUPPORT_REGISTRY_H

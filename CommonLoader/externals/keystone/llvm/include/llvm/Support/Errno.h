@@ -16,7 +16,7 @@
 
 #include <string>
 
-namespace llvm_ks {
+namespace llvm {
 namespace sys {
 
 /// Returns a string representation of the errno value, using whatever
@@ -29,6 +29,6 @@ std::string StrError();
 std::string StrError(int errnum);
 
 }  // namespace sys
-}  // namespace llvm_ks
+}  // namespace llvm
 
 #endif  // LLVM_SYSTEM_ERRNO_H

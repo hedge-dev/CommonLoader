@@ -12,7 +12,7 @@
 #include "llvm/MC/MCExpr.h"
 #include "llvm/MC/MCValue.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 MCELFObjectTargetWriter::MCELFObjectTargetWriter(bool Is64Bit_,
                                                  uint8_t OSABI_,

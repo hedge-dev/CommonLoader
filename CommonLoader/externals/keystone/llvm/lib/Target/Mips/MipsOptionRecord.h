@@ -24,7 +24,7 @@
 #include "llvm/MC/MCContext.h"
 #include "llvm/MC/MCRegisterInfo.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MipsELFStreamer;
 class MCSubtargetInfo;
 
@@ -74,5 +74,5 @@ private:
   uint32_t ri_cprmask[4];
   int64_t ri_gp_value;
 };
-} // namespace llvm_ks
+} // namespace llvm
 #endif

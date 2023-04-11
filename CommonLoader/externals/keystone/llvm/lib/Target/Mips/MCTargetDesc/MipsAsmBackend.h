@@ -19,7 +19,7 @@
 #include "llvm/ADT/Triple.h"
 #include "llvm/MC/MCAsmBackend.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class MCAssembler;
 struct MCFixupKindInfo;

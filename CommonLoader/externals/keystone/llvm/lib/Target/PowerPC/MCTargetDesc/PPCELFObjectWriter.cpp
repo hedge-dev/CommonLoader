@@ -17,7 +17,7 @@
 #include "llvm/MC/MCValue.h"
 #include "llvm/Support/ErrorHandling.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 namespace {
   class PPCELFObjectWriter : public MCELFObjectTargetWriter {
@@ -416,7 +416,7 @@ bool PPCELFObjectWriter::needsRelocateWithSymbol(const MCSymbol &Sym,
   }
 }
 
-MCObjectWriter *llvm_ks::createPPCELFObjectWriter(raw_pwrite_stream &OS,
+MCObjectWriter *llvm::createPPCELFObjectWriter(raw_pwrite_stream &OS,
                                                bool Is64Bit,
                                                bool IsLittleEndian,
                                                uint8_t OSABI) {

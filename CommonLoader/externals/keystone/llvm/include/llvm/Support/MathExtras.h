@@ -28,7 +28,7 @@
 #include <android/api-level.h>
 #endif
 
-namespace llvm_ks {
+namespace llvm {
 /// \brief The behavior an operation has on an input of 0.
 enum ZeroBehavior {
   /// \brief The returned value is undefined.

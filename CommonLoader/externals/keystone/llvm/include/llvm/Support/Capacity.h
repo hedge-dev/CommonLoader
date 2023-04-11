@@ -17,7 +17,7 @@
 
 #include <cstddef>
 
-namespace llvm_ks {
+namespace llvm {
 
 template <typename T>
 static inline size_t capacity_in_bytes(const T &x) {
@@ -26,7 +26,7 @@ static inline size_t capacity_in_bytes(const T &x) {
   return x.capacity() * sizeof(typename T::value_type);
 }
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif
 

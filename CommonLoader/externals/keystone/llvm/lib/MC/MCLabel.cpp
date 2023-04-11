@@ -10,7 +10,7 @@
 #include "llvm/MC/MCLabel.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/raw_ostream.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 void MCLabel::print(raw_ostream &OS) const {
   OS << '"' << getInstance() << '"';

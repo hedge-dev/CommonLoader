@@ -14,7 +14,7 @@
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/MipsABIFlags.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class MCStreamer;
 

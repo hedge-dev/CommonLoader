@@ -23,7 +23,7 @@
 #include "llvm/MC/MCSubtargetInfo.h"
 #include "llvm/Support/raw_ostream.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class HexagonMCCodeEmitter : public MCCodeEmitter {
   MCContext &MCT;
@@ -70,6 +70,6 @@ public:
                              MCSubtargetInfo const &STI) const;
 }; // class HexagonMCCodeEmitter
 
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif /* HEXAGONMCCODEEMITTER_H */

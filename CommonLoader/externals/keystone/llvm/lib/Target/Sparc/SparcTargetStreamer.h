@@ -13,7 +13,7 @@
 #include "llvm/MC/MCELFStreamer.h"
 #include "llvm/MC/MCStreamer.h"
 
-namespace llvm_ks {
+namespace llvm {
 class SparcTargetStreamer : public MCTargetStreamer {
 public:
   SparcTargetStreamer(MCStreamer &S);
@@ -42,6 +42,6 @@ public:
   void emitSparcRegisterIgnore(unsigned reg) override {}
   void emitSparcRegisterScratch(unsigned reg) override {}
 };
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

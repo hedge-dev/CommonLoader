@@ -16,7 +16,7 @@
 #include "llvm/MC/MCContext.h"
 #include "llvm/MC/MCExpr.h"
 #include "llvm/MC/MCSectionMachO.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 bool MCAsmInfoDarwin::isSectionAtomizableBySymbols(
     const MCSection &Section) const {

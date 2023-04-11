@@ -24,7 +24,7 @@
 #include "llvm/Support/DataTypes.h"
 #include <cstring>
 
-namespace llvm_ks {
+namespace llvm {
 
 namespace ELF {
 
@@ -1302,6 +1302,6 @@ enum {
 
 } // end namespace ELF
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

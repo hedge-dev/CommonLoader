@@ -19,7 +19,7 @@
 #include <cassert>
 #include <limits>
 
-namespace llvm_ks {
+namespace llvm {
 
 template <typename T> struct DenseMapInfo;
 
@@ -219,5 +219,5 @@ public:
   enum { NumLowBitsAvailable = PtrTraits::NumLowBitsAvailable - IntBits };
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 #endif

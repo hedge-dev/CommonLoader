@@ -23,7 +23,7 @@
 #include "llvm/Support/DataTypes.h"
 #include <bitset>
 
-namespace llvm_ks {
+namespace llvm {
   class raw_ostream;
   class StringRef;
 
@@ -126,6 +126,6 @@ public:
   void getDefaultSubtargetFeatures(const Triple& Triple);
 };
 
-} // End namespace llvm_ks
+} // End namespace llvm
 
 #endif

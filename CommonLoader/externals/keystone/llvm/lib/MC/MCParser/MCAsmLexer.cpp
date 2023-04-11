@@ -10,7 +10,7 @@
 #include "llvm/MC/MCParser/MCAsmLexer.h"
 #include "llvm/Support/SourceMgr.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 MCAsmLexer::MCAsmLexer() : TokStart(nullptr), SkipSpace(true) {
   CurTok.emplace_back(AsmToken::Error, StringRef());

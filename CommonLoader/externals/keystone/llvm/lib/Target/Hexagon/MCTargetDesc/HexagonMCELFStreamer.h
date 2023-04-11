@@ -16,7 +16,7 @@
 #include "llvm/MC/MCELFStreamer.h"
 #include "HexagonTargetStreamer.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class HexagonMCELFStreamer : public MCELFStreamer {
   std::unique_ptr<MCInstrInfo> MCII;
@@ -40,6 +40,6 @@ public:
 MCStreamer *createHexagonELFStreamer(MCContext &Context, MCAsmBackend &MAB,
                                      raw_pwrite_stream &OS, MCCodeEmitter *CE);
 
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif

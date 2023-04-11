@@ -16,7 +16,7 @@
 
 #include "llvm/MC/MCELFStreamer.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 MCELFStreamer *createAArch64ELFStreamer(MCContext &Context, MCAsmBackend &TAB,
                                         raw_pwrite_stream &OS,

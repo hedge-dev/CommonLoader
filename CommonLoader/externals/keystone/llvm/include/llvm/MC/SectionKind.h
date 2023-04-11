@@ -10,7 +10,7 @@
 #ifndef LLVM_MC_SECTIONKIND_H
 #define LLVM_MC_SECTIONKIND_H
 
-namespace llvm_ks {
+namespace llvm {
 
 /// SectionKind - This is a simple POD value that classifies the properties of
 /// a section.  A section is classified into the deepest possible
@@ -190,6 +190,6 @@ public:
   static SectionKind getReadOnlyWithRel() { return get(ReadOnlyWithRel); }
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

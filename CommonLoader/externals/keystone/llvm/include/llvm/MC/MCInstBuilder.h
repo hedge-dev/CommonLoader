@@ -17,7 +17,7 @@
 
 #include "llvm/MC/MCInst.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class MCInstBuilder {
   MCInst Inst;
@@ -69,6 +69,6 @@ public:
   }
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

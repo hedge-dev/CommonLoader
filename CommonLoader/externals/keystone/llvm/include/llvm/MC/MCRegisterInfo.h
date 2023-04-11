@@ -20,7 +20,7 @@
 #include "llvm/Support/ErrorHandling.h"
 #include <cassert>
 
-namespace llvm_ks {
+namespace llvm {
 
 /// An unsigned integer type large enough to represent all physical registers,
 /// but not necessarily virtual registers.

@@ -20,7 +20,7 @@
 // GCC #defines PPC on Linux but we use it as our namespace name
 #undef PPC
 
-namespace llvm_ks {
+namespace llvm {
   namespace PPCII {
     
   /// Target Operand Flag enum.
@@ -69,6 +69,6 @@ namespace llvm_ks {
   };
   } // end namespace PPCII
   
-} // end namespace llvm_ks;
+} // end namespace llvm;
 
 #endif

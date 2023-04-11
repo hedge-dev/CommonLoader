@@ -12,7 +12,7 @@
 
 #include "llvm/MC/MCFixup.h"
 
-namespace llvm_ks {
+namespace llvm {
 namespace SystemZ {
 enum FixupKind {
   // These correspond directly to R_390_* relocations.
@@ -25,6 +25,6 @@ enum FixupKind {
   NumTargetFixupKinds = LastTargetFixupKind - FirstTargetFixupKind
 };
 } // end namespace SystemZ
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

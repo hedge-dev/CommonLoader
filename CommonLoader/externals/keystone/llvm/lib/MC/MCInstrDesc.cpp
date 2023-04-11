@@ -17,7 +17,7 @@
 #include "llvm/MC/MCRegisterInfo.h"
 #include "llvm/MC/MCSubtargetInfo.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 bool MCInstrDesc::getDeprecatedInfo(MCInst &MI, const MCSubtargetInfo &STI,
                                     std::string &Info) const {

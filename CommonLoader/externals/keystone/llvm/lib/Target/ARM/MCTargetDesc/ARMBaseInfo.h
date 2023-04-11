@@ -20,7 +20,7 @@
 #include "ARMMCTargetDesc.h"
 #include "llvm/Support/ErrorHandling.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 // Enums corresponding to ARM condition codes
 namespace ARMCC {
@@ -459,6 +459,6 @@ namespace ARMII {
 
 } // end namespace ARMII
 
-} // end namespace llvm_ks;
+} // end namespace llvm;
 
 #endif

@@ -17,7 +17,7 @@
 #include "llvm/ADT/StringRef.h"
 #include "llvm/MC/MCSection.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCSymbol;
 
 /// This represents a section on Windows
@@ -74,6 +74,6 @@ public:
   static bool classof(const MCSection *S) { return S->getVariant() == SV_COFF; }
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

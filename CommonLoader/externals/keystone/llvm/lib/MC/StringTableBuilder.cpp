@@ -14,7 +14,7 @@
 
 #include <vector>
 
-using namespace llvm_ks;
+using namespace llvm;
 
 StringTableBuilder::StringTableBuilder(Kind K) : K(K) {
   // Account for leading bytes in table so that offsets returned from add are

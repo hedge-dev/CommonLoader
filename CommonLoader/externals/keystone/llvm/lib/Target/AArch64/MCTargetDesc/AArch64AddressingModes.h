@@ -20,7 +20,7 @@
 #include "llvm/Support/MathExtras.h"
 #include <cassert>
 
-namespace llvm_ks {
+namespace llvm {
 
 /// AArch64_AM - AArch64 Addressing Mode Stuff
 namespace AArch64_AM {
@@ -755,6 +755,6 @@ static inline uint64_t decodeAdvSIMDModImmType12(uint8_t Imm) {
 
 } // end namespace AArch64_AM
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

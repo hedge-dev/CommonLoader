@@ -13,7 +13,7 @@
 #include "llvm/ADT/StringSwitch.h"
 #include "llvm/MC/MCTargetOptions.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 namespace {
 static const MCPhysReg O32IntRegs[4] = {Mips::A0, Mips::A1, Mips::A2, Mips::A3};

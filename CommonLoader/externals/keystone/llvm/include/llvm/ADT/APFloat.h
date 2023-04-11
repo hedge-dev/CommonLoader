@@ -19,7 +19,7 @@
 
 #include "llvm/ADT/APInt.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 struct fltSemantics;
 class APSInt;
@@ -681,6 +681,6 @@ inline APFloat maxnum(const APFloat &A, const APFloat &B) {
   return (A.compare(B) == APFloat::cmpLessThan) ? B : A;
 }
 
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif // LLVM_ADT_APFLOAT_H

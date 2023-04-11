@@ -21,7 +21,7 @@
 
 struct llvm_regex;
 
-namespace llvm_ks {
+namespace llvm {
   class StringRef;
   template<typename T> class SmallVectorImpl;
 

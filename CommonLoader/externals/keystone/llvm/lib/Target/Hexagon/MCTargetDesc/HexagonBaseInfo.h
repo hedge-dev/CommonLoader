@@ -21,7 +21,7 @@
 #include "llvm/Support/ErrorHandling.h"
 #include <stdint.h>
 
-namespace llvm_ks {
+namespace llvm {
 
 /// HexagonII - This namespace holds all of the target specific flags that
 /// instruction info tracks.
@@ -280,6 +280,6 @@ namespace HexagonII {
 
 } // End namespace HexagonII.
 
-} // End namespace llvm_ks.
+} // End namespace llvm.
 
 #endif

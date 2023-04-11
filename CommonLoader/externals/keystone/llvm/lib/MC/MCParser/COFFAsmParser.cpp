@@ -20,7 +20,7 @@
 #include "llvm/MC/MCSectionCOFF.h"
 #include "llvm/MC/MCStreamer.h"
 #include "llvm/Support/COFF.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 namespace {
 
@@ -793,7 +793,7 @@ bool COFFAsmParser::ParseSEHRegisterNumber(unsigned &RegNo) {
   return false;
 }
 
-namespace llvm_ks {
+namespace llvm {
 
 MCAsmParserExtension *createCOFFAsmParser() {
   return new COFFAsmParser;

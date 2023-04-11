@@ -16,7 +16,7 @@
 
 #include "llvm/MC/MCAsmInfoELF.h"
 
-namespace llvm_ks {
+namespace llvm {
 class Triple;
 
 class SparcELFMCAsmInfo : public MCAsmInfoELF {
@@ -31,6 +31,6 @@ public:
 
 };
 
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif

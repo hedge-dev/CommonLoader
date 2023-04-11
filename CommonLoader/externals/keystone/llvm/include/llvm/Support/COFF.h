@@ -27,7 +27,7 @@
 #include <cassert>
 #include <cstring>
 
-namespace llvm_ks {
+namespace llvm {
 namespace COFF {
 
   // The maximum number of sections that a COFF object can have (inclusive).
@@ -665,6 +665,6 @@ namespace COFF {
   }
 
 } // End namespace COFF.
-} // End namespace llvm_ks.
+} // End namespace llvm.
 
 #endif

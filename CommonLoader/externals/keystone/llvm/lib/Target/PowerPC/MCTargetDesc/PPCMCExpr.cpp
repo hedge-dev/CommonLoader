@@ -14,7 +14,7 @@
 #include "llvm/MC/MCContext.h"
 #include "llvm/MC/MCObjectStreamer.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 #define DEBUG_TYPE "ppcmcexpr"
 

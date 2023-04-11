@@ -17,7 +17,7 @@
 #include "llvm/Support/DataTypes.h"
 #include <vector>
 
-namespace llvm_ks {
+namespace llvm {
 class MCAsmBackend;
 class MCAssembler;
 class MCCodeEmitter;
@@ -96,7 +96,7 @@ private:
 
   /// BundleGroups - The stack of fragments holding the bundle-locked
   /// instructions.
-  llvm_ks::SmallVector<MCDataFragment *, 4> BundleGroups;
+  llvm::SmallVector<MCDataFragment *, 4> BundleGroups;
 };
 
 MCELFStreamer *createARMELFStreamer(MCContext &Context, MCAsmBackend &TAB,
@@ -104,6 +104,6 @@ MCELFStreamer *createARMELFStreamer(MCContext &Context, MCAsmBackend &TAB,
                                     MCCodeEmitter *Emitter, bool RelaxAll,
                                     bool IsThumb);
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

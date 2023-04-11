@@ -14,7 +14,7 @@
 #include "llvm/Support/raw_ostream.h"
 #include <algorithm>
 
-using namespace llvm_ks;
+using namespace llvm;
 
 static FeatureBitset getFeatures(StringRef CPU, StringRef FS,
                                  ArrayRef<SubtargetFeatureKV> ProcDesc,

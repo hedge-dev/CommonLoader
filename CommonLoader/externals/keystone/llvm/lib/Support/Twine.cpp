@@ -11,7 +11,7 @@
 #include "llvm/ADT/SmallString.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/raw_ostream.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 std::string Twine::str() const {
   // If we're storing only a std::string, just return it.

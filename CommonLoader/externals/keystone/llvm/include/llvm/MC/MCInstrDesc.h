@@ -19,7 +19,7 @@
 #include "llvm/Support/DataTypes.h"
 #include <string>
 
-namespace llvm_ks {
+namespace llvm {
   class MCInst;
   class MCSubtargetInfo;
 
@@ -318,6 +318,6 @@ public:
 
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

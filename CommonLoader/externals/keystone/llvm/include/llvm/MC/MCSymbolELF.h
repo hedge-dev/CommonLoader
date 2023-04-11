@@ -11,7 +11,7 @@
 
 #include "llvm/MC/MCSymbol.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCSymbolELF : public MCSymbol {
   /// An expression describing how to calculate the size of a symbol. If a
   /// symbol has no size this field will be NULL.

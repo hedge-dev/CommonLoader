@@ -25,9 +25,9 @@
 #include <cassert>
 #include <functional>
 
-namespace llvm_ks {
+namespace llvm {
 
-template <typename T, typename ToIndexT = llvm_ks::identity<unsigned> >
+template <typename T, typename ToIndexT = llvm::identity<unsigned> >
   class IndexedMap {
     typedef typename ToIndexT::argument_type IndexT;
     // Prefer SmallVector with zero inline storage over std::vector. IndexedMaps

@@ -14,7 +14,7 @@
 #include "PPCMCAsmInfo.h"
 #include "llvm/ADT/Triple.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 PPCMCAsmInfoDarwin::PPCMCAsmInfoDarwin(bool is64Bit, const Triple& T) {
   if (is64Bit) {

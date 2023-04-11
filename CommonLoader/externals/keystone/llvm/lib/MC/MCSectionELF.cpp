@@ -15,7 +15,7 @@
 #include "llvm/Support/ELF.h"
 #include "llvm/Support/raw_ostream.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 MCSectionELF::~MCSectionELF() {} // anchor.
 

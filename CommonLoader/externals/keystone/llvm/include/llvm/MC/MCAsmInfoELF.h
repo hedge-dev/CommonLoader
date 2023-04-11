@@ -12,7 +12,7 @@
 
 #include "llvm/MC/MCAsmInfo.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCAsmInfoELF : public MCAsmInfo {
   MCSection *getNonexecutableStackSection(MCContext &Ctx) const final;
 

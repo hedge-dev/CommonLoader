@@ -20,7 +20,7 @@
 #include "llvm/Support/DataTypes.h"
 #include "llvm/Support/MathExtras.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCAsmBackend;
 class MCCodeEmitter;
 class MCContext;

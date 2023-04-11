@@ -13,7 +13,7 @@
 #include "llvm/ADT/ArrayRef.h"
 #include "llvm/Support/Endian.h"
 
-namespace llvm_ks {
+namespace llvm {
 namespace ARM {
 namespace WinEH {
 enum class RuntimeFunctionFlag {

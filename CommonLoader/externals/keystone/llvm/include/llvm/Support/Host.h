@@ -26,7 +26,7 @@
 
 #include <string>
 
-namespace llvm_ks {
+namespace llvm {
 namespace sys {
 
 #if defined(BYTE_ORDER) && defined(BIG_ENDIAN) && BYTE_ORDER == BIG_ENDIAN

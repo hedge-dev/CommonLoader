@@ -17,7 +17,7 @@
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/Twine.h"
 #include <string>
-using namespace llvm_ks;
+using namespace llvm;
 
 Regex::Regex(StringRef regex, unsigned Flags) {
   unsigned flags = 0;

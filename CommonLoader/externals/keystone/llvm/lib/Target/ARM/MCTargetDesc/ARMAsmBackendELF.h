@@ -12,7 +12,7 @@
 
 #include "ARMAsmBackend.h"
 #include "MCTargetDesc/ARMMCTargetDesc.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 namespace {
 class ARMAsmBackendELF : public ARMAsmBackend {

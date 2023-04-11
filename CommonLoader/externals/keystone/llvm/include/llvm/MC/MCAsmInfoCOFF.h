@@ -12,7 +12,7 @@
 
 #include "llvm/MC/MCAsmInfo.h"
 
-namespace llvm_ks {
+namespace llvm {
   class MCAsmInfoCOFF : public MCAsmInfo {
   protected:
     explicit MCAsmInfoCOFF();

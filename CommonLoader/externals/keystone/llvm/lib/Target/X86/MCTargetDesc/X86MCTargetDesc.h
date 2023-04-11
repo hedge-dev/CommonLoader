@@ -19,7 +19,7 @@
 #include "llvm/Support/DataTypes.h"
 #include <string>
 
-namespace llvm_ks {
+namespace llvm {
 class MCAsmBackend;
 class MCCodeEmitter;
 class MCContext;

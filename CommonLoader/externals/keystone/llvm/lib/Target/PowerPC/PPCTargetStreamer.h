@@ -12,7 +12,7 @@
 
 #include "llvm/MC/MCStreamer.h"
 
-namespace llvm_ks {
+namespace llvm {
 class PPCTargetStreamer : public MCTargetStreamer {
 public:
   PPCTargetStreamer(MCStreamer &S);

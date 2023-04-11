@@ -19,7 +19,7 @@
 #include "llvm/Support/FileSystem.h"
 #include "llvm/Support/MemoryBuffer.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 class LLVMContext;
 class StringRef;

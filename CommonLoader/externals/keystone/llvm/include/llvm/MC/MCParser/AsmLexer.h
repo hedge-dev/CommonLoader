@@ -19,7 +19,7 @@
 #include "llvm/Support/DataTypes.h"
 #include <string>
 
-namespace llvm_ks {
+namespace llvm {
 class MemoryBuffer;
 class MCAsmInfo;
 
@@ -30,7 +30,6 @@ class AsmLexer : public MCAsmLexer {
   const char *CurPtr;
   StringRef CurBuf;
   bool isAtStartOfLine;
-  unsigned defaultRadix;
 
   void operator=(const AsmLexer&) = delete;
   AsmLexer(const AsmLexer&) = delete;
@@ -70,6 +69,6 @@ private:
   AsmToken LexHexFloatLiteral(bool NoIntDigits);
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

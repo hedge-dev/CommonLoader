@@ -14,7 +14,7 @@
 #include "llvm/MC/MCParser/MCAsmParser.h"
 #include "llvm/Support/SMLoc.h"
 
-namespace llvm_ks {
+namespace llvm {
 class Twine;
 
 /// \brief Generic interface for extending the MCAsmParser,

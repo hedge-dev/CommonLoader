@@ -19,7 +19,7 @@
 #include "llvm/Support/Compiler.h"
 #include "llvm/Support/DataTypes.h"
 
-namespace llvm_ks {
+namespace llvm {
   class MCSymbol;
 
 class MachineLocation {

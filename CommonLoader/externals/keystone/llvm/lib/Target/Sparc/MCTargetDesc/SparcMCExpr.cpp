@@ -20,7 +20,7 @@
 #include "llvm/Object/ELF.h"
 
 
-using namespace llvm_ks;
+using namespace llvm;
 
 #define DEBUG_TYPE "sparcmcexpr"
 

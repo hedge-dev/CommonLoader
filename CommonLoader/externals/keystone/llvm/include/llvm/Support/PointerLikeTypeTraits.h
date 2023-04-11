@@ -18,7 +18,7 @@
 #include "llvm/Support/AlignOf.h"
 #include "llvm/Support/DataTypes.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 /// A traits type that is used to handle pointer types and things that are just
 /// wrappers for pointers as a uniform entity.
@@ -87,6 +87,6 @@ public:
   enum { NumLowBitsAvailable = 0 };
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

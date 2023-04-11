@@ -18,7 +18,7 @@
 #include "llvm/MC/MCSectionELF.h"
 #include "llvm/MC/MCStreamer.h"
 #include "llvm/Support/ELF.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 //#include <iostream>
 enum AsmWriterFlavorTy {

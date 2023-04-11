@@ -20,7 +20,7 @@
 #include "llvm/Support/Dwarf.h"
 #include <cctype>
 #include <cstring>
-using namespace llvm_ks;
+using namespace llvm;
 
 MCAsmInfo::MCAsmInfo() {
   PointerSize = 4;

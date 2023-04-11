@@ -20,7 +20,7 @@
 #include <cassert>
 #include <cctype>
 #include <cstdlib>
-using namespace llvm_ks;
+using namespace llvm;
 
 //===----------------------------------------------------------------------===//
 //                          Static Helper Functions

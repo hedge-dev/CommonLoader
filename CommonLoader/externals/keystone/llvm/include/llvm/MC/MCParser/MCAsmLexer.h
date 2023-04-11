@@ -16,7 +16,7 @@
 #include "llvm/Support/DataTypes.h"
 #include "llvm/Support/SMLoc.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 /// Target independent representation for an assembler token.
 class AsmToken {

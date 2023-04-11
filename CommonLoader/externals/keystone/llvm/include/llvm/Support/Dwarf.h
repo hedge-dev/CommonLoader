@@ -24,7 +24,7 @@
 #include "llvm/Support/Compiler.h"
 #include "llvm/Support/DataTypes.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 namespace dwarf {
 
@@ -695,6 +695,6 @@ private:
 
 } // End of namespace dwarf
 
-} // End of namespace llvm_ks
+} // End of namespace llvm
 
 #endif

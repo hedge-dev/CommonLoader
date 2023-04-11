@@ -17,7 +17,7 @@
 #include "llvm/Object/Binary.h"
 #include "llvm/Support/Format.h"
 
-namespace llvm_ks {
+namespace llvm {
 namespace object {
 
 union DataRefImpl {

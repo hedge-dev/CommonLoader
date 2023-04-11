@@ -13,7 +13,7 @@
 
 #include "llvm/MC/MCRegisterInfo.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 unsigned MCRegisterInfo::getMatchingSuperReg(unsigned Reg, unsigned SubIdx,
                                              const MCRegisterClass *RC) const {

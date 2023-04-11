@@ -11,7 +11,7 @@
 
 #include "llvm/MC/MCSymbol.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCSymbolMachO : public MCSymbol {
   /// \brief We store the value for the 'desc' symbol field in the
   /// lowest 16 bits of the implementation defined flags.

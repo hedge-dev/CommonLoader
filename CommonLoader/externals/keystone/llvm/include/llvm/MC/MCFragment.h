@@ -17,7 +17,7 @@
 #include "llvm/MC/MCFixup.h"
 #include "llvm/MC/MCInst.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCSection;
 class MCSymbol;
 class MCSubtargetInfo;
@@ -484,6 +484,6 @@ public:
   }
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

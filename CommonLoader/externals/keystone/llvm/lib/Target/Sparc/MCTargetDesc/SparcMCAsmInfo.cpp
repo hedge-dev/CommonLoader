@@ -16,7 +16,7 @@
 #include "llvm/ADT/Triple.h"
 #include "llvm/MC/MCStreamer.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 SparcELFMCAsmInfo::SparcELFMCAsmInfo(const Triple &TheTriple) {
   bool isV9 = (TheTriple.getArch() == Triple::sparcv9);

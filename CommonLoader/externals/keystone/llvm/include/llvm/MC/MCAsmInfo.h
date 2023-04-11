@@ -21,7 +21,7 @@
 #include <cassert>
 #include <vector>
 
-namespace llvm_ks {
+namespace llvm {
 class MCExpr;
 class MCSection;
 class MCStreamer;
@@ -150,9 +150,6 @@ protected:
 
   /// Which dialect of an assembler variant to use.  Defaults to 0
   unsigned AssemblerDialect;
-
-  /// Default Radix for immediate 
-  unsigned Radix;
 
   /// This is true if the assembler allows @ characters in symbol names.
   /// Defaults to false.
@@ -477,8 +474,6 @@ public:
   const char *getCode64Directive() const { return Code64Directive; }
   unsigned getAssemblerDialect() const { return AssemblerDialect; }
   void setAssemblerDialect(unsigned v) { AssemblerDialect = v; }
-  void setRadix(unsigned v) { Radix = v; }
-  unsigned getRadix() const { return Radix; }
   bool doesAllowAtInName() const { return AllowAtInName; }
   bool supportsNameQuoting() const { return SupportsQuotedNames; }
   bool doesSupportDataRegionDirectives() const {

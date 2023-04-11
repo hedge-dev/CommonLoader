@@ -17,7 +17,7 @@
 #include "llvm/MC/MCInstrDesc.h"
 #include <cassert>
 
-namespace llvm_ks {
+namespace llvm {
 
 //---------------------------------------------------------------------------
 /// \brief Interface to description of machine instruction set.

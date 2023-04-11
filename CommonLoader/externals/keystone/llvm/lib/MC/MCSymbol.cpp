@@ -14,7 +14,7 @@
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/raw_ostream.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 // Only the address of this fragment is ever actually used.
 static MCDummyFragment SentinelFragment(nullptr);

@@ -17,7 +17,7 @@
 
 #include "llvm/MC/MCAsmInfo.h"
 
-namespace llvm_ks {
+namespace llvm {
   class MCAsmInfoDarwin : public MCAsmInfo {
   public:
     explicit MCAsmInfoDarwin();

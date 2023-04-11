@@ -20,7 +20,7 @@
 #include "llvm/Support/PointerLikeTypeTraits.h"
 #include "llvm/Support/type_traits.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 template<typename T>
 struct DenseMapInfo {
@@ -216,6 +216,6 @@ template <typename T> struct DenseMapInfo<ArrayRef<T>> {
   }
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

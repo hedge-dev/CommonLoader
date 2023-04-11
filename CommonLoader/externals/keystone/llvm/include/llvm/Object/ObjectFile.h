@@ -23,7 +23,7 @@
 #include <cstring>
 #include <vector>
 
-namespace llvm_ks {
+namespace llvm {
 namespace object {
 
 class ObjectFile;
@@ -453,6 +453,6 @@ inline const ObjectFile *RelocationRef::getObject() const {
 
 
 } // end namespace object
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

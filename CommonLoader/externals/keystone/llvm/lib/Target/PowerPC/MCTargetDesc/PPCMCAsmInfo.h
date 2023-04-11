@@ -17,7 +17,7 @@
 #include "llvm/MC/MCAsmInfoDarwin.h"
 #include "llvm/MC/MCAsmInfoELF.h"
 
-namespace llvm_ks {
+namespace llvm {
 class Triple;
 
 class PPCMCAsmInfoDarwin : public MCAsmInfoDarwin {
@@ -30,6 +30,6 @@ public:
   explicit PPCELFMCAsmInfo(bool is64Bit, const Triple &);
 };
 
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif

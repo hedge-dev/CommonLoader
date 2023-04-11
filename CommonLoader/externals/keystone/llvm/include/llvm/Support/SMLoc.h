@@ -17,7 +17,7 @@
 
 #include <cassert>
 
-namespace llvm_ks {
+namespace llvm {
 
 /// Represents a location in source code.
 class SMLoc {
@@ -58,6 +58,6 @@ public:
   bool isValid() const { return Start.isValid(); }
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

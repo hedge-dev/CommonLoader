@@ -20,7 +20,7 @@
 
 #include <cstdint>
 
-namespace llvm_ks {
+namespace llvm {
 
 #ifndef LLVM_ENABLE_ABI_BREAKING_CHECKS
 
@@ -94,6 +94,6 @@ public:
 
 #endif // LLVM_ENABLE_ABI_BREAKING_CHECKS
 
-} // namespace llvm_ks
+} // namespace llvm
 
 #endif

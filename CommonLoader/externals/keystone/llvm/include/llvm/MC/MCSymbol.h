@@ -20,7 +20,7 @@
 #include "llvm/MC/MCAssembler.h"
 #include "llvm/Support/Compiler.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCAsmInfo;
 class MCExpr;
 class MCSymbol;
@@ -416,6 +416,6 @@ inline raw_ostream &operator<<(raw_ostream &OS, const MCSymbol &Sym) {
   Sym.print(OS, nullptr);
   return OS;
 }
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

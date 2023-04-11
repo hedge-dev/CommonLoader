@@ -16,7 +16,7 @@
 
 #include <cstdint>
 
-namespace llvm_ks {
+namespace llvm {
 struct InstrItinerary;
 struct InstrStage;
 class MCAsmBackend;

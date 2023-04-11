@@ -15,7 +15,7 @@
 #include "llvm/ADT/SmallVector.h"
 #include <vector>
 
-namespace llvm_ks {
+namespace llvm {
   /// ArrayRef - Represent a constant reference to an array (0 or more elements
   /// consecutively in memory), i.e. a start pointer and a length.  It allows
   /// various APIs to take consecutive elements easily and conveniently.
@@ -379,6 +379,6 @@ namespace llvm_ks {
   template <typename T> hash_code hash_value(ArrayRef<T> S) {
     return hash_combine_range(S.begin(), S.end());
   }
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif // LLVM_ADT_ARRAYREF_H

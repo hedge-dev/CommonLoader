@@ -12,7 +12,7 @@
 #include "llvm/MC/MCObjectWriter.h"
 #include "llvm/MC/MCSymbol.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 MCObjectWriter::~MCObjectWriter() {
 }

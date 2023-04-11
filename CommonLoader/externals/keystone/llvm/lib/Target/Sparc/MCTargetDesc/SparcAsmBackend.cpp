@@ -17,7 +17,7 @@
 #include "llvm/MC/MCValue.h"
 #include "llvm/Support/TargetRegistry.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 static unsigned adjustFixupValue(unsigned Kind, uint64_t Value) {
   switch (Kind) {
@@ -297,7 +297,7 @@ namespace {
 
 } // end anonymous namespace
 
-MCAsmBackend *llvm_ks::createSparcAsmBackend(const Target &T,
+MCAsmBackend *llvm::createSparcAsmBackend(const Target &T,
                                           const MCRegisterInfo &MRI,
                                           const Triple &TT, StringRef CPU) {
   return new ELFSparcAsmBackend(T, TT.getOS());

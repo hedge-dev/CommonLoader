@@ -19,7 +19,7 @@
 #include "llvm/Support/DataTypes.h"
 #include <cassert>
 
-namespace llvm_ks {
+namespace llvm {
 class MCAsmInfo;
 class raw_ostream;
 
@@ -81,6 +81,6 @@ public:
 
 };
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

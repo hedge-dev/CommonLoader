@@ -18,7 +18,7 @@
 #include "llvm/Support/DataTypes.h"
 #include <cassert>
 
-namespace llvm_ks {
+namespace llvm {
 
 struct InstrItinerary;
 

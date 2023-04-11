@@ -20,7 +20,7 @@
 #include <cstddef>
 #include <limits>
 
-namespace llvm_ks {
+namespace llvm {
 namespace sys {
 
 /// SwapByteOrder_16 - This function returns a byte-swapped representation of
@@ -120,6 +120,6 @@ inline void swapByteOrder(T &Value) {
 }
 
 } // end namespace sys
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

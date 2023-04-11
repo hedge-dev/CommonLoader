@@ -10,9 +10,9 @@
 #include "MCTargetDesc/SystemZMCTargetDesc.h"
 #include "llvm/Support/TargetRegistry.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
-Target llvm_ks::TheSystemZTarget;
+Target llvm::TheSystemZTarget;
 
 extern "C" void LLVMInitializeSystemZTargetInfo() {
   RegisterTarget<Triple::systemz>

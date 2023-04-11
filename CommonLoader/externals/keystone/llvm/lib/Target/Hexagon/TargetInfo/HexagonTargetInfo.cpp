@@ -9,9 +9,9 @@
 
 #include "Hexagon.h"
 #include "llvm/Support/TargetRegistry.h"
-using namespace llvm_ks;
+using namespace llvm;
 
-Target llvm_ks::TheHexagonTarget;
+Target llvm::TheHexagonTarget;
 
 extern "C" void LLVMInitializeHexagonTargetInfo() {
   RegisterTarget<Triple::hexagon>  X(TheHexagonTarget, "hexagon", "Hexagon");

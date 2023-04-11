@@ -23,11 +23,11 @@
 
 #include "keystone/sparc.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 // The generated AsmMatcher SparcGenAsmMatcher uses "Sparc" as the target
 // namespace. But SPARC backend uses "SP" as its namespace.
-namespace llvm_ks {
+namespace llvm {
   namespace Sparc {
     using namespace SP;
   }

@@ -13,7 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "llvm/MC/MCAsmInfoCOFF.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 MCAsmInfoCOFF::MCAsmInfoCOFF() {
   // MingW 4.5 and later support .comm with log2 alignment, but .lcomm uses byte

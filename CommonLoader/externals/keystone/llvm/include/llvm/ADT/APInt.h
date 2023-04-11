@@ -24,7 +24,7 @@
 #include <cstring>
 #include <string>
 
-namespace llvm_ks {
+namespace llvm {
 class FoldingSetNodeID;
 class StringRef;
 class hash_code;
@@ -1362,7 +1362,7 @@ public:
   unsigned countLeadingZeros() const {
     if (isSingleWord()) {
       unsigned unusedBits = APINT_BITS_PER_WORD - BitWidth;
-      return llvm_ks::countLeadingZeros(VAL) - unusedBits;
+      return llvm::countLeadingZeros(VAL) - unusedBits;
     }
     return countLeadingZerosSlowCase();
   }
@@ -1403,7 +1403,7 @@ public:
   /// of ones from the least significant bit to the first zero bit.
   unsigned countTrailingOnes() const {
     if (isSingleWord())
-      return llvm_ks::countTrailingOnes(VAL);
+      return llvm::countTrailingOnes(VAL);
     return countTrailingOnesSlowCase();
   }
 
@@ -1415,7 +1415,7 @@ public:
   /// \returns 0 if the value is zero, otherwise returns the number of set bits.
   unsigned countPopulation() const {
     if (isSingleWord())
-      return llvm_ks::countPopulation(VAL);
+      return llvm::countPopulation(VAL);
     return countPopulationSlowCase();
   }
 

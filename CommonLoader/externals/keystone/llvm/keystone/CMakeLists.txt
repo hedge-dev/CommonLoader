@@ -40,7 +40,6 @@ include_directories(
 add_library(keystone
   ${src_all}
   ks.cpp
-  EVMMapping.cpp
 )
 
 install(TARGETS keystone DESTINATION lib${LLVM_LIBDIR_SUFFIX})
@@ -52,14 +51,6 @@ set_target_properties(
   COMPILER_FLAGS "/EHsc"
   SOVERSION ${KEYSTONE_VERSION_MAJOR}
 )
-
-if(NOT BUILD_SHARED_LIBS)
-  target_compile_definitions(
-    keystone
-    PUBLIC
-    KEYSTONE_STATIC
-  )
-endif()
 
 if (APPLE)
   set_target_properties(keystone

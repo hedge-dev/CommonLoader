@@ -16,7 +16,7 @@
 
 #include "llvm/Support/Compiler.h"
 
-namespace llvm_ks {
+namespace llvm {
 class MCContext;
 class raw_ostream;
 
@@ -52,6 +52,6 @@ inline raw_ostream &operator<<(raw_ostream &OS, const MCLabel &Label) {
   Label.print(OS);
   return OS;
 }
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

@@ -20,7 +20,7 @@
 
 #include "llvm/ADT/IntEqClasses.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 void IntEqClasses::grow(unsigned N) {
   assert(NumClasses == 0 && "grow() called after compress().");

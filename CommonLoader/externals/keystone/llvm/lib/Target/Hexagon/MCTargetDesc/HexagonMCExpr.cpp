@@ -13,7 +13,7 @@
 #include "llvm/MC/MCValue.h"
 #include "llvm/Support/raw_ostream.h"
 
-using namespace llvm_ks;
+using namespace llvm;
 
 #define DEBUG_TYPE "hexagon-mcexpr"
 
@@ -29,7 +29,7 @@ bool HexagonNoExtendOperand::evaluateAsRelocatableImpl(
 
 void HexagonNoExtendOperand::visitUsedExpr(MCStreamer &Streamer) const {}
 
-MCFragment *llvm_ks::HexagonNoExtendOperand::findAssociatedFragment() const {
+MCFragment *llvm::HexagonNoExtendOperand::findAssociatedFragment() const {
   return Expr->findAssociatedFragment();
 }
 

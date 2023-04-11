@@ -26,7 +26,7 @@
 #include <cassert>
 #include <vector>
 
-namespace llvm_ks {
+namespace llvm {
 
 /// \brief A vector that has set insertion semantics.
 ///

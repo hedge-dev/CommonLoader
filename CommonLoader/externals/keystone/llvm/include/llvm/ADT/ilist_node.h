@@ -15,7 +15,7 @@
 #ifndef LLVM_ADT_ILIST_NODE_H
 #define LLVM_ADT_ILIST_NODE_H
 
-namespace llvm_ks {
+namespace llvm {
 
 template<typename NodeTy>
 struct ilist_traits;

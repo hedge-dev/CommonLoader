@@ -18,7 +18,7 @@
 #include "llvm/MC/MCStreamer.h"
 #include "llvm/MC/MCSymbolELF.h"
 #include "llvm/Support/ELF.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 namespace {
 
@@ -413,7 +413,7 @@ bool ELFAsmParser::ParseSectionArguments(bool IsPush, SMLoc loc)
     bool Mergeable = Flags & ELF::SHF_MERGE;
     bool Group = Flags & ELF::SHF_GROUP;
     if (Group && UseLastGroup)
-      return TokError("Section cannot specify a group name while also acting "
+      return TokError("Section cannot specifiy a group name while also acting "
                       "as a member of the last group");
 
     if (getLexer().isNot(AsmToken::Comma)) {
@@ -737,7 +737,7 @@ bool ELFAsmParser::ParseDirectiveSubsection(StringRef, SMLoc) {
   return false;
 }
 
-namespace llvm_ks {
+namespace llvm {
 
 MCAsmParserExtension *createELFAsmParser() {
   return new ELFAsmParser;

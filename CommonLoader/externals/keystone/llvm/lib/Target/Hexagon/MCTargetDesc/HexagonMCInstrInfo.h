@@ -17,7 +17,7 @@
 #include "HexagonMCExpr.h"
 #include "llvm/MC/MCInst.h"
 
-namespace llvm_ks {
+namespace llvm {
 class HexagonMCChecker;
 class MCContext;
 class MCInstrDesc;

@@ -20,7 +20,7 @@
 #include <algorithm>
 #include <memory>
 
-namespace llvm_ks {
+namespace llvm {
 
 /// \brief Determine the edit distance between two sequences.
 ///

@@ -25,7 +25,7 @@
 #include "llvm/MC/SubtargetFeature.h"
 #include "llvm/Support/ErrorHandling.h"
 
-namespace llvm_ks {
+namespace llvm {
 
 inline static unsigned getWRegFromXReg(unsigned Reg) {
   switch (Reg) {
@@ -1388,6 +1388,6 @@ namespace AArch64II {
   };
 } // end namespace AArch64II
 
-} // end namespace llvm_ks
+} // end namespace llvm
 
 #endif

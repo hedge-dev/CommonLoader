@@ -9,7 +9,7 @@
 
 #include "llvm/MC/MCParser/MCTargetAsmParser.h"
 #include "llvm/MC/MCContext.h"
-using namespace llvm_ks;
+using namespace llvm;
 
 MCTargetAsmParser::MCTargetAsmParser(MCTargetOptions const &MCOptions,
                                      const MCSubtargetInfo &STI)
