@@ -32,7 +32,7 @@ bool CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 		std::stringstream err_stream{};
 		err_stream << "Failed to compile assembly:" << std::endl;
 		err_stream << "\t" << compiled_code->error_string << std::endl;
-		err_stream << "\tNear instruction" << compiled_code->instruction_count << std::endl;
+		err_stream << "\tNear instruction " << compiled_code->instruction_count << std::endl;
 
 		MessageBoxA(nullptr, err_stream.str().c_str(), "Error", MB_OK | MB_ICONERROR);
 		return false;
