@@ -3,6 +3,7 @@
 #include "AssemblerService.h"
 #include "HookService.h"
 #include "SigScanner.h"
+#include "ApplicationStore.h"
 
 using namespace Runtime::InteropServices;
 
@@ -31,15 +32,26 @@ namespace CommonLoader
 	public ref class MemoryProvider
 	{
 	public:
+		bool IsMemoryWritable(void* mem)
+		{
+			if (static_cast<char*>(mem) < static_cast<char*>(ApplicationStore::GetModule().base))
+				return false;
+
+			return true;
+		}
+
 		void WriteMemory(IntPtr address, IntPtr dataPtr, IntPtr length) 
 		{
+			if (!IsMemoryWritable(address.ToPointer()))
+				return;
+
 			memcpy(address.ToPointer(), dataPtr.ToPointer(), (size_t)length.ToPointer());
 		}
 
 		generic<typename T>
 		void WriteMemory(IntPtr address, array<T>^ data)
 		{
-			if (!address.ToPointer())
+			if (!IsMemoryWritable(address.ToPointer()))
 				return;
 
 			pin_ptr<T> source = &data[0];
@@ -49,7 +61,7 @@ namespace CommonLoader
 		generic<typename T>
 		void WriteMemory(IntPtr address, T data)
 		{
-			if (!address.ToPointer())
+			if (!IsMemoryWritable(address.ToPointer()))
 				return;
 
 			pin_ptr<T> source = &data;
@@ -112,6 +124,9 @@ namespace CommonLoader
 
 		void WriteASMHook(String^ instructions, IntPtr address, int behavior, int parameter)
 		{
+			if (!IsMemoryWritable(address.ToPointer()))
+				return;
+
 			const ManagedStringANSI source{ instructions };
 			HookService::WriteASMHook(source, reinterpret_cast<size_t>(address.ToPointer()), behavior, parameter);
 		}
@@ -123,6 +138,9 @@ namespace CommonLoader
 
 		unsigned int NopInstructions(IntPtr address, uint32_t count)
 		{
+			if (!IsMemoryWritable(address.ToPointer()))
+				return 0;
+
 			if (count == 0)
 				return 0;
 			
