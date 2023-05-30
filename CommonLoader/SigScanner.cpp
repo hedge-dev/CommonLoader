@@ -125,9 +125,9 @@ bool SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size, v
     }
 
     char* address = static_cast<char*>(result->second);
-    if ((address >= p_begin && address < static_cast<char*>(p_begin) + size) || address == nullptr)
+    if ((address >= p_begin && address < static_cast<char*>(p_begin) + size))
     {
-		out = address;
+        out = address;
         return true;
     }
 
