@@ -134,25 +134,23 @@ bool SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size, v
     return false;
 }
 
-
 void CommitSignatureCache(const SignatureKey& key, void* p_memory)
 {
-    void* addressUnBased = static_cast<char*>(p_memory) - reinterpret_cast<size_t>(CommonLoader::ApplicationStore::GetModule().base);
-    if (p_memory == nullptr)
+    if (p_memory != nullptr)
     {
-        addressUnBased = nullptr;
+        void* addressUnBased = static_cast<char*>(p_memory) - reinterpret_cast<size_t>(CommonLoader::ApplicationStore::GetModule().base);
+
+        char buf[32];
+        key.MakeString(buf, sizeof(buf));
+
+        const std::string hashKey = buf;
+        const uint64_t address = reinterpret_cast<size_t>(addressUnBased);
+        sprintf_s(buf, sizeof(buf), "%llx", address);
+
+        sig_lookup_cache.insert_or_assign(key, p_memory);
+        CommonLoader::ApplicationStore::SetOption(ScannerSection, hashKey, buf);
+        CommonLoader::ApplicationStore::Save();
     }
-
-	char buf[32];
-    key.MakeString(buf, sizeof(buf));
-
-	const std::string hashKey = buf;
-	const uint64_t address = reinterpret_cast<size_t>(addressUnBased);
-	sprintf_s(buf, sizeof(buf), "%llx", address);
-
-    sig_lookup_cache.insert_or_assign(key, p_memory);
-	CommonLoader::ApplicationStore::SetOption(ScannerSection, hashKey, buf);
-    CommonLoader::ApplicationStore::Save();
 }
 
 void MakePatternHash(const char* p_pattern, const char* p_mask, size_t pattern_length, SignatureKey& out)
