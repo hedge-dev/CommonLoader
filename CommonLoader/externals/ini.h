@@ -568,7 +568,7 @@ ini_t* ini_load(char const* data, void* memctx)
                     else
                         ini_property_add(ini, s, start, l, start2, (int)(ptr - start2));
                 }
-                else if (*ptr == '\n')
+                else if (*ptr == '\n' || *ptr == 0)
                 {
                     while (*start && *start <= ' ' && *start != '\n')
                         start++;
