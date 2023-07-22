@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <unordered_map>
 #include <Psapi.h>
+#include <memory>
 
 ModuleInfo module_info{ nullptr, 0, nullptr };
 uint32_t app_uid;
@@ -17,6 +18,24 @@ size_t states[CMN_LOADER_STATE_MAX + 1]{};
 
 namespace CommonLoader
 {
+	bool CheckDataASCII(const char* buffer, size_t size)
+	{
+		for (size_t i = 0; i < size; ++i)
+		{
+			if (buffer[i] == '\r' || buffer[i] == '\n')
+			{
+				continue;
+			}
+
+			if (buffer[i] < 0x20 || buffer[i] > 0x7E)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	void ApplicationStore::SetState(size_t state, size_t value)
 	{
 		if (state > CMN_LOADER_STATE_MAX)
@@ -112,21 +131,28 @@ namespace CommonLoader
 		}
 
 		DWORD dwFileSize = GetFileSize(hFile, NULL);
-		char* buffer = new char[dwFileSize + 1];
-		if (!ReadFile(hFile, buffer, dwFileSize, &dwFileSize, NULL))
+		const auto buffer = std::unique_ptr<char[]>{ new char[dwFileSize + 1] };
+		if (!ReadFile(hFile, buffer.get(), dwFileSize, &dwFileSize, NULL))
 		{
 			CloseHandle(hFile);
 			return false;
 		}
-		CloseHandle(hFile);
 
-		ini_t* ini = ini_load(buffer, nullptr);
-		delete[] buffer;
+		CloseHandle(hFile);
+		buffer[dwFileSize] = '\0';
+
+		// Check for corruption
+		if (!CheckDataASCII(buffer.get(), dwFileSize))
+		{
+			return false;
+		}
+
+		ini_t* ini = ini_load(buffer.get(), nullptr);
 		if (!ini)
 		{
 			return false;
 		}
-		
+
 		for (size_t i = 0; i < ini_section_count(ini); i++)
 		{
 			const char* section = ini_section_name(ini, i);
@@ -169,20 +195,18 @@ namespace CommonLoader
 		}
 
 		const int bufSize = ini_save(ini, nullptr, 0);
-		char* buffer = new char[bufSize + 1];
+		const auto buffer = std::make_unique<char[]>(bufSize);
 
-		ini_save(ini, buffer, bufSize + 1);
+		ini_save(ini, buffer.get(), bufSize);
 		ini_destroy(ini);
 
-		if (!WriteFile(hFile, buffer, bufSize - 1, nullptr, nullptr))
+		if (!WriteFile(hFile, buffer.get(), bufSize - 1, nullptr, nullptr))
 		{
 			CloseHandle(hFile);
-			delete[] buffer;
 			return false;
 		}
 
 		CloseHandle(hFile);
-		delete[] buffer;
 		return true;
 	}
 
