@@ -10,6 +10,7 @@
 #ifndef LLVM_MC_MCPARSER_MCASMPARSER_H
 #define LLVM_MC_MCPARSER_MCASMPARSER_H
 
+#include "keystone/keystone.h"
 #include "llvm/ADT/ArrayRef.h"
 #include "llvm/ADT/StringRef.h"
 #include "llvm/MC/MCParser/AsmLexer.h"
@@ -106,7 +107,7 @@ public:
   virtual void setAssemblerDialect(unsigned i) { }
 
   /// \brief Run the parser on the input source buffer.
-  virtual size_t Run(bool NoInitialTextSection, uint64_t Address, bool NoFinalize = false) = 0;
+  virtual size_t Run(bool NoInitialTextSection, uint64_t Address, bool NoFinalize = false, std::vector<ks_err_context>* Errors = nullptr) = 0;
 
   virtual void setParsingInlineAsm(bool V) = 0;
   virtual bool isParsingInlineAsm() = 0;

@@ -1,0 +1,3 @@
+[submodule "CommonLoader/externals/fmt"]
+	path = CommonLoader/externals/fmt
+	url = https://github.com/fmtlib/fmt.git

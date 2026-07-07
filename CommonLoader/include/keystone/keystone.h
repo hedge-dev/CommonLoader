@@ -12,6 +12,7 @@ extern "C" {
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 #ifdef _MSC_VER     // MSVC compiler
 #pragma warning(disable:4201)
@@ -139,6 +140,21 @@ typedef enum ks_err {
     KS_ERR_ASM_MISSINGFEATURE,
     KS_ERR_ASM_MNEMONICFAIL,
 } ks_err;
+
+struct ks_err_context {
+    size_t line_num{};
+    size_t line_char{};
+    unsigned int err_num{};
+    char line[256]{};
+
+    ks_err_context() {}
+    ks_err_context(size_t line_num, size_t line_char, unsigned int err_num, const char* stat_line = nullptr)
+        : line_num(line_num), line_char(line_char), err_num(err_num) {
+        if (!stat_line)
+            return;
+        strcpy_s(line, sizeof(line), stat_line);
+    }
+};
 
 
 // Resolver callback to provide value for a missing symbol in @symbol.
@@ -306,7 +322,9 @@ int ks_asm(ks_engine *ks,
         const char *string,
         uint64_t address,
         unsigned char **encoding, size_t *encoding_size,
-        size_t *stat_count);
+        size_t *stat_count,
+        ks_err_context **stat_errors = nullptr,
+        size_t *stat_errors_size = nullptr);
 
 
 /*

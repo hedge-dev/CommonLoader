@@ -11,17 +11,29 @@
 #endif
 
 #define CMN_LOADER_STATE_SKIP_SIG_VALIDATION 0
-#define CMN_LOADER_STATE_MAX 1
+#define CMN_LOADER_STATE_INIT_SIG_SCAN_FAILED 1
+#define CMN_LOADER_STATE_INIT_ASSEMBLY_FAILED 2
+#define CMN_LOADER_STATE_DISABLE_LOGGING 3
+#define CMN_LOADER_STATE_MAX 4
 #define CMN_LOADER_STATE_INVALID -1
 
 #define DECLARE_API_FUNC(RETURN_TYPE, NAME, ...) RETURN_TYPE (CMN_LOADER_API *NAME)(__VA_ARGS__) = nullptr;
+
+struct AssemblerError
+{
+	size_t line_num{};
+	size_t line_char{};
+	unsigned int err_num{};
+	char line[256]{};
+};
 
 struct AssemblerResult
 {
 	size_t instruction_count{};
 	size_t length{};
 	unsigned char* data{};
-	const char* error_string{};
+	AssemblerError* errors{};
+	size_t errors_size{};
 
 	// Private data
 #ifdef CMN_LOADER_IMPL

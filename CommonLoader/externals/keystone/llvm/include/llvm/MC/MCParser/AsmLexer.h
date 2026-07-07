@@ -30,6 +30,7 @@ class AsmLexer : public MCAsmLexer {
   const char *CurPtr;
   StringRef CurBuf;
   bool isAtStartOfLine;
+  bool isDoubleEOSEmitter;
 
   void operator=(const AsmLexer&) = delete;
   AsmLexer(const AsmLexer&) = delete;
@@ -46,6 +47,7 @@ public:
 
   StringRef LexUntilEndOfStatement() override;
   StringRef LexUntilEndOfLine();
+  StringRef PeekUntilEndOfLine();
 
   size_t peekTokens(MutableArrayRef<AsmToken> Buf,
                     bool ShouldSkipSpace = true) override;

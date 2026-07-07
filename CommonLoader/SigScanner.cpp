@@ -3,6 +3,9 @@
 #include "SigScanner.h"
 #include "ApplicationStore.h"
 #include "CommonLoaderAPI.h"
+#include "Logger.h"
+#include <iomanip>
+#include <sstream>
 #include <unordered_map>
 
 constexpr const char* ScannerSection = "SigScanner";
@@ -45,6 +48,26 @@ void MakePatternHash(const char* p_pattern, const char* p_mask, size_t pattern_l
 bool SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size, void*& out);
 void CommitSignatureCache(const SignatureKey& key, void* p_memory);
 
+static std::string FormatSignature(const char* p_pattern, const char* p_mask)
+{
+    std::stringstream result{};
+    const size_t length = strlen(p_mask);
+
+    result << '\"';
+
+    for (size_t i = 0; i < length; i++)
+    {
+        uint32_t b = *(uint8_t*)((size_t)p_pattern + i);
+
+        result << "\\x" << std::uppercase << std::hex
+               << std::setw(2) << std::setfill('0') << b;
+    }
+
+    result << "\", \"" << p_mask << '\"';
+
+    return result.str();
+}
+
 void CommonLoader::InitSigScanner()
 {
     std::vector<std::pair<const char*, const char*>> values{};
@@ -83,16 +106,27 @@ void* CommonLoader::Scan(const char* p_pattern, const char* p_mask, size_t patte
 	void* cachedResult{};
     if (SearchSignatureCache(key, p_begin, size, cachedResult))
     {
-        return ApplicationStore::GetState(CMN_LOADER_STATE_SKIP_SIG_VALIDATION) ? cachedResult :
-    		ScanUncached(p_pattern, p_mask, pattern_length, cachedResult, pattern_length);
+        // When scanning uncached for validation, error reporting is disabled
+        // for signatures that fail to scan.
+        // 
+        // This is done so that multiple codes using the same signature won't
+        // result in a critical warning should one of the codes write something
+        // to the signature location, causing the rest to fail.
+        //
+        // We've retrieved the signature address from the cache, so at least
+        // one scan has succeeded.
+        return ApplicationStore::GetState(CMN_LOADER_STATE_SKIP_SIG_VALIDATION)
+            ? cachedResult
+            : ScanUncached(p_pattern, p_mask, pattern_length, cachedResult, pattern_length, false);
     }
     
     void* address = ScanUncached(p_pattern, p_mask, pattern_length, p_begin, size);
 	CommitSignatureCache(key, address);
+
     return address;
 }
 
-void* CommonLoader::ScanUncached(const char* p_pattern, const char* p_mask, size_t pattern_length, void* p_begin, size_t size)
+void* CommonLoader::ScanUncached(const char* p_pattern, const char* p_mask, size_t pattern_length, void* p_begin, size_t size, bool validate)
 {
     if (p_begin == nullptr)
     {
@@ -111,6 +145,16 @@ void* CommonLoader::ScanUncached(const char* p_pattern, const char* p_mask, size
 
         if (j == pattern_length)
             return memory;
+    }
+
+    if (validate)
+    {
+        ApplicationStore::SetState(CMN_LOADER_STATE_INIT_SIG_SCAN_FAILED, 1);
+
+        if (!ApplicationStore::GetState(CMN_LOADER_STATE_DISABLE_LOGGING))
+        {
+            Logger::Error("Signature scan failed: {}", FormatSignature(p_pattern, p_mask));
+        }
     }
 
     return nullptr;
