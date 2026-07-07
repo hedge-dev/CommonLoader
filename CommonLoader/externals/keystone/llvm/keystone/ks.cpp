@@ -45,7 +45,8 @@ const char *ks_strerror(ks_err code)
 {
     switch(code) {
         default:
-            return "Unknow error";  // FIXME
+            return "Unknown error";  // FIXME
+                                     // FIX (Hyper): corrected typo "Unknow error".
         case KS_ERR_OK:
             return "OK (KS_ERR_OK)";
         case KS_ERR_NOMEM:
@@ -528,7 +529,9 @@ int ks_asm(ks_engine *ks,
         const char *assembly,
         uint64_t address,
         unsigned char **insn, size_t *insn_size,
-        size_t *stat_count)
+        size_t *stat_count,
+        ks_err_context **stat_errors,
+        size_t *stat_errors_size)
 {
     MCCodeEmitter *CE;
     MCStreamer *Streamer;
@@ -565,13 +568,31 @@ int ks_asm(ks_engine *ks,
 
     Parser->setTargetParser(*TAP);
 
-    // TODO: optimize this to avoid setting up NASM every time we call ks_asm()
-    if (ks->arch == KS_ARCH_X86 && ks->syntax == KS_OPT_SYNTAX_NASM) {
-        Parser->initializeDirectiveKindMap(KS_OPT_SYNTAX_NASM);
-        ks->MAI->setCommentString(";");
+    if (ks->arch == KS_ARCH_X86) {
+        // TODO: optimize this to avoid setting up NASM every time we call ks_asm()
+        if (ks->syntax == KS_OPT_SYNTAX_NASM) {
+            Parser->initializeDirectiveKindMap(KS_OPT_SYNTAX_NASM);
+        }
+
+        // FIX (Hyper): semi-colon is also used for Intel syntax.
+        if (ks->syntax == KS_OPT_SYNTAX_INTEL || ks->syntax == KS_OPT_SYNTAX_NASM) {
+            ks->MAI->setCommentString(";");
+        }
     }
 
-    *stat_count = Parser->Run(false, address);
+    std::vector<ks_err_context> parser_errors{};
+
+    *stat_count = Parser->Run(false, address, false, &parser_errors);
+
+    // EDIT (Hyper): implemented optional error results.
+    if (stat_errors && stat_errors_size && !parser_errors.empty()) {
+        *stat_errors_size = parser_errors.size();
+        *stat_errors = new ks_err_context[*stat_errors_size];
+
+        for (size_t i = 0; i < *stat_errors_size; i++) {
+            (*stat_errors)[i] = parser_errors[i];
+        }
+    }
 
     // PPC counts empty statement
     if (ks->arch == KS_ARCH_PPC)

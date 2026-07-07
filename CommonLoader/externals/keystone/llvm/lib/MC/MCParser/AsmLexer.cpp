@@ -442,6 +442,16 @@ StringRef AsmLexer::LexUntilEndOfLine() {
   return StringRef(TokStart, CurPtr-TokStart);
 }
 
+StringRef AsmLexer::PeekUntilEndOfLine() {
+  const char *SavedCurPtr = CurPtr;
+
+  while (*SavedCurPtr != '\n' && *SavedCurPtr != '\r' &&
+         (*SavedCurPtr != 0 || SavedCurPtr != CurBuf.end())) {
+    ++SavedCurPtr;
+  }
+  return StringRef(TokStart, SavedCurPtr-TokStart);
+}
+
 size_t AsmLexer::peekTokens(MutableArrayRef<AsmToken> Buf,
                             bool ShouldSkipSpace)
 {
@@ -496,6 +506,21 @@ bool AsmLexer::isAtStatementSeparator(const char *Ptr) {
 AsmToken AsmLexer::LexToken()
 {
   TokStart = CurPtr;
+
+  // EDIT (Hyper): emit two EndOfStatement tokens for single '\n' use.
+  // 
+  // This replicates old HMM behaviour on Windows, where line breaks were
+  // provided as "\r\n".
+  // 
+  // The assembly parser eats a single '\n' after parsing statements, so
+  // when an error occurs and it eats the statement to move onto the next
+  // one, it ends up taking the next statement with it, because we don't
+  // have '\r' providing a barrier for it.
+  if (isDoubleEOSEmitter) {
+    isDoubleEOSEmitter = false;
+    return AsmToken(AsmToken::EndOfStatement, StringRef(TokStart, 1));
+  }
+
   // This always consumes at least one character.
   int CurChar = getNextChar();
 
@@ -547,6 +572,9 @@ AsmToken AsmLexer::LexToken()
     }
   case '\n': // FALL THROUGH.
   case '\r':
+    // EDIT (Hyper): see beginning of function.
+    if (*CurPtr != '\r' && CurChar == '\n')
+        isDoubleEOSEmitter = true;
     isAtStartOfLine = true;
     return AsmToken(AsmToken::EndOfStatement, StringRef(TokStart, 1));
   case ':': return AsmToken(AsmToken::Colon, StringRef(TokStart, 1));

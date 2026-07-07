@@ -111,6 +111,10 @@ struct ParseStatementInfo {
 
   SmallVectorImpl<AsmRewrite> *AsmRewrites;
 
+  // EDIT (Hyper): store line being parsed for error logging.
+  StringRef Line;
+  SMLoc LineStart;
+
   ParseStatementInfo() : KsError(0), Opcode(~0U), ParseError(false), AsmRewrites(nullptr) {}
   ParseStatementInfo(SmallVectorImpl<AsmRewrite> *rewrites)
     : Opcode(~0), ParseError(false), AsmRewrites(rewrites) {}
@@ -191,7 +195,7 @@ public:
             const MCAsmInfo &MAI);
   ~AsmParser() override;
 
-  size_t Run(bool NoInitialTextSection, uint64_t Address, bool NoFinalize = false) override;
+  size_t Run(bool NoInitialTextSection, uint64_t Address, bool NoFinalize = false, std::vector<ks_err_context>* Errors = nullptr) override;
 
   void addDirectiveHandler(StringRef Directive,
                            ExtensionDirectiveHandler Handler) override {
@@ -666,7 +670,7 @@ const AsmToken &AsmParser::Lex() {
   return *tok;
 }
 
-size_t AsmParser::Run(bool NoInitialTextSection, uint64_t Address, bool NoFinalize)
+size_t AsmParser::Run(bool NoInitialTextSection, uint64_t Address, bool NoFinalize, std::vector<ks_err_context>* Errors)
 {
   // count number of statement
   size_t count = 0;
@@ -709,9 +713,26 @@ size_t AsmParser::Run(bool NoInitialTextSection, uint64_t Address, bool NoFinali
       continue;
     }
 
+    // EDIT (Hyper): implemented optional error results.
+    if (Errors) {
+      unsigned LineBuf = getSourceManager().FindBufferContainingLoc(Info.LineStart);
+      int LineNum = getSourceManager().FindLineNumber(Info.LineStart, LineBuf);
+      const size_t LineChar = (size_t)(Lexer.getLoc().getPointer() - Info.LineStart.getPointer()) + 1;
+
+      // We had an error here.
+      // If reported as 0 (KS_ERR_OK), then best make it unknown.
+      unsigned int ErrNum = Info.KsError ? Info.KsError : -1;
+
+      Errors->push_back(ks_err_context(LineNum, LineChar, ErrNum, Info.Line.str().c_str()));
+    }
+
     //printf(">> 222 error = %u\n", Info.KsError);
-    if (!KsError)
-        KsError = Info.KsError;
+    
+    // EDIT (Hyper): removed this condition to replicate old HMM behaviour.
+    // We need code to still be emitted, even if statements are skipped.
+    // 
+    // if (!KsError)
+    //     KsError = Info.KsError;
 
     // We had an error, validate that one was emitted and recover by skipping to
     // the next line.
@@ -1432,6 +1453,11 @@ bool AsmParser::parseStatement(ParseStatementInfo &Info,
                                MCAsmParserSemaCallback *SI, uint64_t &Address)
 {
   KsError = 0;
+
+  // EDIT (Hyper): store line being parsed for error logging.
+  Info.Line = Lexer.PeekUntilEndOfLine();
+  Info.LineStart = Lexer.getLoc();
+
   if (Lexer.is(AsmToken::EndOfStatement)) {
     Out.AddBlankLine();
     Lex();

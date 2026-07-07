@@ -1,5 +1,7 @@
 #include "AssemblerService.h"
 #include "AssemblerService_In.h"
+#include "Logger.h"
+#include <sstream>
 
 using namespace CommonLoader;
 
@@ -47,12 +49,44 @@ AssemblerResult* AssemblerService::CompileAssembly(const char* source, uint64_t 
 {
 	AssemblerResult* result = new AssemblerResult();
 
-	if (ks_asm(AssemblerServiceImpl::assembler_instance, source, base, &result->data, &result->length, &result->instruction_count) == -1)
-	{
-		result->error_string = ks_strerror(ks_errno(AssemblerServiceImpl::assembler_instance));
-	}
+	ks_asm(AssemblerServiceImpl::assembler_instance, source, base,
+		&result->data, &result->length, &result->instruction_count,
+		(ks_err_context**)&result->errors, &result->errors_size);
 
 	return result;
+}
+
+void AssemblerService::OnError(const char* message, const AssemblerResult* result)
+{
+	if (!result->errors_size)
+	{
+		return;
+	}
+
+	ApplicationStore::SetState(CMN_LOADER_STATE_INIT_ASSEMBLY_FAILED, 1);
+
+	if (ApplicationStore::GetState(CMN_LOADER_STATE_DISABLE_LOGGING))
+	{
+		return;
+	}
+
+	if (message)
+	{
+		Logger::Error("{}", message);
+	}
+
+	for (size_t i = 0; i < result->errors_size; i++)
+	{
+		const AssemblerError& err = result->errors[i];
+
+		Logger::Error("{}({},{}): error {}: '{}': {}",
+			message ? "    " : "",
+			err.line_num,
+			err.line_char,
+			err.err_num,
+			err.line,
+			ks_strerror((ks_err)err.err_num));
+	}
 }
 
 bool AssemblerServiceImpl::ResolveSymbol(const char* symbol, uint64_t* value)
@@ -70,8 +104,13 @@ bool AssemblerServiceImpl::ResolveSymbol(const char* symbol, uint64_t* value)
 
 AssemblerResult::~AssemblerResult()
 {
-	if (data != nullptr)
+	if (data)
 	{
 		ks_free(data);
+	}
+
+	if (errors)
+	{
+		delete errors;
 	}
 }

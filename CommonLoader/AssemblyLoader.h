@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CodeObject.h"
+#include "Logger.h"
 #include "MemoryProvider.h"
 
 using namespace System;
@@ -64,6 +65,8 @@ namespace CommonLoader
 		{
 			for each (CodeObject ^ code in codes)
 			{
+				Logger::Info("Loading Code: {}", code->Name);
+
 				code->Init();
 			}
 		}

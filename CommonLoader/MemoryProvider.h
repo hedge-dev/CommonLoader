@@ -113,6 +113,9 @@ namespace CommonLoader
 		{
 			const ManagedStringANSI source{ instructions };
 			const AssemblerResult* result = AssemblerService::CompileAssembly(source);
+
+			if (result->errors_size)
+				AssemblerService::OnError("Error assembling statements.", result);
 			
 			array<Byte>^ bytes = gcnew array<Byte>(result->length);
 			pin_ptr<Byte> ptr = &bytes[0];

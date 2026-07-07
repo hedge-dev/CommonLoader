@@ -20,6 +20,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SigScanner.h" />
     <ClInclude Include="CommonLoaderAPI.h" />
+    <ClInclude Include="Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationStore.cpp" />

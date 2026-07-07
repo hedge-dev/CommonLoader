@@ -27,16 +27,9 @@ bool CommonLoader::HookService::WriteASMHook(const char* source, size_t address,
 	cs_free(insn, count);
 
 	std::unique_ptr<AssemblerResult> compiled_code{ AssemblerService::CompileAssembly(source, reinterpret_cast<uint64_t>(ApplicationStore::GetModule().base)) };
-	if (compiled_code->error_string)
-	{
-		std::stringstream err_stream{};
-		err_stream << "Failed to compile assembly:" << std::endl;
-		err_stream << "\t" << compiled_code->error_string << std::endl;
-		err_stream << "\tNear instruction " << compiled_code->instruction_count << std::endl;
 
-		MessageBoxA(nullptr, err_stream.str().c_str(), "Error", MB_OK | MB_ICONERROR);
-		return false;
-	}
+	if (compiled_code->errors_size)
+		AssemblerService::OnError(fmt::format("Error assembling statements in hook at 0x{:08X}.", address).c_str(), compiled_code.get());
 
 	void* hookPtr = _aligned_malloc(compiled_code->length + hookLen + MIN_HOOK_LENGTH, alignof(void*));
 	size_t pos = reinterpret_cast<size_t>(hookPtr);
