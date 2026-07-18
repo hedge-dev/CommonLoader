@@ -65,7 +65,10 @@ namespace CommonLoader
 		{
 			for each (CodeObject ^ code in codes)
 			{
-				Logger::Info("Loading Code: {}", code->Name);
+				if (code->Name)
+				{
+					Logger::Info("Loading Code: {}", *code->Name);
+				}
 
 				code->Init();
 			}

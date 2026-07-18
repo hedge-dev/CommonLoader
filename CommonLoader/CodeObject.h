@@ -1,8 +1,11 @@
 #pragma once
 
+#include <msclr/marshal_cppstd.h>
+
 using namespace System;
 using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
+using namespace msclr::interop;
 
 namespace CommonLoader 
 {
@@ -15,7 +18,7 @@ namespace CommonLoader
 		Action^ frameMethod;
 
 	public:
-		const char* Name;
+		std::string* Name;
 
 		CodeObject(Type^ base) 
 		{
@@ -23,20 +26,9 @@ namespace CommonLoader
 			baseObject = Activator::CreateInstance(base);
 
 			// TODO: add managed fields for name, category and ID.
-			Name = (const char*)Marshal::StringToHGlobalAnsi(base->Name).ToPointer();
-
-			// Omit hash suffix from reflected name.
-			char* c = (char*)Name;
-			while (c && *c != '\0')
-			{
-				if (*c == '_')
-				{
-					*c = '\0';
-					break;
-				}
-
-				c++;
-			}
+			Name = new std::string();
+			*Name = marshal_as<std::string>(base->Name);
+			*Name = Name->substr(0, Name->find('_'));
 
 			MethodInfo^ init = baseType->GetMethod("Init");
 			MethodInfo^ onFrame = baseType->GetMethod("OnFrame");
@@ -50,8 +42,16 @@ namespace CommonLoader
 
 		~CodeObject()
 		{
+			this->!CodeObject();
+		}
+
+		!CodeObject()
+		{
 			if (Name)
-				Marshal::FreeHGlobal((IntPtr)(void*)Name);
+			{
+				delete Name;
+				Name = nullptr;
+			}
 		}
 
 		void Init() 
