@@ -509,8 +509,9 @@ AsmToken AsmLexer::LexToken()
 
   // EDIT (Hyper): emit two EndOfStatement tokens for single '\n' use.
   // 
-  // This replicates old HMM behaviour on Windows, where line breaks were
-  // provided as "\r\n".
+  // This replicates HMM behaviour on Windows, where line breaks are
+  // provided as "\r\n". This is here as a workaround, in the event that
+  // "\r\n" line breaks are not enforced.
   // 
   // The assembly parser eats a single '\n' after parsing statements, so
   // when an error occurs and it eats the statement to move onto the next
