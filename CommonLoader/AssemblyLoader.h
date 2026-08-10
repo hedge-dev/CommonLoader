@@ -66,11 +66,11 @@ namespace CommonLoader
 		{
 			for each (CodeObject ^ code in Codes)
 			{
-				const std::string id = code->GetIdentifier(true);
+				const std::string* id = code->GetIdentifier(true);
 
-				if (!id.empty())
+				if (id && !id->empty())
 				{
-					Logger::Info("Loading Code: {}", id);
+					Logger::Info("Loading Code: {}", *id);
 				}
 
 				code->Init();

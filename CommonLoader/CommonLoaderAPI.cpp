@@ -127,7 +127,7 @@ bool CMN_LOADER_API FindCodeImpl(const char* id, Code_t* code)
 {
 	for each (CommonLoader::CodeObject^ hCodeObj in CommonLoader::ManagedCommonLoader::AssemblyLoader->Codes)
 	{
-		if (*hCodeObj->ID == id || hCodeObj->GetFullName() == id)
+		if (*hCodeObj->ID == id || *hCodeObj->FullName == id)
 		{
 			if (code)
 			{

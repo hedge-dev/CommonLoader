@@ -19,11 +19,33 @@ namespace CommonLoader
 		Action^ frameMethod;
 		std::string* reflectedName;
 
+	private:
+		const std::string getFullName()
+		{
+			std::stringstream result{};
+
+			if (Name->empty())
+				return result.str();
+
+			if (Category->empty())
+			{
+				result << *Name;
+			}
+			else
+			{
+				result << *Category << '/' << *Name;
+			}
+
+			return result.str();
+		}
+
 	public:
 		std::string* ID;
 		std::string* Name;
 		std::string* Author;
 		std::string* Category;
+
+		std::string* FullName;
 
 		CodeObject(Type^ base) 
 		{
@@ -61,6 +83,8 @@ namespace CommonLoader
 				Author = new std::string();
 				Category = new std::string();
 			}
+
+			FullName = new std::string(getFullName());
 		}
 
 		~CodeObject()
@@ -89,34 +113,15 @@ namespace CommonLoader
 				frameMethod();
 		}
 
-		const std::string GetFullName()
-		{
-			std::stringstream result{};
-
-			if (Name->empty())
-				return result.str();
-
-			if (Category->empty())
-			{
-				result << *Name;
-			}
-			else
-			{
-				result << *Category << '/' << *Name;
-			}
-
-			return result.str();
-		}
-
-		const std::string GetIdentifier(bool useFullName)
+		const std::string* GetIdentifier(bool useFullName)
 		{
 			if (ID->empty())
-				return useFullName ? GetFullName() : *Name;
+				return useFullName ? FullName : Name;
 
-			return *ID;
+			return ID;
 		}
 
-		const std::string GetIdentifier()
+		const std::string* GetIdentifier()
 		{
 			return GetIdentifier(false);
 		}
