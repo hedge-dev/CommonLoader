@@ -131,6 +131,15 @@ bool CMN_LOADER_API FindCodeImpl(const char* id, Code_t* code)
 		{
 			if (code)
 			{
+				if (code->szCode != sizeof(Code_t))
+				{
+					Logger::Error
+					(
+						"FindCode received a Code_t structure of invalid size. Expected: {}. Received: {}.",
+						sizeof(Code_t), code->szCode
+					);
+				}
+
 				*code = Code_t
 				(
 					hCodeObj->ID->c_str(),
