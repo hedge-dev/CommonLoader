@@ -17,16 +17,17 @@ namespace CommonLoader
 	{
 	protected:
 		Assembly^ loadedAssembly;
-		List<CodeObject^>^ codes;
 
 	public:
+		List<CodeObject^>^ Codes;
+
 		bool Load(const char* path)
 		{
 			String^ fullPath = Path::GetFullPath(gcnew String(path));
 
-			if (codes == nullptr)
+			if (Codes == nullptr)
 			{
-				codes = gcnew List<CodeObject^>();
+				Codes = gcnew List<CodeObject^>();
 			}
 
 			if (!File::Exists(fullPath))
@@ -40,7 +41,7 @@ namespace CommonLoader
 				if (method != nullptr && method->Invoke(nullptr, nullptr))
 				{
 					CodeObject^ obj = gcnew CodeObject(type);
-					codes->Add(obj);
+					Codes->Add(obj);
 					continue;
 				}
 
@@ -63,11 +64,13 @@ namespace CommonLoader
 
 		void raiseInitializers() 
 		{
-			for each (CodeObject ^ code in codes)
+			for each (CodeObject ^ code in Codes)
 			{
-				if (code->Name)
+				const std::string id = code->GetIdentifier(true);
+
+				if (!id.empty())
 				{
-					Logger::Info("Loading Code: {}", *code->Name);
+					Logger::Info("Loading Code: {}", id);
 				}
 
 				code->Init();
@@ -76,7 +79,7 @@ namespace CommonLoader
 
 		void raiseUpdates() 
 		{
-			for each (CodeObject ^ code in codes)
+			for each (CodeObject ^ code in Codes)
 			{
 				code->Update();
 			}

@@ -16,6 +16,8 @@
 #define FMT_HEADER_ONLY
 #include "fmt/core.h"
 
+#include "nlohmann/json.hpp"
+
 #include "CommonLoader.h"
 #include "ApplicationStore.h"
 #include "SigScanner.h"

@@ -1,33 +1,34 @@
 #pragma once
+
 #include "AssemblyLoader.h"
 #include "AssemblerService.h"
 #include "ApplicationStore.h"
 
-namespace CommonLoader {
+namespace CommonLoader
+{
 	public ref class ManagedCommonLoader
 	{
-	protected:
-		static AssemblyLoader^ assemblyLoader;
-
 	public:
+		static AssemblyLoader^ AssemblyLoader;
+
 		static bool LoadAssembly(const char* path)
 		{
-			if (assemblyLoader == nullptr)
+			if (AssemblyLoader == nullptr)
 			{
-				assemblyLoader = gcnew AssemblyLoader();
+				AssemblyLoader = gcnew CommonLoader::AssemblyLoader();
 			}
 
-			return assemblyLoader->Load(path);
+			return AssemblyLoader->Load(path);
 		}
 
 		static void RaiseInitializers()
 		{
-			assemblyLoader->raiseInitializers();
+			AssemblyLoader->raiseInitializers();
 		}
 
 		static void RaiseUpdates()
 		{
-			assemblyLoader->raiseUpdates();
+			AssemblyLoader->raiseUpdates();
 		}
 	};
 }

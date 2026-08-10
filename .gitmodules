@@ -1,3 +1,6 @@
 [submodule "CommonLoader/externals/fmt"]
 	path = CommonLoader/externals/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "CommonLoader/externals/json"]
+	path = CommonLoader/externals/json
+	url = https://github.com/nlohmann/json.git

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <msclr/marshal_cppstd.h>
+#include <sstream>
 
 using namespace System;
 using namespace System::Reflection;
@@ -16,28 +17,50 @@ namespace CommonLoader
 		Object^ baseObject;
 		Action^ initMethod;
 		Action^ frameMethod;
+		std::string* reflectedName;
 
 	public:
+		std::string* ID;
 		std::string* Name;
+		std::string* Author;
+		std::string* Category;
 
 		CodeObject(Type^ base) 
 		{
 			baseType = base;
 			baseObject = Activator::CreateInstance(base);
 
-			// TODO: add managed fields for name, category and ID.
-			Name = new std::string();
-			*Name = marshal_as<std::string>(base->Name);
-			*Name = Name->substr(0, Name->find('_'));
-
 			MethodInfo^ init = baseType->GetMethod("Init");
 			MethodInfo^ onFrame = baseType->GetMethod("OnFrame");
 
 			if (init)
 				initMethod = safe_cast<Action^>(Delegate::CreateDelegate(Action::typeid, baseObject, init));
-			
+
 			if (onFrame)
 				frameMethod = safe_cast<Action^>(Delegate::CreateDelegate(Action::typeid, baseObject, onFrame));
+
+			reflectedName = new std::string(marshal_as<std::string>(base->Name));
+			*reflectedName = reflectedName->substr(0, reflectedName->find('_'));
+
+			FieldInfo^ meta = baseType->GetField("__META__");
+
+			if (meta)
+			{
+				std::string metaValue = marshal_as<std::string>(safe_cast<String^>(meta->GetValue(nullptr)));
+				nlohmann::json metaJson = nlohmann::json::parse(metaValue);
+
+				ID = new std::string(metaJson["ID"]);
+				Name = new std::string(metaJson["Name"]);
+				Author = new std::string(metaJson["Author"]);
+				Category = new std::string(metaJson["Category"]);
+			}
+			else
+			{
+				ID = new std::string();
+				Name = reflectedName;
+				Author = new std::string();
+				Category = new std::string();
+			}
 		}
 
 		~CodeObject()
@@ -47,11 +70,11 @@ namespace CommonLoader
 
 		!CodeObject()
 		{
-			if (Name)
-			{
-				delete Name;
-				Name = nullptr;
-			}
+			delete reflectedName;
+			delete ID;
+			delete Name;
+			delete Author;
+			delete Category;
 		}
 
 		void Init() 
@@ -65,6 +88,37 @@ namespace CommonLoader
 			if (frameMethod)
 				frameMethod();
 		}
-	};
 
+		const std::string GetFullName()
+		{
+			std::stringstream result{};
+
+			if (Name->empty())
+				return result.str();
+
+			if (Category->empty())
+			{
+				result << *Name;
+			}
+			else
+			{
+				result << *Category << '/' << *Name;
+			}
+
+			return result.str();
+		}
+
+		const std::string GetIdentifier(bool useFullName)
+		{
+			if (ID->empty())
+				return useFullName ? GetFullName() : *Name;
+
+			return *ID;
+		}
+
+		const std::string GetIdentifier()
+		{
+			return GetIdentifier(false);
+		}
+	};
 }

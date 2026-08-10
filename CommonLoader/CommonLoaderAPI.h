@@ -41,6 +41,23 @@ struct AssemblerResult
 #endif
 };
 
+struct Code_t
+{
+	uint32_t szCode{};
+	const char* ID{};
+	const char* Name{};
+	const char* Author{};
+	const char* Category{};
+
+	Code_t() {}
+	Code_t(uint32_t size) : szCode(size) {}
+
+#ifdef CMN_LOADER_IMPL
+	Code_t(const char* id, const char* name, const char* author, const char* category)
+		: ID(id), Name(name), Author(author), Category(category) {}
+#endif
+};
+
 struct CommonLoaderAPI
 {
 	DECLARE_API_FUNC(int, GetVersion);
@@ -57,6 +74,7 @@ struct CommonLoaderAPI
 	DECLARE_API_FUNC(void, SetState, size_t state, size_t value);
 	DECLARE_API_FUNC(void, SetStateFlag, size_t state, size_t flag, bool set);
 	DECLARE_API_FUNC(size_t, GetState, size_t state);
+	DECLARE_API_FUNC(bool, FindCode, const char* id, Code_t* code);
 };
 
 typedef const CommonLoaderAPI* (CommonLoader_GetAPI_t)();
