@@ -1,5 +1,4 @@
-#pragma unmanaged
-
+#include "pch.h"
 #include "SigScanner.h"
 #include "ApplicationStore.h"
 #include "CommonLoaderAPI.h"
@@ -165,7 +164,7 @@ bool SearchSignatureCache(const SignatureKey& key, void* p_begin, size_t size, v
     const auto& result = sig_lookup_cache.find(key);
     if (result == sig_lookup_cache.end())
     {
-        return nullptr;
+        return false;
     }
 
     char* address = static_cast<char*>(result->second);

@@ -1,3 +1,4 @@
+#include "pch.h"
+
 #define INI_IMPLEMENTATION
-#pragma unmanaged
 #include "ini.h"

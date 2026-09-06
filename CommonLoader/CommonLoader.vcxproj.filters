@@ -5,17 +5,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="clrhost">
+      <UniqueIdentifier>{31322c81-406c-432f-bf2f-67ae1a52a631}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationStore.h" />
     <ClInclude Include="AssemblerService.h" />
     <ClInclude Include="AssemblerService_In.h" />
-    <ClInclude Include="AssemblyLoader.h" />
-    <ClInclude Include="CodeObject.h" />
     <ClInclude Include="CommonLoader.h" />
     <ClInclude Include="HookService.h" />
     <ClInclude Include="ManagedCommonLoader.h" />
-    <ClInclude Include="MemoryProvider.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SigScanner.h" />
@@ -25,7 +25,6 @@
   <ItemGroup>
     <ClCompile Include="ApplicationStore.cpp" />
     <ClCompile Include="AssemblerService.cpp" />
-    <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="CommonLoader.cpp" />
     <ClCompile Include="HookService.cpp" />
     <ClCompile Include="externals\ini.cpp" />
@@ -33,6 +32,15 @@
     <ClCompile Include="SigScanner.cpp" />
     <ClCompile Include="externals\xxhash.cpp" />
     <ClCompile Include="CommonLoaderAPI.cpp" />
+    <ClCompile Include="clrhost\clrhost.cpp">
+      <Filter>clrhost</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagedCommonLoader.cpp" />
+    <ClCompile Include="clrhost\resource.cpp">
+      <Filter>clrhost</Filter>
+    </ClCompile>
+    <ClCompile Include="clrhost\resources\ClrHost.Managed.cpp" />
+    <ClCompile Include="clrhost\resources\CommonLoader.Managed.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc">

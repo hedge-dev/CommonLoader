@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "AssemblerService.h"
 #include "AssemblerService_In.h"
 #include "Logger.h"
@@ -52,6 +53,11 @@ AssemblerResult* AssemblerService::CompileAssembly(const char* source, uint64_t 
 	ks_asm(AssemblerServiceImpl::assembler_instance, source, base,
 		&result->data, &result->length, &result->instruction_count,
 		(ks_err_context**)&result->errors, &result->errors_size);
+
+	if (result->errors)
+	{
+		OnError("Error assembling statements", result);
+	}
 
 	return result;
 }

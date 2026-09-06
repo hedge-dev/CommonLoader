@@ -1,7 +1,9 @@
 #pragma once
 
 #define CMN_LOADER_API __cdecl
-#define CMN_LOADER_API_VERSION 1
+
+// Use the size as a version marker
+#define CMN_LOADER_API_VERSION sizeof(CommonLoaderAPI)
 #define CMN_LOADER_API_EXPORT_NAME CommonLoader_GetAPIPointer
 #define CMN_LOADER_STRINGIFY(X) #X
 #define CMN_LOADER_XSTRINGIFY(X) CMN_LOADER_STRINGIFY(X)
@@ -41,21 +43,42 @@ struct AssemblerResult
 #endif
 };
 
+struct CodeMetadata_t
+{
+	const char* Name{};
+	const char* Value{};
+};
+
 struct Code_t
 {
 	uint32_t szCode{};
 	const char* ID{};
 	const char* Name{};
+	const char* FullName{};
 	const char* Author{};
 	const char* Category{};
-
-	Code_t() {}
-	Code_t(uint32_t size) : szCode(size) {}
+	const char* ModID{};
+	const char* Type{};
+	size_t MetadataLength{};
+	CodeMetadata_t* Metadata{};
 
 #ifdef CMN_LOADER_IMPL
 	Code_t(const char* id, const char* name, const char* author, const char* category)
 		: ID(id), Name(name), Author(author), Category(category) {}
 #endif
+};
+
+enum EHookBehavior
+{
+	eHookBehavior_Before =  0,
+	eHookBehavior_After  =  1,
+	eHookBehavior_Replace = 2
+};
+
+enum EHookParameter
+{
+	eHookParameter_Jump = 0,
+	eHookParameter_Call = 1,
 };
 
 struct CommonLoaderAPI
@@ -74,7 +97,8 @@ struct CommonLoaderAPI
 	DECLARE_API_FUNC(void, SetState, size_t state, size_t value);
 	DECLARE_API_FUNC(void, SetStateFlag, size_t state, size_t flag, bool set);
 	DECLARE_API_FUNC(size_t, GetState, size_t state);
-	DECLARE_API_FUNC(bool, FindCode, const char* id, Code_t* code);
+	DECLARE_API_FUNC(bool, FindCode, const char* id, const Code_t** code);
+	DECLARE_API_FUNC(bool, WriteAsmHook, const char* instructions, void* address, int behavior, int parameter);
 };
 
 typedef const CommonLoaderAPI* (CommonLoader_GetAPI_t)();

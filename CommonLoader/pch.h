@@ -12,16 +12,27 @@
 
 #define NOMINMAX
 #include <Windows.h>
+#include <ShlObj.h>
+#include <mscoree.h>
+#include <metahost.h>
+#include <string>
+#include <filesystem>
+#include <fstream>
+#include <charconv>
 
 #define FMT_HEADER_ONLY
-#include "fmt/core.h"
+#include <fmt/core.h>
 
-#include "nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 
 #include "CommonLoader.h"
 #include "ApplicationStore.h"
 #include "SigScanner.h"
 #include "externals/ini.h"
 #include "externals/xxhash.h"
+
+#include "Registry.h"
+#include "Environment.h"
+#include "clrhost/dotnet.h"
 
 #endif // PCH_H

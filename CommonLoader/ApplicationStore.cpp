@@ -1,5 +1,4 @@
-#pragma unmanaged
-
+#include "pch.h"
 #include "ApplicationStore.h"
 #include "CommonLoaderAPI.h"
 #include <string>

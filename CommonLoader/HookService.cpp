@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "HookService.h"
 #include "AssemblerService.h"
 #include "AssemblerService_In.h"

@@ -1,34 +1,36 @@
 #pragma once
-
-#include "AssemblyLoader.h"
 #include "AssemblerService.h"
 #include "ApplicationStore.h"
+#include "clrhost/clrhost.h"
 
 namespace CommonLoader
 {
-	public ref class ManagedCommonLoader
+	class ManagedCommonLoader
 	{
 	public:
-		static AssemblyLoader^ AssemblyLoader;
+		static bool LoadAssembly(const std::filesystem::path& path);
+		static void RaiseInitializers();
+		static void RaiseUpdates();
+		static const Code_t** GetCodes(size_t& outNumCodes);
+	};
 
-		static bool LoadAssembly(const char* path)
-		{
-			if (AssemblyLoader == nullptr)
-			{
-				AssemblyLoader = gcnew CommonLoader::AssemblyLoader();
-			}
+	template<typename TSignature>
+	typename std::enable_if<std::is_function_v<TSignature>, typename clrhost::FunctionPtr<TSignature>::StdCallFunction_t*>::type
+		CreateDelegate(const char* typeName, const char* methodName)
+	{
+		return ::CommonLoader::clr->template CreateDelegate<TSignature>("CommonLoader.Managed", typeName, methodName);
+	}
 
-			return AssemblyLoader->Load(path);
-		}
+	template<typename TSignature>
+	typename std::enable_if<std::is_function_v<TSignature>, typename clrhost::FunctionPtr<TSignature>::StdCallFunction_t*>::type
+		CreateDelegate(const char* methodName)
+	{
+		return CreateDelegate<TSignature>("CommonLoader.Managed.CodeLoader", methodName);
+	}
 
-		static void RaiseInitializers()
-		{
-			AssemblyLoader->raiseInitializers();
-		}
-
-		static void RaiseUpdates()
-		{
-			AssemblyLoader->raiseUpdates();
-		}
+	struct NativeContext
+	{
+		const CommonLoaderAPI* api{};
+		clrhost::FunctionPtr<void(size_t, const wchar_t*)>::StdCallFunction_t* logCallback{};
 	};
 }

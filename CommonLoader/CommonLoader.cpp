@@ -1,10 +1,14 @@
+#include "pch.h"
 #include "CommonLoader.h"
 #include "Logger.h"
 #include "ManagedCommonLoader.h"
 #include <sstream>
+#include "clrhost/clrhost.h"
 
-#pragma unmanaged
+#define COMMONLOADER_DOMAIN "CommonLoader"
 bool is_init{};
+std::unique_ptr<clrhost::clr_context> CommonLoader::clr{};
+
 void CommonLoader::Init()
 {
 	if (is_init)
@@ -13,13 +17,24 @@ void CommonLoader::Init()
 	}
 
 	is_init = true;
+	
+	clr = std::move(clrhost::clr_context::Initialize(COMMONLOADER_DOMAIN));
 	ApplicationStore::Init();
 	AssemblerService::Init();
 	InitSigScanner();
-}
-#pragma managed
 
-bool CommonLoader::LoadAssembly(const char* path)
+	auto providerInit = CreateDelegate<void(const NativeContext&)>("Initialize");
+	providerInit(
+		{
+			.api = &api_table,
+			.logCallback = [](size_t level, const wchar_t* message) 
+			{
+				Logger::Log((std::wstring_view)message, (Logger::LogType)level);
+			}
+		});
+}
+
+bool CommonLoader::LoadAssembly(const std::filesystem::path& path)
 {
 	Init();
 	return ManagedCommonLoader::LoadAssembly(path);

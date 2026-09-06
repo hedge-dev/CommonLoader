@@ -1,11 +1,11 @@
-#pragma unmanaged
-
 #include "pch.h"
 #include "CommonLoaderAPI.h"
 #include "CommonLoader.h"
+#include "ManagedCommonLoader.h"
 #include "SigScanner.h"
 #include "ApplicationStore.h"
 #include "AssemblerService.h"
+#include "HookService.h"
 
 int CMN_LOADER_API GetVersionImpl()
 {
@@ -119,44 +119,28 @@ size_t CMN_LOADER_API GetStateImpl(size_t state)
 	return CommonLoader::ApplicationStore::GetState(state);
 }
 
-#pragma managed
-
-#include "ManagedCommonLoader.h"
-
-bool CMN_LOADER_API FindCodeImpl(const char* id, Code_t* code)
+bool CMN_LOADER_API FindCodeImpl(const char* id, const Code_t** code)
 {
-	for each (CommonLoader::CodeObject^ hCodeObj in CommonLoader::ManagedCommonLoader::AssemblyLoader->Codes)
+	if (!code) return false;
+
+	size_t numCodes{};
+	auto* codes = CommonLoader::ManagedCommonLoader::GetCodes(numCodes);
+	for (size_t i = 0; i < numCodes; i++)
 	{
-		if (*hCodeObj->ID == id || *hCodeObj->FullName == id)
+		if (strcmp(id, codes[i]->ID) == 0 || strcmp(id, codes[i]->FullName) == 0)
 		{
-			if (code)
-			{
-				if (code->szCode != sizeof(Code_t))
-				{
-					Logger::Error
-					(
-						"FindCode received a Code_t structure of invalid size. Expected: {}. Received: {}.",
-						sizeof(Code_t), code->szCode
-					);
-				}
-
-				*code = Code_t
-				(
-					hCodeObj->ID->c_str(),
-					hCodeObj->Name->c_str(),
-					hCodeObj->Author->c_str(),
-					hCodeObj->Category->c_str()
-				);
-			}
-
+			*code = codes[i];
 			return true;
 		}
 	}
-
+	
 	return false;
 }
 
-#pragma unmanaged
+bool CMN_LOADER_API WriteAsmHookImpl(const char* instructions, void* address, int behavior, int parameter)
+{
+	return CommonLoader::HookService::WriteASMHook(instructions, (size_t)address, behavior, parameter);
+}
 
 namespace CommonLoader
 {
@@ -176,6 +160,7 @@ namespace CommonLoader
 		SetStateImpl,
 		SetStateFlagImpl,
 		GetStateImpl,
-		FindCodeImpl
+		FindCodeImpl,
+		WriteAsmHookImpl
 	};
 }
