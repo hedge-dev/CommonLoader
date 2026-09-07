@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
-public unsafe class MemoryProvider
+public unsafe class MemoryProvider : IMemoryProvider
 {
     public static MemoryProvider Instance { get; private set; } = new();
     public static CommonLoaderAPI Loader { get; private set; }
