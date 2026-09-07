@@ -25,7 +25,6 @@ public static class CodeLoader
 
     public static unsafe void Log(LogLevel level, string message)
     {
-        Marshal.UnsafeAddrOfPinnedArrayElement(message.ToCharArray(), 0);
         fixed(char* msg = message)
         {
             NativeLoader.LogCallback((nint)level, (nint)msg);
