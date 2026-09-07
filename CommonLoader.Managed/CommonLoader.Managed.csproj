@@ -8,11 +8,11 @@
         <EmbedAllSources>true</EmbedAllSources>
     </PropertyGroup>
 
-    <UsingTask TaskName="ClrHost.Tasks.HexDump" AssemblyFile="$(ProjectDir)..\ClrHost.Tasks.dll"/>
-    <UsingTask TaskName="ClrHost.Tasks.ImplementUnsafe" AssemblyFile="$(ProjectDir)..\ClrHost.Tasks.dll"/>
+    <UsingTask TaskName="ClrHost.Tasks.HexDump" AssemblyFile="$(ProjectDir)..\ClrHost.Tasks.dll" />
+    <UsingTask TaskName="ClrHost.Tasks.ImplementUnsafe" AssemblyFile="$(ProjectDir)..\ClrHost.Tasks.dll" />
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <ImplementUnsafe Input="$(TargetPath)"/>
+        <ImplementUnsafe Input="$(TargetPath)" TargetType="CommonLoader.Managed.Unsafe" />
         <HexDump Input="$(TargetPath)" Output="$(ProjectDir)..\CommonLoader\clrhost\resources\$(ProjectName).cpp" />
     </Target>
 

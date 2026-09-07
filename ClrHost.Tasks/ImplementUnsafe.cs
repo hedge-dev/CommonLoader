@@ -11,7 +11,8 @@ public class ImplementUnsafe : Task
     public string Input { get; set; }
 
     public string Output { get; set; }
-    
+    public string TargetType { get; set; }
+
     public override bool Execute()
     {
         if (string.IsNullOrEmpty(Output))
@@ -25,20 +26,33 @@ public class ImplementUnsafe : Task
             return false;
         }
 
+        if (string.IsNullOrEmpty(TargetType))
+        {
+            TargetType = "System.Runtime.CompilerServices.Unsafe";
+        }
+
         var assemblyDef = AssemblyDef.Load(File.ReadAllBytes(Input), new ModuleCreationOptions());
+        var targetFound = false;
 
         foreach (var module in assemblyDef.Modules)
         {
             foreach (var type in module.Types)
             {
-                if (type.FullName == "System.Runtime.CompilerServices.Unsafe")
+                if (type.FullName == TargetType)
                 {
-                    foreach(var method in type.Methods)
+                    targetFound = true;
+                    foreach (var method in type.Methods)
                     {
                         UnsafeIntrinsicsProcessor.ProcessMethod(method);
                     }
                 }
             }
+        }
+
+        if (!targetFound)
+        {
+            Log.LogError($"Could not find type ({TargetType}) in assembly ({assemblyDef.Name})");
+            return false;
         }
 
         assemblyDef.Write(Output, new ModuleWriterOptions(assemblyDef.Modules.First())

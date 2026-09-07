@@ -1,4 +1,7 @@
-﻿namespace System.Runtime.CompilerServices;
+﻿#nullable enable
+namespace CommonLoader.Managed;
+using System;
+using System.Runtime.CompilerServices;
 
 public static unsafe class Unsafe
 {
