@@ -6,6 +6,7 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <DebugType>embedded</DebugType>
         <EmbedAllSources>true</EmbedAllSources>
+        <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     </PropertyGroup>
 
     <UsingTask TaskName="ClrHost.Tasks.HexDump" AssemblyFile="$(ProjectDir)..\ClrHost.Tasks.dll" />

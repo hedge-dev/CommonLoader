@@ -9,6 +9,7 @@ namespace CommonLoader
 	{
 	public:
 		static bool LoadAssembly(const std::filesystem::path& path);
+		static bool DisableCode(const Code_t* code);
 		static void RaiseInitializers();
 		static void RaiseUpdates();
 		static const Code_t** GetCodes(size_t& outNumCodes);

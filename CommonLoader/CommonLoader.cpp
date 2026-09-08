@@ -40,6 +40,31 @@ bool CommonLoader::LoadAssembly(const std::filesystem::path& path)
 	return ManagedCommonLoader::LoadAssembly(path);
 }
 
+const Code_t** CommonLoader::GetCodes(size_t& outNumCodes)
+{
+	return ManagedCommonLoader::GetCodes(outNumCodes);
+}
+
+const Code_t* CommonLoader::FindCode(const char* id)
+{
+	size_t numCodes{};
+	auto* codes = CommonLoader::ManagedCommonLoader::GetCodes(numCodes);
+	for (size_t i = 0; i < numCodes; i++)
+	{
+		if (strcmp(id, codes[i]->ID) == 0 || strcmp(id, codes[i]->FullName) == 0)
+		{
+			return codes[i];
+		}
+	}
+
+	return nullptr;
+}
+
+bool CommonLoader::DisableCode(const Code_t* code)
+{
+	return ManagedCommonLoader::DisableCode(code);
+}
+
 void CommonLoader::RaiseInitializers()
 {
 	ManagedCommonLoader::RaiseInitializers();

@@ -2,6 +2,7 @@
 #include <filesystem>
 
 struct CommonLoaderAPI;
+struct Code_t;
 namespace clrhost
 {
 	class clr_context;
@@ -14,6 +15,9 @@ namespace CommonLoader
 
 	void Init();
 	bool LoadAssembly(const std::filesystem::path& path);
+	const Code_t** GetCodes(size_t& outNumCodes);
+	const Code_t* FindCode(const char* id);
+	bool DisableCode(const Code_t* code);
 	void RaiseInitializers();
 	void RaiseUpdates();
 	const CommonLoaderAPI* GetAPI();

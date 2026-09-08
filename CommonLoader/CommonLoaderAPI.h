@@ -98,6 +98,7 @@ struct CommonLoaderAPI
 	DECLARE_API_FUNC(void, SetStateFlag, size_t state, size_t flag, bool set);
 	DECLARE_API_FUNC(size_t, GetState, size_t state);
 	DECLARE_API_FUNC(bool, FindCode, const char* id, const Code_t** code);
+	DECLARE_API_FUNC(bool, DisableCode, const Code_t* code);
 	DECLARE_API_FUNC(bool, WriteAsmHook, const char* instructions, void* address, int behavior, int parameter);
 };
 

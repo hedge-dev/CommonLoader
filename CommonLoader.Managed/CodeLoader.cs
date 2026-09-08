@@ -13,6 +13,7 @@ public static class CodeLoader
     public static List<CodeObject> Codes { get; private set; } = new(64);
     public static nint[] NativeCodeInfos { get; set; } = [];
     public static GCHandle NativeCodeInfosHandle { get; set; }
+    public static bool InitializersRaised { get; set; }
 
     public static event Action? UpdateEvents;
     public static NativeContext NativeLoader;
@@ -49,6 +50,29 @@ public static class CodeLoader
         }
 
         return null;
+    }
+
+    public static nint DisableCode(nint info)
+    {
+        var codeIdx = Codes.FindIndex(c => c.NativeInfo == info);
+        if (codeIdx < 0) return 0;
+
+        if (InitializersRaised)
+        {
+            Logger.Warning($"An attempt was made to disable a code after initializing. Code: ({Codes[codeIdx].Name})");
+            return 0;
+        }
+
+        UpdateEvents -= Codes[codeIdx].FrameAction;
+        Codes[codeIdx].Dispose();
+        Codes.RemoveAt(codeIdx);
+
+        for (int i = codeIdx; i < NativeCodeInfos.Length - 1; i++)
+        {
+            NativeCodeInfos[i] = NativeCodeInfos[i + 1];
+        }
+
+        return 1;
     }
 
     public static void RefreshNativeInfo()
@@ -138,6 +162,7 @@ public static class CodeLoader
 
     public static void RaiseInitializers()
     {
+        InitializersRaised = true;
         foreach(var code in Codes)
         {
             Logger.Info($"Loading Code: {code.FullName}");

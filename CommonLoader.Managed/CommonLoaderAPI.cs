@@ -21,6 +21,7 @@ public struct CommonLoaderAPI
     public SetStateFlagDelegate SetStateFlag;
     public GetStateDelegate GetState;
     public FindCodeDelegate FindCode;
+    public DisableCodeDelegate DisableCode;
     public WriteAsmHookDelegate WriteAsmHook;
 
     public CommonLoaderAPI(IntPtr basePtr)
@@ -41,6 +42,7 @@ public struct CommonLoaderAPI
         SetStateFlag = GetFunction<SetStateFlagDelegate>(ApiFunctions.SetStateFlag);
         GetState = GetFunction<GetStateDelegate>(ApiFunctions.GetState);
         FindCode = GetFunction<FindCodeDelegate>(ApiFunctions.FindCode);
+        DisableCode = GetFunction<DisableCodeDelegate>(ApiFunctions.DisableCode);
         WriteAsmHook = GetFunction<WriteAsmHookDelegate>(ApiFunctions.WriteAsmHook);
     }
 
@@ -90,6 +92,7 @@ public struct CommonLoaderAPI
         SetStateFlag,
         GetState,
         FindCode,
+        DisableCode,
         WriteAsmHook
     }
 }
@@ -144,5 +147,15 @@ public unsafe delegate bool RemoveAssemblerSymbolDelegate([MarshalAs(UnmanagedTy
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public unsafe delegate void SetStateDelegate(nint state, nint value);
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public unsafe delegate void SetStateFlagDelegate(nint state, nint flag, bool set);
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public unsafe delegate nint GetStateDelegate(nint state);
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)] public unsafe delegate bool FindCodeDelegate([MarshalAs(UnmanagedType.LPStr)] string id, out CodeObject.NativeCodeInfo* code);
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)] public unsafe delegate bool WriteAsmHookDelegate([MarshalAs(UnmanagedType.LPStr)] string instructions, IntPtr address, int behavior, int parameter);
+
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+[return: MarshalAs(UnmanagedType.Bool)] 
+public unsafe delegate bool DisableCodeDelegate(CodeObject.NativeCodeInfo* code);
+
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+[return: MarshalAs(UnmanagedType.Bool)] 
+public unsafe delegate bool FindCodeDelegate([MarshalAs(UnmanagedType.LPStr)] string id, out CodeObject.NativeCodeInfo* code);
+
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+[return: MarshalAs(UnmanagedType.Bool)]
+public unsafe delegate bool WriteAsmHookDelegate([MarshalAs(UnmanagedType.LPStr)] string instructions, IntPtr address, int behavior, int parameter);

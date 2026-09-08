@@ -7,8 +7,13 @@ namespace CommonLoader
     bool ManagedCommonLoader::LoadAssembly(const std::filesystem::path& path)
     {
         static auto loadFunction = CreateDelegate<size_t(const wchar_t*)>("LoadFile");
-
         return loadFunction(path.c_str());
+    }
+
+    bool ManagedCommonLoader::DisableCode(const Code_t* code)
+    {
+        static auto disableFunction = CreateDelegate<bool(const Code_t*)>("DisableCode");
+        return disableFunction(code);
     }
 
     void ManagedCommonLoader::RaiseInitializers()

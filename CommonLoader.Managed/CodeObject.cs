@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
-public class CodeObject
+public class CodeObject : IDisposable
 {
     public static IReadOnlyDictionary<string, string> EmptyMetadata = new Dictionary<string, string>();
 
@@ -64,10 +64,28 @@ public class CodeObject
         return null;
     }
 
+    protected void Dispose(bool disposing)
+    {
+        if (NativeInfo != IntPtr.Zero)
+        {
+            NativeCodeInfo.Destroy(NativeInfo);
+            NativeInfo = IntPtr.Zero;
+        }
+        
+        if (disposing)
+        {
+            GC.SuppressFinalize(this);
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+    }
+
     ~CodeObject()
     {
-        NativeCodeInfo.Destroy(NativeInfo);
-        NativeInfo = IntPtr.Zero;
+        Dispose(false);
     }
 
     [StructLayout(LayoutKind.Sequential)]

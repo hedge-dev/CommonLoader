@@ -62,4 +62,5 @@ public enum ApiFunctions
     DECLARE_API_FUNC(void, SetStateFlag, nint state, nint flag, bool set)
     DECLARE_API_FUNC(nint, GetState, nint state)
     DECLARE_API_FUNC(bool, FindCode, [MarshalAs(UnmanagedType.LPStr)] string id, Code_t* code)
+    DECLARE_API_FUNC(bool, DisableCode, Code_t* code)
     DECLARE_API_FUNC(bool, WriteAsmHook, [MarshalAs(UnmanagedType.LPStr)] string instructions, void* address, int behavior, int parameter)

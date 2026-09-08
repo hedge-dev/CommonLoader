@@ -123,18 +123,17 @@ bool CMN_LOADER_API FindCodeImpl(const char* id, const Code_t** code)
 {
 	if (!code) return false;
 
-	size_t numCodes{};
-	auto* codes = CommonLoader::ManagedCommonLoader::GetCodes(numCodes);
-	for (size_t i = 0; i < numCodes; i++)
-	{
-		if (strcmp(id, codes[i]->ID) == 0 || strcmp(id, codes[i]->FullName) == 0)
-		{
-			*code = codes[i];
-			return true;
-		}
-	}
+	auto* foundCode = CommonLoader::FindCode(id);
+	*code = foundCode;
 	
-	return false;
+	return !!foundCode;
+}
+
+bool CMN_LOADER_API DisableCodeImpl(const Code_t* code)
+{
+	if (!code) return false;
+
+	return CommonLoader::DisableCode(code);
 }
 
 bool CMN_LOADER_API WriteAsmHookImpl(const char* instructions, void* address, int behavior, int parameter)
@@ -161,6 +160,7 @@ namespace CommonLoader
 		SetStateFlagImpl,
 		GetStateImpl,
 		FindCodeImpl,
+		DisableCodeImpl,
 		WriteAsmHookImpl
 	};
 }
