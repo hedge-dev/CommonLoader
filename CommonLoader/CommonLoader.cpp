@@ -8,6 +8,14 @@
 #define COMMONLOADER_DOMAIN "CommonLoader"
 bool is_init{};
 std::unique_ptr<clrhost::clr_context> CommonLoader::clr{};
+static CommonLoader::NativeContext nativeContext
+{
+	.api = &CommonLoader::api_table,
+	.logCallback = [](size_t level, const wchar_t* message)
+	{
+		Logger::Log((std::wstring_view)message, (Logger::LogType)level);
+	}
+};
 
 void CommonLoader::Init()
 {
@@ -23,32 +31,25 @@ void CommonLoader::Init()
 	AssemblerService::Init();
 	InitSigScanner();
 
-	auto providerInit = CreateDelegate<void(const NativeContext&)>("Initialize");
-	providerInit(
-		{
-			.api = &api_table,
-			.logCallback = [](size_t level, const wchar_t* message) 
-			{
-				Logger::Log((std::wstring_view)message, (Logger::LogType)level);
-			}
-		});
+	ManagedInvoke<"Initialize">(&nativeContext);
 }
 
 bool CommonLoader::LoadAssembly(const std::filesystem::path& path)
 {
 	Init();
-	return ManagedCommonLoader::LoadAssembly(path);
+	return ManagedInvoke<"LoadFile", bool>(path.c_str());
 }
 
 const Code_t** CommonLoader::GetCodes(size_t& outNumCodes)
 {
-	return ManagedCommonLoader::GetCodes(outNumCodes);
+	outNumCodes = nativeContext.numCodes;
+	return nativeContext.codes;
 }
 
 const Code_t* CommonLoader::FindCode(const char* id)
 {
-	size_t numCodes{};
-	auto* codes = CommonLoader::ManagedCommonLoader::GetCodes(numCodes);
+	size_t numCodes = nativeContext.numCodes;
+	auto* codes = nativeContext.codes;
 	for (size_t i = 0; i < numCodes; i++)
 	{
 		if (strcmp(id, codes[i]->ID) == 0 || strcmp(id, codes[i]->FullName) == 0)
@@ -62,12 +63,12 @@ const Code_t* CommonLoader::FindCode(const char* id)
 
 bool CommonLoader::DisableCode(const Code_t* code)
 {
-	return ManagedCommonLoader::DisableCode(code);
+	return ManagedInvoke<"DisableCode", bool>(code);
 }
 
 void CommonLoader::RaiseInitializers()
 {
-	ManagedCommonLoader::RaiseInitializers();
+	ManagedInvoke<"RaiseInitializers">();
 
 	bool sigFailed = ApplicationStore::GetState(CMN_LOADER_STATE_INIT_SIG_SCAN_FAILED);
 	bool asmFailed = ApplicationStore::GetState(CMN_LOADER_STATE_INIT_ASSEMBLY_FAILED);
@@ -107,7 +108,7 @@ void CommonLoader::RaiseInitializers()
 
 void CommonLoader::RaiseUpdates()
 {
-	ManagedCommonLoader::RaiseUpdates();
+	ManagedInvoke<"RaiseUpdates">();
 }
 
 const CommonLoaderAPI* CommonLoader::GetAPI()

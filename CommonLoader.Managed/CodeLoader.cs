@@ -16,21 +16,21 @@ public static class CodeLoader
     public static bool InitializersRaised { get; set; }
 
     public static event Action? UpdateEvents;
-    public static NativeContext NativeLoader;
+    public static Pointer<NativeContext> NativeLoader;
 
     // .NET Framework can't marshal a delegate* for some reason.
     // Why does it even try to marshal an unmanaged reference parameter?
     public static void Initialize(nint loader)
     {
-        NativeLoader = Unsafe.AsRef<NativeContext>(loader);
-        MemoryProvider.Initialize(NativeLoader.ApiTable);
+        NativeLoader = new(loader);
+        MemoryProvider.Initialize(NativeLoader.Ref().ApiTable);
     }
 
     public static unsafe void Log(LogLevel level, string message)
     {
         fixed(char* msg = message)
         {
-            NativeLoader.Log((nint)level, (nint)msg);
+            NativeLoader.Ref().Log((nint)level, (nint)msg);
         }
     }
 
@@ -72,6 +72,8 @@ public static class CodeLoader
             NativeCodeInfos[i] = NativeCodeInfos[i + 1];
         }
 
+        NativeLoader.Ref().NumCodes--;
+
         return 1;
     }
 
@@ -91,6 +93,9 @@ public static class CodeLoader
             }
 
             NativeCodeInfosHandle = GCHandle.Alloc(NativeCodeInfos, GCHandleType.Pinned);
+            
+            NativeLoader.Ref().NumCodes = Codes.Count;
+            NativeLoader.Ref().Codes = NativeCodeInfosHandle.AddrOfPinnedObject();
         }
     }
 
@@ -182,6 +187,8 @@ public static class CodeLoader
 
         // size_t level, const wchar_t* message
         public delegate* unmanaged[Stdcall]<nint, nint, void> LogCallback;
+        public nint NumCodes;
+        public nint Codes;
 
         public readonly void Log(nint level, nint msg)
             => LogCallback(level, msg);

@@ -52,28 +52,8 @@ public struct CommonLoaderAPI
         ref var apiStart = ref Unsafe.AsRef<IntPtr>(Base);
         var apiPtr = Unsafe.Add(ref apiStart, (int)function);
 
-        return (TDelegate)Marshal.GetDelegateForFunctionPointer(apiPtr, ApiDelegates[(int)function]);
+        return (TDelegate)Marshal.GetDelegateForFunctionPointer(apiPtr, typeof(TDelegate));
     }
-
-    public static Type[] ApiDelegates =
-    {
-        typeof(GetVersionDelegate),
-        typeof(ScanSignatureDelegate),
-        typeof(ScanSignatureExDelegate),
-        typeof(GetApplicationOptionDelegate),
-        typeof(GetApplicationOptionExDelegate),
-        typeof(SaveApplicationOptionsDelegate),
-        typeof(CompileAssemblyDelegate),
-        typeof(FreeAssemblerObjectDelegate),
-        typeof(SetAssemblerSymbolDelegate),
-        typeof(GetAssemblerSymbolDelegate),
-        typeof(RemoveAssemblerSymbolDelegate),
-        typeof(SetStateDelegate),
-        typeof(SetStateFlagDelegate),
-        typeof(GetStateDelegate),
-        typeof(FindCodeDelegate),
-        typeof(WriteAsmHookDelegate)
-    };
 
     public enum ApiFunctions
     {

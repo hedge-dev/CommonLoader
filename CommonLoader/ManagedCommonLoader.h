@@ -5,14 +5,18 @@
 
 namespace CommonLoader
 {
-	class ManagedCommonLoader
-	{
-	public:
-		static bool LoadAssembly(const std::filesystem::path& path);
-		static bool DisableCode(const Code_t* code);
-		static void RaiseInitializers();
-		static void RaiseUpdates();
-		static const Code_t** GetCodes(size_t& outNumCodes);
+	template<std::size_t N>
+	struct FixedString {
+		char data[N]{};
+
+		constexpr FixedString(const char(&str)[N]) {
+			std::copy_n(str, N, data);
+		}
+
+		constexpr size_t size()
+		{
+			return N;
+		}
 	};
 
 	template<typename TSignature>
@@ -33,5 +37,27 @@ namespace CommonLoader
 	{
 		const CommonLoaderAPI* api{};
 		clrhost::FunctionPtr<void(size_t, const wchar_t*)>::StdCallFunction_t* logCallback{};
+		size_t numCodes;
+		const Code_t** codes;
 	};
+
+	template<FixedString MethodName, typename TReturn, typename... TArgs>
+	inline TReturn ManagedInvoke(TArgs... args)
+	{
+		static auto pImpl = CreateDelegate<TReturn(TArgs...)>(MethodName.data);
+		if (std::is_same_v<TReturn, void>)
+		{
+			pImpl(args...);
+		}
+		else
+		{
+			return pImpl(args...);
+		}
+	}
+
+	template<FixedString MethodName, typename... TArgs>
+	inline void ManagedInvoke(TArgs... args)
+	{
+		ManagedInvoke<MethodName, void>(args...);
+	}
 }

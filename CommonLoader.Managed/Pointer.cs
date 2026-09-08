@@ -17,17 +17,20 @@ public unsafe struct Pointer<T> where T: unmanaged
         Set(ref value);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Set(nint value)
     {
         Value = value;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Set(ref T value)
     {
         Value = (nint)Unsafe.AsPointer(ref value);
     }
 
-    public readonly ref T Get()
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public readonly ref T Ref()
     {
         return ref Unsafe.AsRef<T>((void*)Value);
     }
