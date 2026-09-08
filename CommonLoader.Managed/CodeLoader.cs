@@ -17,10 +17,10 @@ public static class CodeLoader
     public static event Action? UpdateEvents;
     public static NativeContext NativeLoader;
 
-    public static void Initialize(in NativeContext loader)
+    public static void Initialize(nint loader)
     {
-        NativeLoader = loader;
-        MemoryProvider.Initialize(loader.ApiTable);
+        NativeLoader = Unsafe.AsRef<NativeContext>(loader);
+        MemoryProvider.Initialize(NativeLoader.ApiTable);
     }
 
     public static unsafe void Log(LogLevel level, string message)

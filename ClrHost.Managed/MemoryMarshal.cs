@@ -123,7 +123,13 @@ public class MemoryMarshal
         for (int i = 0; i < parameters.Length; i++)
         {
             var parameter = parameters[i];
-            invokeMethod.DefineParameter(i + 1, parameter.Attributes, parameter.Name);
+            var paramBuilder = invokeMethod.DefineParameter(i + 1, parameter.Attributes, parameter.Name);
+            
+            foreach(var attrib in parameter.GetCustomAttributesData())
+            {
+                var attribBuilder = new CustomAttributeBuilder(attrib.Constructor, [.. attrib.ConstructorArguments.Select(x => x.Value)]);
+                paramBuilder.SetCustomAttribute(attribBuilder);
+            }
         }
 
         type = typeBuilder.CreateType();
