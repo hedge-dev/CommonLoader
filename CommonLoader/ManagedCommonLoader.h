@@ -37,8 +37,8 @@ namespace CommonLoader
 	{
 		const CommonLoaderAPI* api{};
 		clrhost::FunctionPtr<void(size_t, const wchar_t*)>::StdCallFunction_t* logCallback{};
-		size_t numCodes;
-		const Code_t** codes;
+		size_t numCodes{};
+		const Code_t** codes{};
 	};
 
 	template<FixedString MethodName, typename TReturn, typename... TArgs>
