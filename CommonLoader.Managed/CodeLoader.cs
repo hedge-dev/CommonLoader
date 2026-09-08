@@ -17,6 +17,8 @@ public static class CodeLoader
     public static event Action? UpdateEvents;
     public static NativeContext NativeLoader;
 
+    // .NET Framework can't marshal a delegate* for some reason.
+    // Why does it even try to marshal an unmanaged reference parameter?
     public static void Initialize(nint loader)
     {
         NativeLoader = Unsafe.AsRef<NativeContext>(loader);
@@ -27,7 +29,7 @@ public static class CodeLoader
     {
         fixed(char* msg = message)
         {
-            NativeLoader.LogCallback((nint)level, (nint)msg);
+            NativeLoader.Log((nint)level, (nint)msg);
         }
     }
 
@@ -155,5 +157,8 @@ public static class CodeLoader
 
         // size_t level, const wchar_t* message
         public delegate* unmanaged[Stdcall]<nint, nint, void> LogCallback;
+
+        public readonly void Log(nint level, nint msg)
+            => LogCallback(level, msg);
     }
 }
