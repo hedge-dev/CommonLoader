@@ -42,17 +42,10 @@ namespace CommonLoader
 	};
 
 	template<FixedString MethodName, typename TReturn, typename... TArgs>
-	inline TReturn ManagedInvoke(TArgs... args)
+	inline auto ManagedInvoke(TArgs... args)
 	{
 		static auto pImpl = CreateDelegate<TReturn(TArgs...)>(MethodName.data);
-		if (std::is_same_v<TReturn, void>)
-		{
-			pImpl(args...);
-		}
-		else
-		{
-			return pImpl(args...);
-		}
+		return pImpl(args...);
 	}
 
 	template<FixedString MethodName, typename... TArgs>
@@ -61,3 +54,5 @@ namespace CommonLoader
 		ManagedInvoke<MethodName, void>(args...);
 	}
 }
+
+#define MANAGED_INVOKE(RET, NAME) ::CommonLoader::ManagedInvoke<#NAME, RET>

@@ -31,13 +31,13 @@ void CommonLoader::Init()
 	AssemblerService::Init();
 	InitSigScanner();
 
-	ManagedInvoke<"Initialize">(&nativeContext);
+	MANAGED_INVOKE(void, Initialize)(&nativeContext);
 }
 
 bool CommonLoader::LoadAssembly(const std::filesystem::path& path)
 {
 	Init();
-	return ManagedInvoke<"LoadFile", bool>(path.c_str());
+	return MANAGED_INVOKE(bool, LoadFile)(path.c_str());
 }
 
 const Code_t** CommonLoader::GetCodes(size_t& outNumCodes)
@@ -63,12 +63,12 @@ const Code_t* CommonLoader::FindCode(const char* id)
 
 bool CommonLoader::DisableCode(const Code_t* code)
 {
-	return ManagedInvoke<"DisableCode", bool>(code);
+	return MANAGED_INVOKE(bool, DisableCode)(code);
 }
 
 void CommonLoader::RaiseInitializers()
 {
-	ManagedInvoke<"RaiseInitializers">();
+	MANAGED_INVOKE(void, RaiseInitializers)();
 
 	bool sigFailed = ApplicationStore::GetState(CMN_LOADER_STATE_INIT_SIG_SCAN_FAILED);
 	bool asmFailed = ApplicationStore::GetState(CMN_LOADER_STATE_INIT_ASSEMBLY_FAILED);
@@ -108,7 +108,7 @@ void CommonLoader::RaiseInitializers()
 
 void CommonLoader::RaiseUpdates()
 {
-	ManagedInvoke<"RaiseUpdates">();
+	MANAGED_INVOKE(void, RaiseUpdates);
 }
 
 const CommonLoaderAPI* CommonLoader::GetAPI()
