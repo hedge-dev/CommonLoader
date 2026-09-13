@@ -5,7 +5,14 @@
 #include <sstream>
 #include "clrhost/clrhost.h"
 
+#ifdef _WIN64
+	#define DOTNET_DOWNLOAD "https://aka.ms/dotnet/LTS/windowsdesktop-runtime-win-x64.exe"
+#else
+	#define DOTNET_DOWNLOAD "https://aka.ms/dotnet/LTS/windowsdesktop-runtime-win-x86.exe"
+#endif
+
 #define COMMONLOADER_DOMAIN "CommonLoader"
+
 bool is_init{};
 std::unique_ptr<clrhost::clr_context> CommonLoader::clr{};
 static CommonLoader::NativeContext nativeContext
@@ -26,10 +33,29 @@ void CommonLoader::Init()
 
 	is_init = true;
 	
-	clr = std::move(clrhost::clr_context::Initialize(COMMONLOADER_DOMAIN));
 	ApplicationStore::Init();
 	AssemblerService::Init();
 	InitSigScanner();
+
+	clr = std::move(clrhost::clr_context::Initialize(COMMONLOADER_DOMAIN));
+
+	if (!clr)
+	{
+		auto choice = MessageBoxA(NULL, "Unable to load .NET Desktop Runtime or .NET Framework.\r\n"
+			"\r\n"
+			"Make sure that either .NET Desktop Runtime (Version 5+) or .NET Framework (Version 4+) are installed.\r\n"
+			"\r\n"
+			"Would you like to download the .NET Desktop Runtime now?", 
+			"Error", MB_ICONERROR | MB_YESNO);
+
+		if (choice == IDYES)
+		{
+			system("start " DOTNET_DOWNLOAD);
+		}
+
+		exit(-1);
+		return;
+	}
 
 	MANAGED_INVOKE(void, Initialize)(&nativeContext);
 }
@@ -108,7 +134,7 @@ void CommonLoader::RaiseInitializers()
 
 void CommonLoader::RaiseUpdates()
 {
-	MANAGED_INVOKE(void, RaiseUpdates);
+	MANAGED_INVOKE(void, RaiseUpdates)();
 }
 
 const CommonLoaderAPI* CommonLoader::GetAPI()
