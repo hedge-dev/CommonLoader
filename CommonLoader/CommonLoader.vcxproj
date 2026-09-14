@@ -197,6 +197,8 @@
     <ClInclude Include="ApplicationStore.h" />
     <ClInclude Include="AssemblerService.h" />
     <ClInclude Include="AssemblerService_In.h" />
+    <ClInclude Include="clrhost\my_data_target.h" />
+    <ClInclude Include="clrhost\xclrdata.h" />
     <ClInclude Include="CommonLoader.h" />
     <ClInclude Include="CommonLoaderAPI.h" />
     <ClInclude Include="HookService.h" />

@@ -7,6 +7,12 @@
 #include "coreclrhost.h"
 #include "clrhost.h"
 #include "mscorlib.tlh"
+#include "Unknown.h"
+#include "my_data_target.h"
+
+// DEBUGGING LIBRARIES
+// .NET: mscordaccore
+// .NET Framework: mscordacwks/mscordbi
 
 #define DOTNET_DESKTOP_RUNTIME "Microsoft.WindowsDesktop.App"
 
@@ -146,7 +152,9 @@ bool clrhost::clr_context_coreclr::Initialize(const char* domainName)
         }
     }
 
+    auto* dacHandle = LoadLibraryW((coreclrPath.parent_path() / "mscordaccore.dll").c_str());
     auto* coreclrHandle = LoadLibraryW(coreclrPath.c_str());
+    
     clr = dotnet::coreclr(coreclrHandle);
     if (!clr.module) return false;
 
@@ -172,6 +180,15 @@ bool clrhost::clr_context_coreclr::Initialize(const char* domainName)
 
     clr.initialize(nameBuffer, domainName, runtimePropertyCount, runtimeKeys.data(), runtimeValues.data(), &hostHandle, &domainID);
     clr.set_error_writer(report_clr_error);
+
+    if (dacHandle)
+    {
+        auto* pDataCreate = (decltype(CLRDataCreateInstance)*)(GetProcAddress(dacHandle, "CLRDataCreateInstance"));
+        if (pDataCreate)
+        {
+            pDataCreate(__uuidof(IXCLRDataProcess), new MyDataTarget(), &dataProcess);
+        }
+    }
 
     return true;
 }
@@ -218,6 +235,35 @@ bool clrhost::clr_context_framework::Initialize(const char* domainName)
 
     runtime->GetInterface(CLSID_CorRuntimeHost, IID_PPV_ARGS(&host));
     host->Start();
+
+    DWORD runtimeDirSize{};
+    runtime->GetRuntimeDirectory(nullptr, &runtimeDirSize);
+    
+    std::wstring runtimeDirStr{};
+    runtimeDirStr.resize(runtimeDirSize);
+    runtime->GetRuntimeDirectory(runtimeDirStr.data(), &runtimeDirSize);
+
+    // Remove null terminator
+    runtimeDirStr.resize(runtimeDirSize - 1);
+
+    std::filesystem::path runtimeDir = runtimeDirStr;
+
+    // Remove trailing slash
+    if (runtimeDir.filename().empty())
+    {
+        runtimeDir.remove_filename();
+    }
+
+    auto dacHandle = LoadLibraryW((runtimeDir / "mscordacwks.dll").c_str());
+
+    if (dacHandle)
+    {
+        auto* pDataCreate = (decltype(CLRDataCreateInstance)*)(GetProcAddress(dacHandle, "CLRDataCreateInstance"));
+        if (pDataCreate)
+        {
+            pDataCreate(__uuidof(IXCLRDataProcess), new MyDataTarget(), &dataProcess);
+        }
+    }
 
     std::string_view domainView{ domainName };
     std::wstring domainNameWide{ domainView.begin(), domainView.end() };

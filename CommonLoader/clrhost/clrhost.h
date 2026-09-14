@@ -1,6 +1,7 @@
 #pragma once
 #include "dotnet.h"
 #include <wrl/client.h>
+#include "xclrdata.h"
 
 namespace mscorlib
 {
@@ -48,6 +49,8 @@ namespace clrhost
     class clr_context
     {
     public:
+        ComPtr<IXCLRDataProcess> dataProcess{};
+
         static std::unique_ptr<clr_context> Initialize(const char* domainName, clr_init_flags flags = ClrInit_TryAll);
         virtual void* CreateDelegate(const char* assemblyName, const char* typeName, const char* methodName) = 0;
 

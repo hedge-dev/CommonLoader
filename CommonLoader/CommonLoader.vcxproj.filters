@@ -21,6 +21,8 @@
     <ClInclude Include="SigScanner.h" />
     <ClInclude Include="CommonLoaderAPI.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="clrhost\xclrdata.h" />
+    <ClInclude Include="clrhost\my_data_target.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationStore.cpp" />
